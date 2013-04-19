@@ -1,0 +1,15 @@
+@charset "utf-8";
+
+div.nineCallBoard{
+	overflow-y: auto;
+}
+
+ul.nineCallBoardUl{
+	margin : 0;
+	padding-left : 1.2em;
+	list-style-type:circle;
+}
+
+li.nineCallBoardLi{
+	word-wrap:break-word;
+}

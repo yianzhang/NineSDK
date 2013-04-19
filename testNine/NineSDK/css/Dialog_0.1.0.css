@@ -1,0 +1,109 @@
+@charset "utf-8";
+
+div.nineDialog{
+	position:absolute;
+	display:-webkit-box;
+	display:-moz-box;
+	-webkit-box-orient: vertical;
+	-moz-box-orient:vertical;
+	z-index: 999;
+}
+
+div.nineDialogShadow{
+	position: absolute;
+	left:0;
+	top:0;
+	background-color: black;
+	opacity: 0.5;
+	z-index: 99;
+}
+
+div.nineDialogHead{
+}
+
+span.nineDialogTitle{
+	display:inline-block;
+	float: left;
+}
+
+span.nineDialogConfirm,
+span.nineDialogClose{
+	display:inline-block;
+	float: right;
+	cursor:pointer;
+}
+
+div.nineDialogBody{
+	overflow:auto;
+}
+
+table.nineDialogBodyTable{
+	margin:0 auto;
+	border-spacing: 30px 10px;
+}
+
+tr.nineDialogBodyTr{
+	
+}
+
+td.nineDialogBodyTd0{
+	vertical-align: top;
+	text-align:left;
+}
+
+td.nineDialogBodyTd1{
+	vertical-align: top;
+	text-align:left;
+}
+
+label.nineDialogBodyLabel{
+	
+}
+
+span.nineDialogBodySpan{
+	vertical-align: middle;
+}
+
+input.nineDialogBodyCheckbox{
+	vertical-align: middle;
+}
+
+input.nineDialogBodyRadio{
+	vertical-align: middle;
+}
+
+input.nineDialogBodyText{
+	vertical-align: middle;
+}
+
+input.nineDialogBodyPassword{
+	vertical-align: middle;
+}
+
+input.nineDialogBodyRange{
+	vertical-align: middle;
+}
+
+input.nineDialogBodyColor{
+	vertical-align: middle;
+	background-color:transparent;
+	border:0;
+}
+
+input.nineDialogBodyTextarea{
+	vertical-align:middle;
+	overflow-y: auto;
+}
+
+input.nineDialogBodySelect{
+	vertical-align: middle;
+}
+
+input.nineDialogBodyFile{
+	width:68px;
+	overflow-x:hidden;
+}
+
+input.nineDialogBodyShow{
+	vertical-align: middle;
+}

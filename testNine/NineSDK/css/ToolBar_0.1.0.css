@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+table.toolBar {
+	background-color:#00CCFF;
+	border-width: 0px;
+	border-spacing: 0px;
+	padding: 5px;
+}
+
+td.toolItem {
+	background-color:#00CCFF;
+	padding: 0px;
+	margin: 0px;
+	width: 30px;
+	height: 30px;
+}
+
+td.toolItem:hover {
+	background-color:#FF66FF;
+}
