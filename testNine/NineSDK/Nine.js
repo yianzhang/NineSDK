@@ -1,5 +1,5 @@
 //jQuery
-document.writeln("<script src='https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js'></script>");
+document.writeln("<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>");
 
 //body
 document.writeln("<link rel='stylesheet' type='text/css' href='NineSDK/css/Body.css' />");
