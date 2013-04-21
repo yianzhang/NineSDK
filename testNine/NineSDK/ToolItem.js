@@ -18,8 +18,8 @@ function ToolItem (url,props) {
 	);
 }
 
-ToolItem.prototype.click = function (handler) {
-	if (typeof handler === "function") {
-		this._imgNode.click(handler);
+ToolItem.prototype.click = function (handler,context) {
+	if ($.isFunction(handler)) {
+		this._imgNode.click($.proxy(handler,context || this._imgNode));
 	}
 }

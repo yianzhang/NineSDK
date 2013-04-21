@@ -1,6 +1,8 @@
 function main() {
+	//initialize view
 	view.init();
-	
+
+	//add a menu	
 	var menu = view.container.addMenu("menu",{
 		"bgcolor":"#00CCFF",
 		"bgcolor:hover":"#FF66FF",
@@ -28,17 +30,66 @@ function main() {
 	menu.items["Other"].items["1"].addItem("2");
 	menu.items["Other"].items["1"].items["2"].addItem("abcdefghijklmnopqrstuvwxyz");
 	menu.items["Other"].addItem("ShowDialog");
+
+	//add a toobar
+	var toolBar = view.container.addToolBar("toolbar",{
+		"bgcolor":"#00CCFF",
+		"bgcolor:hover":"#FF66FF",
+		"padding":"3px",
+		"margin":"0 0 5px 0",
+		"item_width":"20px",
+	});
 	
+	toolBar.addItem("refresh0","NineSDK/img/refresh.png");
+	toolBar.addItem("refresh1","NineSDK/img/refresh.png");
+	toolBar.addItem("refresh2","NineSDK/img/refresh.png");
+	toolBar.addItem("refresh3","NineSDK/img/refresh.png");
+	toolBar.addItem("refresh4","NineSDK/img/refresh.png");
+	toolBar.addItem("refresh5","NineSDK/img/refresh.png");
+	toolBar.addItem("refresh6","NineSDK/img/refresh.png");
+	toolBar.addItem("refresh7","NineSDK/img/refresh.png");
 	
-	mainToolBar(view.container);
-	view.container.addContainer("ctn1",{
+	//add a sub-container
+	var ctn1 = view.container.addContainer("ctn1",{
 		"box_orient":"horizontal",
 		"margin":"0 0 5px 0",
 
 		"box_flex":"1",
 	});
-	mainTree(view.container.items["ctn1"]);
 	
+	//add a tree
+	var tree = ctn1.addTree("tree",{
+		"bgcolor":"#00CCFF",
+		"width":"200px",
+		"padding":"5px",
+		"margin":"0 5px 0 0",
+		"font_color":"yellow",
+		"font_size":"20px",
+		"font_family":"",
+		"font_weight":"normal",
+	});
+
+	tree.addItem("amy");
+	tree.addItem("buddy");
+	tree.addItem("cherry");
+
+	tree.items["amy"].addItem("albert");
+	tree.items["amy"].addItem("alpha");
+	tree.items["amy"].addItem("aptana");
+
+	tree.items["buddy"].addItem("bolt");
+	tree.items["buddy"].addItem("billy");
+	tree.items["buddy"].addItem("billbert");
+
+	tree.items["cherry"].addItem("cathrine");
+	tree.items["cherry"].addItem("chesley");
+	tree.items["cherry"].addItem("charley");
+
+	tree.items["amy"].items["alpha"].addItem("Android");
+	tree.items["amy"].items["alpha"].addItem("Apple");
+	tree.items["amy"].items["alpha"].addItem("Aeronautics");
+	
+	//add a callboard
 	var callBoard = view.container.addCallBoard("callboard",{
 		"bgcolor":"#00CCFF",
 		"padding":"5px",
@@ -61,7 +112,8 @@ function main() {
 	callBoard.writeln("7*1319=9233");
 	callBoard.update("9233=7*1319");
 
-	dia = view.addDialog("92331319",{
+	//new a dialog
+	var dia = view.addDialog("92331319",{
 		"head_bgcolor":"#00CCFF",
 		"head_padding":"5px",
 		"head_font_color":"white",
@@ -93,10 +145,6 @@ function main() {
 		{"default_value":"Yian","placeholder":"Please type password.","maxlength":9,"size":300}
 	);
 	
-	dia.addFile(
-		"File:","file"
-	);
-	
 	dia.addRange(
 		"Length:","length",
 		{min:0,max:100,step:0.1,default_value:33,size:"100px"}
@@ -121,5 +169,6 @@ function main() {
 		{"default_value":"9233","size_width":"300px","size_height":"100px"}
 	);
 	
+	//add a listener to menuItem
 	menu.items["Other"].items["ShowDialog"].click(function(){dia.show();});
 }

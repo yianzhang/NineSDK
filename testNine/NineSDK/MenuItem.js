@@ -44,8 +44,8 @@ MenuItem.prototype.addItem = function (text) {
 	return item;
 }
 
-MenuItem.prototype.click = function (handler) {
-	if (typeof handler === "function") {
-		this._liNode.click(handler);
+MenuItem.prototype.click = function (handler,context) {
+	if ($.isFunction(handler)) {
+		this._liNode.click($.proxy(handler,context || this._liNode));
 	}
 }
