@@ -47,6 +47,12 @@ CallBoard.prototype.writeln = function (text) {
 }
 
 CallBoard.prototype.update = function (text) {
+	var _liNode = this._ulNode.find("li:last");
+	if (!_liNode.length) {
+		this.writeln(text);
+		return;
+	}
+	
 	var date = new Date();
 	var h = date.getHours();
 	var m = date.getMinutes();
@@ -55,10 +61,8 @@ CallBoard.prototype.update = function (text) {
 	if (m<10) m = "0"+m;
 	if (s<10) s = "0"+s;
 	var time = "["+h+":"+m+":"+s+"]  ";
-	
-	var _liNode = this._ulNode.find("li:last");
-	if (_liNode)
-		_liNode.text(time+text);
+
+	_liNode.text(time+text);
 	
 	this._divNode.scrollTop(999999999);
 }

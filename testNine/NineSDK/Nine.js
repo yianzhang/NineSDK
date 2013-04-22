@@ -34,4 +34,3 @@ document.writeln("<script src='NineSDK/Dialog.js'></script>");
 //view
 document.writeln("<script src='NineSDK/view.js'></script>");
 
-

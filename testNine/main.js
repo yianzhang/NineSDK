@@ -96,30 +96,13 @@ function main() {
 		"font_color":"white",
 		"height":"100px",
 	});
-	
-	callBoard.writeln("9233");
-	callBoard.writeln("=");
-	callBoard.writeln("7*1319");
-	callBoard.writeln("7*1319");
-	callBoard.writeln("7*1319");
-	callBoard.writeln("7*1319");
-	callBoard.writeln("7*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*13197*1319");
-	callBoard.writeln("7*1319");
-	callBoard.writeln("7*1319");
-	callBoard.writeln("7*1319");
-	callBoard.writeln("7*1319");
-	callBoard.writeln("7*1319");
-	callBoard.writeln("7*1319=9233");
-	callBoard.update("9233=7*1319");
 
 	//new a dialog
 	var dia = view.addDialog("92331319",{
 		"head_bgcolor":"#00CCFF",
 		"head_padding":"5px",
 		"head_font_color":"white",
-		"body_bgcolor":"pink",
-		"body_width":"1000px",
-		"body_height":"900px",
+		"body_bgcolor":"#FF66FF",
 		"body_font_color":"white",
 	});
 	
@@ -171,4 +154,13 @@ function main() {
 	
 	//add a listener to menuItem
 	menu.items["Other"].items["ShowDialog"].click(function(){dia.show();});
+	
+	//add a lestener to toolItem
+	toolBar.items["refresh0"].click(function() {
+		callBoard.writeln(tree.filterCheckedItems().map(function(x){return x.title;}).join(", "));
+	});
+	toolBar.items["refresh1"].click(function() {
+		tree.deleteCheckedItems();
+		callBoard.writeln("Deletion Over!");
+	});
 }
