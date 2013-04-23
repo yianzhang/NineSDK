@@ -60,6 +60,7 @@ function main() {
 	//add a tree
 	var tree = ctn1.addTree("tree",{
 		"bgcolor":"#00CCFF",
+		"selected_color":"#FF66FF",
 		"width":"200px",
 		"padding":"5px",
 		"margin":"0 5px 0 0",
@@ -155,12 +156,23 @@ function main() {
 	//add a listener to menuItem
 	menu.items["Other"].items["ShowDialog"].click(function(){dia.show();});
 	
-	//add a lestener to toolItem
+	//add a listener to toolItem
 	toolBar.items["refresh0"].click(function() {
 		callBoard.writeln(tree.filterCheckedItems().map(function(x){return x.title;}).join(", "));
 	});
 	toolBar.items["refresh1"].click(function() {
+		callBoard.writeln(tree.filterCheckedItems().map(function(x){return x.title;}).join(", "));
 		tree.deleteCheckedItems();
 		callBoard.writeln("Deletion Over!");
 	});
+	toolBar.items["refresh2"].click(function() {
+		var item = tree.selectedItem();
+		if (item)
+			callBoard.writeln(item.title);
+		else
+			callBoard.writeln("null");
+	});
+	
+	//add a listener to tree
+//	tree.change(function(){alert($(this).children("span").eq(1).text());});
 }
