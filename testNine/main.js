@@ -154,7 +154,7 @@ function main() {
 	);
 	
 	//add a textreader
-	var fimp = model.newTextReader();
+	fimp = model.newTextReader();
 	
 	//add a listener to menuItem
 	menu.itemAt("File").itemAt("Imp...").click(fimp.trigger());
@@ -181,5 +181,11 @@ function main() {
 //	tree.change(function(){alert($(this).children("span").eq(1).text());});
 
 	//add a listener to textreader
-	fimp.onload(function(){callBoard.writeln(this.content());});
+	fimp.onload(function(){
+		callBoard.writeln(this.content());
+		var c;
+		while((c = this.getLine())!=null) {
+			callBoard.writeln(c);
+		}
+	});
 }

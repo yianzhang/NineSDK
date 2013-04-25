@@ -62,7 +62,7 @@ CallBoard.prototype.update = function (text) {
 	if (s<10) s = "0"+s;
 	var time = "["+h+":"+m+":"+s+"]  ";
 
-	_liNode.text(time+text);
+	_liNode.text(time+(text || " "));
 	
 	this._divNode.scrollTop(999999999);
 }

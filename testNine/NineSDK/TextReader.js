@@ -6,9 +6,10 @@ function TextReader () {
 	
 	$(document.body).append(this._fileNode);
 	
-	this.file = null;
-	this.reader = null;
-	this.result = "";
+	this._file = null;
+	this._reader = null;
+	this._result = null;
+	this._anchor = 0;
 }
 
 TextReader.prototype.trigger = function() {
@@ -17,25 +18,95 @@ TextReader.prototype.trigger = function() {
 }
 
 TextReader.prototype.content = function () {
-	return this.result;
+	return this._result;
+}
+
+TextReader.prototype.type = function () {
+	if (self._file)
+		return self._file.type;
+	else
+		return "null";
+}
+
+TextReader.prototype.size = function () {
+	if (self._file)
+		return self._file.size;
+	else
+		return 0;
+}
+
+TextReader.prototype.getChar = function () {
+	if (this._result!=null) {
+		if (0<=this._anchor && this._anchor<this._result.length)
+			return this._result[this._anchor++];
+		else 
+			return null;
+	} else 
+		return null;
+}
+
+TextReader.prototype.getString = function () {
+	if (this._result!=null) {
+		if (0<=this._anchor && this._anchor<this._result.length) {
+			var x = this._result.slice(this._anchor).search(/\S/);
+			if (x==-1) x = this._result.length;
+			this._anchor += x;
+			
+			if (0<=this._anchor && this._anchor<this._result.length) {
+				x = this._result.slice(this._anchor).search(/\s/);
+				if (x==-1) x = this._result.length;
+				else x += this._anchor;
+				
+				var v = this._result.slice(this._anchor,x);
+				this._anchor = x;
+				return v;
+			} else
+				return null;
+		} else 
+			return null;
+	} else 
+		return null;
+}
+
+TextReader.prototype.getLine = function () {
+	if (this._result!=null) {
+		if (0<=this._anchor && this._anchor<this._result.length) {
+			var x = this._result.slice(this._anchor).search(/\n/);
+			if (x==-1) x = this._result.length;
+			else x += this._anchor;
+			
+			var v = this._result.slice(this._anchor,x);
+			if (v[v.length-1]=="\r") v = v.slice(0,-1);
+			this._anchor = x+1;
+			return v;
+		} else 
+			return null;
+	} else 
+		return null;
+}
+
+TextReader.prototype.seek = function (i) {
+	if (i<0) i = 0;
+	if (i>this._result.length) i = this._result.length;
+	this._anchor = i;
 }
 
 TextReader.prototype.onload = function (handler,context) {
 	var self = this;
 	this._fileNode.change(function() {
 		if (this.value) {
-			self.file = this.files[0];
-			self.reader = new FileReader();
-			self.reader.readAsText(self.file);
-			self.reader.onload = function() {
-				self.result = self.reader.result;
+			self._file = this.files[0];
+			self._reader = new FileReader();
+			self._reader.readAsText(self._file);
+			self._reader.onload = function() {
+				self._result = self._reader.result;
 				($.proxy(handler,context || self))();
 			};
 		}
 		else {
-			self.file = null;
-			self.reader = null;
-			self.result = "";
+			self._file = null;
+			self._reader = null;
+			self._result = null;
 		}
 	});
 }
