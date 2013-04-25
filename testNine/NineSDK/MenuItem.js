@@ -49,3 +49,7 @@ MenuItem.prototype.click = function (handler,context) {
 		this._liNode.click($.proxy(handler,context || this._liNode));
 	}
 }
+
+MenuItem.prototype.itemAt = function (i) {
+	return this.items[i];
+}

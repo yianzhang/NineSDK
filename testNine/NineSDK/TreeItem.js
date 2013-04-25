@@ -105,6 +105,6 @@ TreeItem.prototype.deleteItems = function() {
 	this.node.remove();
 }
 
-TreeItem.prototype.items = function (i) {
+TreeItem.prototype.itemAt = function (i) {
 	return this.items[i];
 }

@@ -22,3 +22,7 @@ ToolBar.prototype.addItem = function (text,url) {
 	
 	return item;
 }
+
+ToolBar.prototype.itemAt = function (i) {
+	return this.items[i];
+}

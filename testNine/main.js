@@ -153,7 +153,11 @@ function main() {
 		{"default_value":"9233","size_width":"300px","size_height":"100px"}
 	);
 	
+	//add a textreader
+	var fimp = model.newTextReader();
+	
 	//add a listener to menuItem
+	menu.itemAt("File").itemAt("Imp...").click(fimp.trigger());
 	menu.items["Other"].items["ShowDialog"].click(function(){dia.show();});
 	
 	//add a listener to toolItem
@@ -175,4 +179,7 @@ function main() {
 	
 	//add a listener to tree
 //	tree.change(function(){alert($(this).children("span").eq(1).text());});
+
+	//add a listener to textreader
+	fimp.onload(function(){callBoard.writeln(this.content());});
 }

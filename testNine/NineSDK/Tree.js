@@ -115,7 +115,7 @@ Tree.prototype.change = function (handler,context) {
 	});
 }
 
-Tree.prototype.items = function (i) {
+Tree.prototype.itemAt = function (i) {
 	return this.items[i];
 }
 

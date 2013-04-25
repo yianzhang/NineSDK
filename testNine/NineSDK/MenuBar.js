@@ -27,3 +27,7 @@ MenuBar.prototype.addItem = function (text) {
 	
 	return item;
 }
+
+MenuBar.prototype.itemAt = function(i) {
+	return this.items[i];
+}
