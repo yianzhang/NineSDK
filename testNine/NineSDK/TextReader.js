@@ -1,20 +1,30 @@
 function TextReader () {
-	this.node = this._fileNode = $("<input type='file' />");
-	this._fileNode.css({
-		"display":"none",
-	});
-	
-	$(document.body).append(this._fileNode);
-	
+	this._reader = new FileReader();
 	this._file = null;
-	this._reader = null;
 	this._result = null;
 	this._anchor = 0;
 }
 
 TextReader.prototype.trigger = function() {
 	var self = this;
-	return function(){self._fileNode.click();};
+	return function(){
+		if (self.node) self.node.remove();	
+		self.node = self._fileNode = $("<input type='file' style='display:none' />");
+		$(document.body).append(self._fileNode);
+
+		self._fileNode.change(function() {
+			self._file = null;
+			self._result = null;
+			self._anchor = 0;
+			
+			if (this.value) {
+				self._file = this.files[0];
+				self._reader.readAsText(self._file);
+			}
+		});
+	
+		self._fileNode.click();
+	};
 }
 
 TextReader.prototype.content = function () {
@@ -91,23 +101,12 @@ TextReader.prototype.seek = function (i) {
 	this._anchor = i;
 }
 
-TextReader.prototype.onload = function (handler,context) {
+TextReader.prototype.read = function (handler,context) {
 	var self = this;
-	this._fileNode.change(function() {
-		if (this.value) {
-			self._file = this.files[0];
-			self._reader = new FileReader();
-			self._reader.readAsText(self._file);
-			self._reader.onload = function() {
-				self._result = self._reader.result;
-				self._anchor = 0;
-				($.proxy(handler,context || self))();
-			};
-		}
-		else {
-			self._file = null;
-			self._reader = null;
-			self._result = null;
-		}
-	});
+	this._reader.onload = function(){
+		self._result = this.result;
+		self._anchor = 0;
+		
+		($.proxy(handler,context || self))();
+	};
 }

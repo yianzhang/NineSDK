@@ -181,7 +181,7 @@ function main() {
 //	tree.change(function(){alert($(this).children("span").eq(1).text());});
 
 	//add a listener to textreader
-	fimp.onload(function(){
+	fimp.read(function(){
 		callBoard.writeln(this.content());
 		var c;
 		while((c = this.getLine())!=null) {
