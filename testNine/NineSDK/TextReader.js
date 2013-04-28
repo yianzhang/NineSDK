@@ -100,6 +100,7 @@ TextReader.prototype.onload = function (handler,context) {
 			self._reader.readAsText(self._file);
 			self._reader.onload = function() {
 				self._result = self._reader.result;
+				self._anchor = 0;
 				($.proxy(handler,context || self))();
 			};
 		}

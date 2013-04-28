@@ -154,7 +154,7 @@ function main() {
 	);
 	
 	//add a textreader
-	fimp = model.newTextReader();
+	var fimp = model.newTextReader();
 	
 	//add a listener to menuItem
 	menu.itemAt("File").itemAt("Imp...").click(fimp.trigger());

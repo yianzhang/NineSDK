@@ -64,5 +64,6 @@ CallBoard.prototype.update = function (text) {
 
 	_liNode.text(time+(text || " "));
 	
-	this._divNode.scrollTop(999999999);
+	//this._divNode.scrollTop(999999999);
+	this._divNode.scrollTop(this._divNode[0].scrollHeight);
 }
