@@ -188,4 +188,16 @@ function main() {
 			callBoard.writeln(c);
 		}
 	});
+	
+	model.localStorage.clear();
+	model.localStorage.setItem("9233","7*1319");
+	model.localStorage.setObjectItem("i",{"9233":"=7*1319"});
+	model.localStorage.setNumericItem("9","1319");
+	model.localStorage.setArrayItem("1319",[0,1,2,3,4])
+	toolBar.items["refresh3"].click(function() {
+		callBoard.writeln(model.localStorage.getItem("9233"));
+		callBoard.writeln(JSON.stringify(model.localStorage.getObjectItem("i")));
+		callBoard.writeln(model.localStorage.getNumericItem("9")+66);
+		callBoard.writeln(model.localStorage.getArrayItem("1319")[0]+66);
+	});
 }
