@@ -156,8 +156,12 @@ function main() {
 	//add a textreader
 	var fimp = model.newTextReader();
 	
+	//add a textwriter
+	var fexp = model.newTextWriter();
+	
 	//add a listener to menuItem
 	menu.itemAt("File").itemAt("Imp...").click(fimp.trigger());
+	menu.itemAt("File").itemAt("Exp...").click(fexp.trigger());
 	menu.items["Other"].items["ShowDialog"].click(function(){dia.show();});
 	
 	//add a listener to toolItem
@@ -200,4 +204,8 @@ function main() {
 		callBoard.writeln(model.localStorage.getNumericItem("9")+66);
 		callBoard.writeln(model.localStorage.getArrayItem("1319")[0]+66);
 	});
+	
+	
+	fexp.write(9233);
+	fexp.writeln("=7*1319");
 }

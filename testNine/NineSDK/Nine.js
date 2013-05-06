@@ -36,5 +36,9 @@ document.writeln("<script src='NineSDK/view.js'></script>");
 
 //textreader
 document.writeln("<script src='NineSDK/TextReader.js'></script>");
+
+//textwriter
+document.writeln("<script src='NineSDK/TextWriter.js'></script>");
+
 //model
 document.writeln("<script src='NineSDK/model.js'></script>");

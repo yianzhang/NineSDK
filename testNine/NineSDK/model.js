@@ -6,6 +6,10 @@ var model = {
 	newTextReader : function() {
 		return new TextReader();
 	},
+	
+	newTextWriter : function() {
+		return new TextWriter();
+	},
 }
 
 Storage.prototype.getStringItem = function(key) {
