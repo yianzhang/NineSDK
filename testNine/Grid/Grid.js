@@ -3,7 +3,7 @@ document.writeln("<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.
 
 //Constant
 var LIMIT_IN_SAME_FACE = Math.PI/6;
-var LIMIT_IN_SAME_POLYLINE = Math.PI*5/6;
+var LIMIT_IN_SAME_POLYLINE = Math.PI/6;
 var LIMIT_ERROR = 1e-6;
 
 //AllBody
@@ -21,9 +21,17 @@ document.writeln("<script src='Grid/FaceSet.js'></script>");
 document.writeln("<script src='Grid/Triangle.js'></script>");
 document.writeln("<script src='Grid/TriangleSet.js'></script>");
 
-//Polyline
+//Line
 document.writeln("<script src='Grid/Line.js'></script>");
+document.writeln("<script src='Grid/LineSet.js'></script>");
+
+//Polyline
 document.writeln("<script src='Grid/Polyline.js'></script>");
+document.writeln("<script src='Grid/PolylineSet.js'></script>");
+
+//Loop
+document.writeln("<script src='Grid/Loop.js'></script>");
+document.writeln("<script src='Grid/LoopSet.js'></script>");
 
 //Vector
 document.writeln("<script src='Grid/Vector.js'></script>");

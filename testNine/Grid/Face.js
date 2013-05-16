@@ -18,6 +18,16 @@ function Face (_ts) {
 		ts.unshift(tri);
 	};
 	
+	this.triangleAt = function (i) {
+		if (i==undefined || !$.isNumeric(i)) return undefined;
+		if (i<0 || i>=ts.length) return undefined;
+		return ts[i];
+	};
+	
+	this.triangleLength = function () {
+		return ts.length;
+	};
+	
 	this.toString = function () {
 		return "Face{" + ts + "}";
 	};
@@ -48,34 +58,20 @@ function Face (_ts) {
 		},
 		push : {writable : false, enumerable : false, configurable : false,},
 		unshift : {writable : false, enumerable : false, configurable : false,},
+		triangleAt : {writable : false, enumerable : false, configurable : false,},
+		triangleLength : {writable : false, enumerable : false, configurable : false,},
 		toString : {enumerable : false},
 	});
 	
 	function filterEdge () {
-		var ls = [];
+		var ls = new LineSet();
 		for (var i=0;i<ts.length;++i) {
 			ls.push(ts[i].l0);
 			ls.push(ts[i].l1);
 			ls.push(ts[i].l2);
 		}
-		for (var i=0;i<ls.length-1;++i) {
-			for (var j=i+1;j<ls.length;++j) {
-				if (Line.isSameLine(ls[i],ls[j])) {
-					ls[i] = ls[j] = null;
-				}
-			}
-		}
-		for (var i=0;i<ls.length;) {
-			if (!ls[i]) {
-				var j=i+1;
-				while (j<ls.length && !ls[j]) ++j;
-				ls.splice(i,j-i);
-			} else {
-				++i;
-			}
-		}
 		
-		return ls;
+		return ls.loopSet();
 	}
 }
 

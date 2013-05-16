@@ -53,3 +53,20 @@ Line.isSameLine = function (l0,l1) {
 	}
 	return false;
 }
+
+Line.isJoined = function (l0, l1) {
+	if (!(l0 && l0 instanceof Line) || !(l1 && l1 instanceof Line)) {
+		return false;
+	}
+	if (Point.isSamePoint(l0.p1, l1.p0)) {
+		return true;
+	}
+	return false;
+}
+
+Line.toVector = function (l) {
+	if (!(l && l instanceof Line)) {
+		return false;
+	}
+	return new Vector(l.p1.x-l.p0.x, l.p1.y-l.p0.y, l.p1.z-l.p0.z);
+}

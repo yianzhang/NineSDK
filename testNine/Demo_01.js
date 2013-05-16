@@ -34,7 +34,8 @@ function main() {
 	var ab;
 	fileImp.read(function() {
 		ab = Reader.readSTL(fileImp);
-		cb.writeln(ab);
+		ls = ab.bodyAt(0).faceAt(0).edge;
+		//cb.writeln(ab);
 	});
 	
 	//try

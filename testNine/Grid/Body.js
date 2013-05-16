@@ -18,6 +18,16 @@ function Body (_fs) {
 		fs.unshift(face);
 	}
 	
+	this.faceAt = function (i) {
+		if (i==undefined || !$.isNumeric(i)) return undefined;
+		if (i<0 || i>=fs.length) return undefined;
+		return fs[i];
+	};
+	
+	this.faceLength = function () {
+		return fs.length;
+	};
+	
 	this.toString = function () {
 		return "Body{" + fs + "}";
 	};
@@ -41,6 +51,8 @@ function Body (_fs) {
 		},
 		push : {writable : false, enumerable : false, configurable : false,},
 		unshift : {writable : false, enumerable : false, configurable : false,},
+		faceAt : {writable : false, enumerable : false, configurable : false,},
+		faceLength : {writable : false, enumerable : false, configurable : false,},
 		toString : {enumerable : false},
 	});
 }
