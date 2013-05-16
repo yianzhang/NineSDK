@@ -59,3 +59,7 @@ Container.prototype.addCallBoard = function (name,props) {
 	
 	return callBoard;
 }
+
+Container.prototype.itemAt = function (name) {
+	return this.items[name];
+}

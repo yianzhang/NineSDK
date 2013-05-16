@@ -1,112 +1,132 @@
 function TextReader () {
-	this._reader = new FileReader();
-	this._file = null;
-	this._result = null;
-	this._anchor = 0;
-}
-
-TextReader.prototype.trigger = function() {
 	var self = this;
-	return function(){
-		if (self.node) self.node.remove();	
-		self.node = self._fileNode = $("<input type='file' style='display:none' />");
-		$(document.body).append(self._fileNode);
+	var _fileNode = null;
+	var _reader = new FileReader();
+	var _file = null;
+	var _result = null;
+	var _anchor = 0;
 
-		self._fileNode.change(function() {
-			self._file = null;
-			self._result = null;
-			self._anchor = 0;
-			
-			if (this.value) {
-				self._file = this.files[0];
-				self._reader.readAsText(self._file);
-			}
-		});
-	
-		self._fileNode.click();
-	};
-}
+	this.getChar = function () {
+		if (!_result) return undefined;
 
-TextReader.prototype.content = function () {
-	return this._result;
-}
-
-TextReader.prototype.type = function () {
-	if (self._file)
-		return self._file.type;
-	else
-		return "null";
-}
-
-TextReader.prototype.size = function () {
-	if (self._file)
-		return self._file.size;
-	else
-		return 0;
-}
-
-TextReader.prototype.getChar = function () {
-	if (this._result!=null) {
-		if (0<=this._anchor && this._anchor<this._result.length)
-			return this._result[this._anchor++];
+		if (0<=_anchor && _anchor<_result.length)
+			return _result[_anchor++];
 		else 
-			return null;
-	} else 
-		return null;
-}
-
-TextReader.prototype.getString = function () {
-	if (this._result!=null) {
-		if (0<=this._anchor && this._anchor<this._result.length) {
-			var x = this._result.slice(this._anchor).search(/\S/);
-			if (x==-1) x = this._result.length;
-			this._anchor += x;
-			
-			if (0<=this._anchor && this._anchor<this._result.length) {
-				x = this._result.slice(this._anchor).search(/\s/);
-				if (x==-1) x = this._result.length;
-				else x += this._anchor;
+			return undefined;
+	}
+	
+	this.getString = function () {
+		if (!_result) return undefined;
+		
+		if (0<=_anchor && _anchor<_result.length) {
+			var x = _result.slice(_anchor).search(/\S/);
+			if (x==-1) 
+				_anchor = _result.length;
+			else 
+				_anchor += x;
+		
+			if (0<=_anchor && _anchor<_result.length) {
+				x = _result.slice(_anchor).search(/\s/);
+				if (x==-1) 
+					x = _result.length;
+				else 
+					x += _anchor;
 				
-				var v = this._result.slice(this._anchor,x);
-				this._anchor = x;
+				var v = _result.slice(_anchor,x);
+				_anchor = x;
 				return v;
 			} else
-				return null;
+				return undefined;
 		} else 
-			return null;
-	} else 
-		return null;
-}
+			return undefined;
+	}
+	
+	this.getLine = function () {
+		if (!_result) return undefined;
 
-TextReader.prototype.getLine = function () {
-	if (this._result!=null) {
-		if (0<=this._anchor && this._anchor<this._result.length) {
-			var x = this._result.slice(this._anchor).search(/\n/);
-			if (x==-1) x = this._result.length;
-			else x += this._anchor;
+		if (0<=_anchor && _anchor<_result.length) {
+			var x = _result.slice(_anchor).search(/\n/);
+			if (x==-1) 
+				x = _result.length;
+			else 
+				x += _anchor;
 			
-			var v = this._result.slice(this._anchor,x);
+			var v = _result.slice(_anchor,x);
 			if (v[v.length-1]=="\r") v = v.slice(0,-1);
-			this._anchor = x+1;
+			_anchor = x+1;
 			return v;
 		} else 
 			return null;
-	} else 
-		return null;
-}
-
-TextReader.prototype.seek = function (i) {
-	if (i<0) i = 0;
-	if (i>this._result.length) i = this._result.length;
-	this._anchor = i;
-}
-
-TextReader.prototype.read = function (handler,context) {
-	var self = this;
-	this._reader.onload = function(){
-		self._result = this.result;
-		self._anchor = 0;
-		
-		($.proxy(handler,context || self))();
-	};
+	}
+	
+	this.read = function (handler,context) {
+		_reader.onload = function(){
+			_result = this.result;
+			_anchor = 0;
+			
+			($.proxy(handler,context || self))();
+		};
+	}
+	
+	Object.defineProperties(this,{
+		content : {
+			get : function () {
+				return _result;
+			},
+			configurable : false,
+		},
+		type : {
+			get : function () {
+				if (_file) {
+					return _file.type;
+				} else {
+					return undefined;
+				}
+			},
+			configurable : false,
+		},
+		size : {
+			get : function () {
+				if (_file) {
+					return _file.size;
+				} else {
+					return NaN;
+				}
+			},
+			configurable : false,
+		},
+		seek : {
+			get : function () {
+				return _anchor;
+			},
+			set : function (i) {
+				if (i<0) _anchor = 0;
+				if (i>_result.length) _anchor = _result.length;
+			},
+			configurable : false,
+		},
+		trigger : {
+			get : 	function() {
+				return function(){
+					if (_fileNode) _fileNode.remove();	
+					_fileNode = $("<input type='file' style='display:none' />");
+					$(document.body).append(_fileNode);
+			
+					_fileNode.change(function() {
+						_file = null;
+						_result = null;
+						_anchor = 0;
+						
+						if (this.value) {
+							_file = this.files[0];
+							_reader.readAsText(_file);
+						}
+					});
+				
+					_fileNode.click();
+				};
+			},
+			configurable : false,
+		},
+	});
 }

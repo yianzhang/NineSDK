@@ -160,7 +160,7 @@ function main() {
 	var fexp = model.newTextWriter();
 	
 	//add a listener to menuItem
-	menu.itemAt("File").itemAt("Imp...").click(fimp.trigger());
+	menu.itemAt("File").itemAt("Imp...").click(fimp.trigger);
 	menu.itemAt("File").itemAt("Exp...").click(fexp.trigger());
 	menu.items["Other"].items["ShowDialog"].click(function(){dia.show();});
 	
@@ -186,13 +186,13 @@ function main() {
 
 	//add a listener to textreader
 	fimp.read(function(){
-		callBoard.writeln(this.content());
+		callBoard.writeln(this.content);
 		var c;
-		while((c = this.getLine())!=null) {
+		while((c = this.getString())!=undefined) {
 			callBoard.writeln(c);
 		}
 	});
-	
+/*	
 	model.localStorage.clear();
 	model.localStorage.setItem("9233","7*1319");
 	model.localStorage.setObjectItem("i",{"9233":"=7*1319"});
@@ -208,4 +208,5 @@ function main() {
 	
 	fexp.write(9233);
 	fexp.writeln("=7*1319");
+*/
 }

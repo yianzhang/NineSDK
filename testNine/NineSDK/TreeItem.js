@@ -1,11 +1,11 @@
-function TreeItem(title,parent,lev,props,data) {
+function TreeItem(title,parent,lev,props) {
 	this.items ={};
-	this.title = title;
+	this.title = title || "";
 //	this.data = data;
 	this.count = 0;
-	this.parent = parent;
-	this.lev = lev;
-	this._props = props;
+	this.parent = parent || {};
+	this.lev = lev || 0;
+	this._props = props || {};
 	
 /**
  * dom structure
@@ -58,7 +58,7 @@ function TreeItem(title,parent,lev,props,data) {
 		_isFolded = !_isFolded;
 	});
 	
-	$.extend(this,data);
+//	$.extend(this,data);
 }
 
 TreeItem.prototype.addItem = function (title,data) {
