@@ -56,9 +56,7 @@ function TriangleSet() {
 	};
 	
 	this.isAFace = function () {
-		if (this.faceSet().length == 1)
-			return true;
-		return false;
+		return true;
 	};
 	
 	this.toString = function () {

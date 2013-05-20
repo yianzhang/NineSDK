@@ -8,15 +8,7 @@ function AllBody (_bs) {
 //		bs = new BodySet();
 		return undefined;
 	}
-/*	
-	this.push = function (body) {
-		bs.push(body);
-	};
 	
-	this.unshift = function (body) {
-		bs.unshift(body);
-	}
-*/	
 	this.bodyAt = function (i) {
 		if (i==undefined || !$.isNumeric(i)) return undefined;
 		if (i<0 || i>=bs.length) return undefined;
@@ -35,8 +27,6 @@ function AllBody (_bs) {
 	};
 	
 	Object.defineProperties(this,{
-//		push : {writable : false, enumerable : true, configurable : false,},
-//		unshift : {writable : false, enumerable : true, configurable : false,},
 		bodyAt : {writable : false, enumerable : true, configurable : false,},
 		toString : {enumerable : false},
 	});

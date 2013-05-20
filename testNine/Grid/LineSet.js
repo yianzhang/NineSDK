@@ -17,93 +17,94 @@ function LineSet () {
 	
 	this.loopSet = function () {
 		var self = this;
-		
-		for (var i=0;i<self.length;++i) {
-			for (var j=i+2;j<self.length;++j) {
-				if (Line.isJoined(self[i],self[j])) {
-					var tmp = self[i+1];
-					self[i+1] = self[j];
-					self[j] = tmp;
-					break;
-				}
-			}
-		}
+		join(self);
 		
 		var ls = new LoopSet();
 		for (var i=0;i<self.length;) {
 			for (var j=i+1;j<self.length;++j) {
 				if (Line.isJoined(self[j],self[i])) {
-					var ps = self.polylineSet.apply(self.slice(i,j+1));
-					if (ps) ls.push(new Loop(ps));
+					var _ls = new LineSet();
+					for (var k = i;k<=j;++k) {
+						_ls.push(self[k]);
+					}
 					i = j+1;
+					
+					var ps = _ls.polylineSet();
+					if (ps) ls.push(new Loop(ps));
 				}
 			}
 		}
-		
+
 		return ls;
 	};
 	
 	this.polylineSet = function () {
 		var self = this;
+		join(self);
 		
-		for (var i=0;i<self.length-1;++i) {
-			if (!Line.isJoined(self[i],self[i+1])) {
-				return undefined;
+		var lsa = [];
+		for (var i=0;i<self.length;++i) {
+			if (lsa.length>0) {
+				if (Line.isJoined(self[i-1],self[i])) {
+					var v0 = self[i-1].toVector();
+					var v1 = self[i].toVector();
+					if (Vector.angle(v0,v1)<LIMIT_IN_SAME_POLYLINE) {
+						lsa[lsa.length-1].push(self[i]);
+						continue;
+					}
+				}
 			}
+			
+			var _ls = new LineSet();
+			_ls.push(self[i]);
+			lsa.push(_ls);
 		}
-		if (!Line.isJoined(self[self.length-1],self[0])) {
-			return undefined;
+		
+		if (lsa.length>1) {
+			var tmpl = self[self.length-1];
+			if (Line.isJoined(tmpl,self[0])) {
+				var v0 = tmpl.toVector();
+				var v1 = self[0].toVector();
+				if (Vector.angle(v0,v1)<LIMIT_IN_SAME_POLYLINE) {
+					for (var i=lsa[lsa.length-1].length-1;i>=0;--i) {
+						lsa[0].unshift(lsa[lsa.length-1][i]);
+					}
+					lsa.pop();
+				}
+			}
 		}
 		
 		var ps = new PolylineSet();
-		for (var i=0;i<self.length;++i) {
-			for (var j=ps.length-1;j>=0;--j) {
-				var tmpl = ps[j].lineAt(ps[j].lineLength-1);
-				if (Line.isJoined(tmpl,self[i])) {
-					var v0 = Line.toVector(tmpl);
-					var v1 = Line.toVector(self[i]);
-					if (Vector.angle(v0,v1)<LIMIT_IN_SAME_POLYLINE) {
-						ps[j].push(self[i]);
-						break;
-					}
-				}
-				
-				var tmpl = ps[j].lineAt(0);
-				if (Line.isJoined(self[i],tmpl)) {
-					var v0 = Line.toVector(self[i]);
-					var v1 = Line.toVector(tmpl);
-					if (Vector.angle(v0,v1)<LIMIT_IN_SAME_POLYLINE) {
-						ps[j].unshift(self[i]);
-						break;
-					}
-				}
-				
-				var p = new Polyline();
-				p.push(self[i]);
-				ps.push(p);
-			}
+		for (var i=0;i<lsa.length;++i) {
+			ps.push(new Polyline(lsa[i]));
 		}
-		
+
 		return ps;
 	};
 	
 	this.isALoop = function () {
 		var self = this;
+		if (self.length<2) return true;
+		
 		for (var i=0;i<self.length-1;++i) {
 			if (!Line.isJoined(self[i], self[i+1]))
 				return false;
 		}
 		if (!Line.isJoined(self[self.length-1],self[0])) 
 			return false;
+			
 		return true;
 	};
 	
 	this.isAPolyline = function () {
 		var self = this;
+		if (self.length<2) return true;
+		
 		for (var i=0;i<self.length-1;++i) {
 			if (!Line.isJoined(self[i], self[i+1]))
 				return false;
 		}
+		
 		return true;
 	};
 	
@@ -124,6 +125,19 @@ function LineSet () {
 		isAPolyline : {writable : false, enumerable : false, configurable : false,},
 		toString : {enumerable : false},
 	});
+	
+	function join(ls) {
+		for (var i=0;i<ls.length;++i) {
+			for (var j=i+2;j<ls.length;++j) {
+				if (Line.isJoined(ls[i],ls[j])) {
+					var tmp = ls[i+1];
+					ls[i+1] = ls[j];
+					ls[j] = tmp;
+					break;
+				}
+			}
+		}
+	}
 }
 
 LineSet.prototype = new Array;

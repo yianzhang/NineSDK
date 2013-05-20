@@ -33,7 +33,6 @@ function main() {
 	
 	fileImp.read(function() {
 		x = Reader.readSTL(fileImp);
-//		ls = ab.bodyAt(0).faceAt(0).edge;
 		cb.writeln(x);
 	});
 	

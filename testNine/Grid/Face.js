@@ -48,31 +48,31 @@ function Face (_ts) {
 	});
 	
 	function loopSet() {
-		var ls = new LineSet();
+		var _ls = new LineSet();
 		for (var i=0;i<ts.length;++i) {
-			ls.push(ts[i].l0);
-			ls.push(ts[i].l1);
-			ls.push(ts[i].l2);
+			_ls.push(ts[i].l0);
+			_ls.push(ts[i].l1);
+			_ls.push(ts[i].l2);
 		}
 		
-		for (var i=0;i<ls.length-1;++i) {
-			for (var j=i+1;j<ls.length;++j) {
-				if (Line.isSameLine(ls[i],ls[j])) {
-					ls[i] = ls[j] = undefined;
+		for (var i=0;i<_ls.length-1;++i) {
+			for (var j=i+1;j<_ls.length;++j) {
+				if (Line.isSameLine(_ls[i],_ls[j])) {
+					_ls[i] = _ls[j] = undefined;
 				}
 			}
 		}
-		for (var i=0;i<ls.length;) {
-			if (!ls[i]) {
+		for (var i=0;i<_ls.length;) {
+			if (!_ls[i]) {
 				var j=i+1;
-				while (j<ls.length && !ls[j]) ++j;
-				ls.splice(i,j-i);
+				while (j<_ls.length && !_ls[j]) ++j;
+				_ls.splice(i,j-i);
 			} else {
 				++i;
 			}
 		}
-		
-		return ls.loopSet();		
+
+		return _ls.loopSet();		
 	}
 }
 
@@ -80,13 +80,16 @@ Face.inSameBody = function (f0,f1) {
 	if (!(f0 && f0 instanceof Face) || !(f1 && f1 instanceof Face)) {
 		return false;
 	}
-	
-	var e0 = f0.edge,
-		e1 = f1.edge;
 		
-	for (var i=0;i<e0.length;++i) {
-		for (var j=0;j<e1.length;++j) {
-			if (Line.isSameLine(e0[i],e1[j])) {
+	for (var i0=0;i0<f0.loopLength;++i0) 
+	for (var j0=0;j0<f0.loopAt(i0).polylineLength;++j0) 
+	for (var k0=0;k0<f0.loopAt(i0).polylineAt(j0).lineLength;++k0) {
+		for (var i1=0;i1<f1.loopLength;++i1) 
+		for (var j1=0;j1<f1.loopAt(i1).polylineLength;++j1) 
+		for (var k1=0;k1<f1.loopAt(i1).polylineAt(j1).lineLength;++k1) {
+			if (Line.isSameLine(f0.loopAt(i0).polylineAt(j0).lineAt(k0),
+								f1.loopAt(i1).polylineAt(j1).lineAt(k1))
+			) {
 				return true;
 			}
 		}
