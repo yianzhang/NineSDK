@@ -21,7 +21,7 @@ function TriangleSet() {
 		var clan = [];
 		for (var i=0;i<self.length;++i)
 			clan[i] = i;
-			
+
 		for (var i=0;i<self.length-1;++i) {
 			for (var j=i+1;j<self.length;++j) {
 				if (Triangle.inSameFace(self[i],self[j])) {
@@ -56,10 +56,13 @@ function TriangleSet() {
 	};
 	
 	this.isAFace = function () {
-		return true;
+		if (this.faceSet().length == 1)
+			return true;
+		return false;
 	};
 	
 	this.toString = function () {
+		var self = this;
 		var tmp = "TriangleSet{length:" + self.length + ", ";
 		for (var i=0;i<self.length;++i) {
 			tmp += i + ":" + self[i] + ", ";

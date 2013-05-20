@@ -10,36 +10,7 @@ function Face (_ts) {
 	}
 	
 	var ls = loopSet();
-/*	
-	var _family = self;
-	
-	//this.family
-	Object.defineProperty(this, "family", {
-		get : function () {
-			if (_family == self) {
-				return _family;
-			} else {
-				return _family = _family.family;
-			}
-		},
-		set: function (x) {
-			if (x && (x instanceof Triangle || x instanceof Face || x instanceof Body)) {
-			_family = x;
-			}
-		},
-		enumerable : true,
-		configurable : false,
-	});
-*/	
-/*	
-	this.push = function (tri) {
-		ts.push(tri);
-	};
-	
-	this.unshift = function (tri) {
-		ts.unshift(tri);
-	};
-*/	
+
 	this.triangleAt = function (i) {
 		if (i==undefined || !$.isNumeric(i)) return undefined;
 		if (i<0 || i>=ts.length) return undefined;
@@ -71,8 +42,6 @@ function Face (_ts) {
 	};
 	
 	Object.defineProperties(this,{
-//		push : {writable : false, enumerable : true, configurable : false,},
-//		unshift : {writable : false, enumerable : true, configurable : false,},
 		triangleAt : {writable : false, enumerable : true, configurable : false,},
 		loopAt : {writable : false, enumerable : true, configurable : false,},
 		toString : {enumerable : false},

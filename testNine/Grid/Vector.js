@@ -2,11 +2,7 @@ function Vector (__x,__y,__z) {
 	var	_x = __x || 0, 
 		_y = __y || 0,
 		_z = __z || 0;
-	
-	this.toString = function () {
-		return "Vector{x:" + _x + ", y:" + _y + ", z:" + _z +"}"; 
-	};
-	
+
 	//this.x
 	Object.defineProperty(this, "x", {
 		get : function () {return _x},
@@ -39,6 +35,19 @@ function Vector (__x,__y,__z) {
 		enumerable : true,
 		configurable : false,
 	});
+	
+	//this.negator
+	Object.defineProperty(this, "negator", {
+		get : function () {
+			return new Vector(-_x, -_y, _z);
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	this.toString = function () {
+		return "Vector{x:" + _x + ", y:" + _y + ", z:" + _z +"}"; 
+	};
 	
 	Object.defineProperties(this,{
 		toString : {enumerable : false,},

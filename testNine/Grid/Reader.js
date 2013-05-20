@@ -42,8 +42,8 @@ Reader.readSTL = function (reader) {
 	}
 	
 	var fs = ts.faceSet();
-	var bs = fs.bodySet();
-	var ab = new AllBody(bs);
+//	var bs = fs.bodySet();
+//	var ab = new AllBody(bs);
 	
-	return ab;
+	return fs;
 };

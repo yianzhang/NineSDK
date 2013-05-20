@@ -31,14 +31,11 @@ function main() {
 	var fileImp = model.newTextReader();
 	menuImp.click(fileImp.trigger);
 	
-	var ab;
 	fileImp.read(function() {
-		ab = Reader.readSTL(fileImp);
-		ls = ab.bodyAt(0).faceAt(0).edge;
-		//cb.writeln(ab);
+		x = Reader.readSTL(fileImp);
+//		ls = ab.bodyAt(0).faceAt(0).edge;
+		cb.writeln(x);
 	});
 	
 	//try
-	var p = new Point(0,1,2);
-	cb.writeln(p);
 }

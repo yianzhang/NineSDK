@@ -1,20 +1,13 @@
 function Line (__p0,__p1) {
-	var _p0,_p1;
-	if (__p0 && __p0 instanceof Point) {
-		_p0 = __p0;
-	} else  {
-//		_p0 = new Point(0, 0, 0);
+	if (!(__p0 && __p0 instanceof Point) || 
+		!(__p1 && __p1 instanceof Point) ||
+		Point.isSamePoint(__p0, __p1)
+	) {
 		return undefined;
 	}
-	if (__p1 && __p1 instanceof Point) {
+	
+	var _p0 = __p0,
 		_p1 = __p1;
-	} else  {
-//		_p1 = new Point(0, 0, 0);
-		return undefined;
-	}
-	if (Point.isSamePoint(_p0, _p1)) {
-		return undefined;
-	}
 	
 	//this.p0
 	Object.defineProperty(this, "p0", {
@@ -27,7 +20,7 @@ function Line (__p0,__p1) {
 	//this.p1
 	Object.defineProperty(this, "p1", {
 		get : function () {return _p1;},
-		set : function (__p1) {if (__p1 instanceof Point) _p1 = __p1;},
+//		set : function (__p1) {if (__p1 instanceof Point) _p1 = __p1;},
 		enumerable : true,
 		configurable : false,
 	});

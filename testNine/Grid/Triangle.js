@@ -1,55 +1,38 @@
 function Triangle (__p0,__p1,__p2,__v) {
 	var self = this;
 	
-	var _p0,_p1,_p2,_v;
-	if (__p0 && __p0 instanceof Point) {
-		_p0 = __p0;
-	} else {
-//		_p0 = new Point(0, 0, 0);
+	if (!(__p0 && __p0 instanceof Point) ||
+		!(__p1 && __p1 instanceof Point) ||
+		!(__p2 && __p2 instanceof Point) ||
+		Point.isSamePoint(__p0, __p1) ||
+		Point.isSamePoint(__p1, __p2) ||
+		Point.isSamePoint(__p2, __p0)
+	) {
 		return undefined;
 	}
-	if (__p1 && __p1 instanceof Point) {
-		_p1 = __p1;
-	} else {
-//		_p1 = new Point(0, 0, 0);
-		return undefined;
-	}
-	if (__p2 && __p2 instanceof Point) {
+	
+	var _p0 = __p0,
+		_p1 = __p1,
 		_p2 = __p2;
-	} else {
-//		_p2 = new Point(0, 0, 0);
+		
+	var _l0 = new Line(_p1, _p2),
+		_l1 = new Line(_p2, _p0),
+		_l2 = new Line(_p0, _p1);
+	
+	var tmpa = Vector.angle(_l0.toVector(), _l1.toVector());
+	if (tmpa-0<LIMIT_ERROR ||
+		Math.PI-tmpa<LIMIT_ERROR
+	) {
 		return undefined;
 	}
+	
+	var _v;
 	if (__v && __v instanceof Vector) {
 		_v = __v;
 	} else {
 		_v = normalVector(_p0, _p1, _p2);
 	}
 	
-	var _l0 = new Line(_p1, _p2),
-		_l1 = new Line(_p2, _p0),
-		_l2 = new Line(_p0, _p1);
-/*	
-	var _family = self;
-
-	//this.family
-	Object.defineProperty(this, "family", {
-		get : function () {
-			if (_family===self) {
-				return _family;
-			} else {
-				return _family = _family.family;
-			}
-		},
-		set : function (x) {
-			if (x && (x instanceof Triangle || x instanceof Face || x instanceof Body)) {
-				_family = x;
-			}
-		},
-		enumerable : true,
-		configurable : false,
-	});
-*/
 	//this.p0
 	Object.defineProperty(this, "p0", {
 		get : function () {return _p0;},
@@ -155,8 +138,8 @@ Triangle.inSameFace = function (t0,t1) {
 		return false;
 	}
 	
-	var v0 = t0.normalVector,
-		v1 = t1.normalVector;	
+	var v0 = t0.normal,
+		v1 = t1.normal;	
 	var angle = Vector.angle(v0,v1);
 	
 	if (0<=angle && angle<=LIMIT_IN_SAME_FACE) return true;
