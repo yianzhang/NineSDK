@@ -2,14 +2,14 @@ function PolylineSet () {
 	var self = this;
 	
 	this.push = function (pl) {
-		if (pl && pl instanceof Line) {
+		if (pl && pl instanceof Polyline) {
 			[].push.call(self, pl);
 		}
 	};
 	
 	this.unshift = function (pl) {
-		if (pl && pl instanceof Line) {
-			[].unshift.call(self, this);
+		if (pl && pl instanceof Polyline) {
+			[].unshift.call(self, pl);
 		}
 	};
 	

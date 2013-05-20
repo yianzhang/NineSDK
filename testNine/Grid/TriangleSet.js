@@ -2,39 +2,61 @@ function TriangleSet() {
 	var self = this;
 	
 	this.push = function (tri) {
+		var self = this;
 		if (tri && tri instanceof Triangle) {
 			[].push.call(self,tri);
 		}
 	};
 	
 	this.unshift = function (tri) {
+		var self = this;
 		if (tri && tri instanceof Triangle) {
 			[].unshift.call(self,tri);
 		}
 	};
 	
 	this.faceSet = function () {
+		var self = this;
+		
+		var clan = [];
+		for (var i=0;i<self.length;++i)
+			clan[i] = i;
+			
 		for (var i=0;i<self.length-1;++i) {
 			for (var j=i+1;j<self.length;++j) {
 				if (Triangle.inSameFace(self[i],self[j])) {
-					self[i].family.family = self[j].family;
+					clan[getclan(i)] = getclan(j);
 				}
 			}
 		}
 		
-		var fs = new FaceSet();
+		var tsa = [];
 		for (var i=0;i<self.length;++i) {
-			if (self[i].family == self[i]) {
-				var face = new Face();
-				self[i].family = face;
-				fs.push(face);
+			if (getclan(i) == i) {
+				tsa[i] = new TriangleSet(); 
 			}
 		}
 		for (var i=0;i<self.length;++i) {
-			self[i].family.push(self[i]);
+			tsa[getclan(i)].push(self[i]);
+		}
+		
+		var fs = new FaceSet();
+		for (var i=0;i<self.length;++i) {
+			if (tsa[i]) {
+				fs.push(new Face(tsa[i]));
+			}
 		}
 		
 		return fs;
+
+		function getclan(i) {
+			if (clan[i]==i) return i;
+			return clan[i] = getclan(clan[i]);
+		}
+	};
+	
+	this.isAFace = function () {
+		return true;
 	};
 	
 	this.toString = function () {
@@ -49,6 +71,7 @@ function TriangleSet() {
 		push : {writable : false, enumerable : false, configurable : false,},
 		unshift : {writable : false, enumerable : false, configurable : false,},
 		faceSet : {writable : false, enumerable : false, configurable : false,},
+		isAFace : {writable : false, enumerable : false, configurable : false,},
 		toString : {enumerable : false},
 	});
 }
@@ -60,3 +83,4 @@ Object.defineProperties(TriangleSet.prototype,{
 	length : {writable : true, enumerable : false},
 	constructor : {writable : false, enumerable : false, configurable : false,},
 });
+

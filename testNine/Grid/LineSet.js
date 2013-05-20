@@ -2,34 +2,21 @@ function LineSet () {
 	var self = this;
 	
 	this.push = function (line) {
+		var self = this;
 		if (line && line instanceof Line) {
 			[].push.call(self, line);
 		}
 	};
 	
 	this.unshift = function (line) {
+		var self = this;
 		if (line && line instanceof Line) {
-			[].unshift.call(self, this);
+			[].unshift.call(self, line);
 		}
 	};
 	
 	this.loopSet = function () {
-		for (var i=0;i<self.length-1;++i) {
-			for (var j=i+1;j<self.length;++j) {
-				if (Line.isSameLine(self[i],self[j])) {
-					self[i] = self[j] = null;
-				}
-			}
-		}
-		for (var i=0;i<self.length;) {
-			if (!self[i]) {
-				var j=i+1;
-				while (j<self.length && !self[j]) ++j;
-				self.splice(i,j-i);
-			} else {
-				++i;
-			}
-		}
+		var self = this;
 		
 		for (var i=0;i<self.length;++i) {
 			for (var j=i+2;j<self.length;++j) {
@@ -100,6 +87,26 @@ function LineSet () {
 		return ps;
 	};
 	
+	this.isALoop = function () {
+		var self = this;
+		for (var i=0;i<self.length-1;++i) {
+			if (!Line.isJoined(self[i], self[i+1]))
+				return false;
+		}
+		if (!Line.isJoined(self[self.length-1],self[0])) 
+			return false;
+		return true;
+	};
+	
+	this.isAPolyline = function () {
+		var self = this;
+		for (var i=0;i<self.length-1;++i) {
+			if (!Line.isJoined(self[i], self[i+1]))
+				return false;
+		}
+		return true;
+	};
+	
 	this.toString = function () {
 		var tmp = "LineSet{length:" + self.length + ", ";
 		for (var i=0;i<self.length;++i) {
@@ -113,6 +120,8 @@ function LineSet () {
 		unshift : {writable : false, enumerable : false, configurable : false,},
 		loopSet : {writable : false, enumerable : false, configurable : false,},
 		polylineSet : {writable : false, enumerable : false, configurable : false,},
+		isALoop : {writable : false, enumerable : false, configurable : false,},
+		isAPolyline : {writable : false, enumerable : false, configurable : false,},
 		toString : {enumerable : false},
 	});
 }

@@ -5,17 +5,20 @@ function Triangle (__p0,__p1,__p2,__v) {
 	if (__p0 && __p0 instanceof Point) {
 		_p0 = __p0;
 	} else {
-		_p0 = new Point(0, 0, 0);
+//		_p0 = new Point(0, 0, 0);
+		return undefined;
 	}
 	if (__p1 && __p1 instanceof Point) {
 		_p1 = __p1;
 	} else {
-		_p1 = new Point(0, 0, 0);
+//		_p1 = new Point(0, 0, 0);
+		return undefined;
 	}
 	if (__p2 && __p2 instanceof Point) {
 		_p2 = __p2;
 	} else {
-		_p2 = new Point(0, 0, 0);
+//		_p2 = new Point(0, 0, 0);
+		return undefined;
 	}
 	if (__v && __v instanceof Vector) {
 		_v = __v;
@@ -26,86 +29,104 @@ function Triangle (__p0,__p1,__p2,__v) {
 	var _l0 = new Line(_p1, _p2),
 		_l1 = new Line(_p2, _p0),
 		_l2 = new Line(_p0, _p1);
-	
+/*	
 	var _family = self;
+
+	//this.family
+	Object.defineProperty(this, "family", {
+		get : function () {
+			if (_family===self) {
+				return _family;
+			} else {
+				return _family = _family.family;
+			}
+		},
+		set : function (x) {
+			if (x && (x instanceof Triangle || x instanceof Face || x instanceof Body)) {
+				_family = x;
+			}
+		},
+		enumerable : true,
+		configurable : false,
+	});
+*/
+	//this.p0
+	Object.defineProperty(this, "p0", {
+		get : function () {return _p0;},
+/*		set : function (__p0) {if (__p0 instanceof Point) {
+			_p0 = __p0;
+			_l1 = new Line(_p2, _p0);
+			_l2 = new Line(_p0, _p1);
+			_v = normalVector(_p1, _p1, _p2);
+		}},
+*/
+		enumerable : true,
+		configurable : false,
+	});
 	
+	//this.p1
+	Object.defineProperty(this, "p1", {
+		get : function () {return _p1;},
+/*		set : function (__p1) {if (__p1 instanceof Point) {
+			_p1 = __p1;
+			_l0 = new Line(_p1, _p2);
+			_l2 = new Line(_p0, _p1);
+			_v = normalVector(_p1, _p1, _p2);
+		}},
+*/
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//this.p2
+	Object.defineProperty(this, "p2", {
+		get : function () {return _p2;},
+/*		set : function (__p2) {if (__p2 instanceof Point) {
+			_p2 = __p2;
+			_l0 = new Line(_p1, _p2);
+			_l1 = new Line(_p2, _p0);
+			_v = normalVector(_p1, _p1, _p2);
+		}},
+*/
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//this.normal
+	Object.defineProperty(this, "normal", {
+		get : function () {return _v;},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//this.l0
+	Object.defineProperty(this, "l0", {
+		get : function () {return _l0;},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//this.l1
+	Object.defineProperty(this, "l1", {
+		get : function () {return _l1;},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//this.l2
+	Object.defineProperty(this, "l2", {
+		get : function () {return _l2;},
+		enumerable : true,
+		configurable : false,
+	});
+	
+		
 	this.toString = function() {
 		return "Triangle{p0:" + _p0 + ", p1:" + _p1 + ", p2:" + _p2 +", normal:" + _v + "}";
 	};
 	
 	Object.defineProperties(this,{
-		p0 : {
-			get : function () {return _p0;},
-			set : function (__p0) {if (__p0 instanceof Point) {
-				_p0 = __p0;
-				_l1 = new Line(_p2, _p0);
-				_l2 = new Line(_p0, _p1);
-				_v = normalVector(_p1, _p1, _p2);
-			}},
-			enumerable : true,
-			configurable : false,
-		},
-		p1 : {
-			get : function () {return _p1;},
-			set : function (__p1) {if (__p1 instanceof Point) {
-				_p1 = __p1;
-				_l0 = new Line(_p1, _p2);
-				_l2 = new Line(_p0, _p1);
-				_v = normalVector(_p1, _p1, _p2);
-			}},
-			enumerable : true,
-			configurable : false,
-		},
-		p2 : {
-			get : function () {return _p2;},
-			set : function (__p2) {if (__p2 instanceof Point) {
-				_p2 = __p2;
-				_l0 = new Line(_p1, _p2);
-				_l1 = new Line(_p2, _p0);
-				_v = normalVector(_p1, _p1, _p2);
-			}},
-			enumerable : true,
-			configurable : false,
-		},
-		normalVector : {
-			get : function () {return _v;},
-			enumerable : true,
-			configurable : false,
-		},
-		l0 : {
-			get : function () {return _l0;},
-			enumerable : true,
-			configurable : false,
-		},
-		l1 : {
-			get : function () {return _l1;},
-			enumerable : true,
-			configurable : false,
-		},
-		l2 : {
-			get : function () {return _l2;},
-			enumerable : true,
-			configurable : false,
-		},
-		family : {
-			get : function () {
-				if (_family===self) {
-					return _family;
-				} else {
-					return _family = _family.family;
-				}
-			},
-			set : function (x) {
-				if (x && (x instanceof Triangle || x instanceof Face || x instanceof Body)) {
-					_family = x;
-				}
-			},
-			enumerable : true,
-			configurable : false,
-		},
-		toString : {
-			enumerable : false,
-		},
+		toString : {enumerable : false,},
 	});
 	
 	function normalVector (p0, p1, p2) {

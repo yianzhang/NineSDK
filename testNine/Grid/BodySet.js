@@ -2,18 +2,21 @@ function BodySet () {
 	var self = this;
 	
 	this.push = function (body) {
+		var self = this;
 		if (body && body instanceof Body) {
 			[].push.call(self,body);
 		}
 	};
 	
 	this.unshift = function (body) {
+		var self = this;
 		if (body && body instanceof Body) {
 			[].unshift.call(self,body);
 		}
 	};
 	
 	this.toString = function () {
+		var self = this;
 		var tmp = "BodySet{length:" + self.length + ", ";
 		for (var i=0;i<self.length;++i) {
 			tmp += i + ":" + self[i] + ", ";

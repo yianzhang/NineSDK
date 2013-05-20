@@ -2,14 +2,36 @@ function Face (_ts) {
 	var self = this;
 	
 	var ts;
-	if (_ts && _ts instanceof TriangleSet) {
+	if (_ts && _ts instanceof TriangleSet && _ts.isAFace()) {
 		ts = _ts;
 	} else {
-		ts = new TriangleSet();
+//		ts = new TriangleSet();
+		return undefined;
 	}
 	
+	var ls = loopSet();
+/*	
 	var _family = self;
 	
+	//this.family
+	Object.defineProperty(this, "family", {
+		get : function () {
+			if (_family == self) {
+				return _family;
+			} else {
+				return _family = _family.family;
+			}
+		},
+		set: function (x) {
+			if (x && (x instanceof Triangle || x instanceof Face || x instanceof Body)) {
+			_family = x;
+			}
+		},
+		enumerable : true,
+		configurable : false,
+	});
+*/	
+/*	
 	this.push = function (tri) {
 		ts.push(tri);
 	};
@@ -17,53 +39,46 @@ function Face (_ts) {
 	this.unshift = function (tri) {
 		ts.unshift(tri);
 	};
-	
+*/	
 	this.triangleAt = function (i) {
 		if (i==undefined || !$.isNumeric(i)) return undefined;
 		if (i<0 || i>=ts.length) return undefined;
 		return ts[i];
 	};
+
+	//this.triangleLength
+	Object.defineProperty(this, "triangleLength", {
+		get : function () {return ts.length;}, 
+		enumerable : true, 
+		configurable : false,
+	});
 	
-	this.triangleLength = function () {
-		return ts.length;
+	this.loopAt = function (i) {
+		if (i==undefined || !$.isNumeric(i)) return undefined;
+		if (i<0 || i>=ls.length) return undefined;
+		return ls[i];
 	};
 	
+	//this.loopLength
+	Object.defineProperty(this, "loopLength", {
+		get : function () {return ls.length;}, 
+		enumerable : true, 
+		configurable : false,
+	});
+	
 	this.toString = function () {
-		return "Face{" + ts + "}";
+		return "Face{" + ts + "; " + ls + "}";
 	};
 	
 	Object.defineProperties(this,{
-		family : {
-			get : function () {
-				if (_family == self) {
-					return _family;
-				} else {
-					return _family = _family.family;
-				}
-			},
-			set: function (x) {
-				if (x && (x instanceof Triangle || x instanceof Face || x instanceof Body)) {
-					_family = x;
-				}
-			},
-			enumerable : true,
-			configurable : false,
-		},
-		edge : {
-			get : function () {
-				return filterEdge();
-			},
-			enumerable : true,
-			configurable : false,
-		},
-		push : {writable : false, enumerable : false, configurable : false,},
-		unshift : {writable : false, enumerable : false, configurable : false,},
-		triangleAt : {writable : false, enumerable : false, configurable : false,},
-		triangleLength : {writable : false, enumerable : false, configurable : false,},
+//		push : {writable : false, enumerable : true, configurable : false,},
+//		unshift : {writable : false, enumerable : true, configurable : false,},
+		triangleAt : {writable : false, enumerable : true, configurable : false,},
+		loopAt : {writable : false, enumerable : true, configurable : false,},
 		toString : {enumerable : false},
 	});
 	
-	function filterEdge () {
+	function loopSet() {
 		var ls = new LineSet();
 		for (var i=0;i<ts.length;++i) {
 			ls.push(ts[i].l0);
@@ -71,7 +86,24 @@ function Face (_ts) {
 			ls.push(ts[i].l2);
 		}
 		
-		return ls.loopSet();
+		for (var i=0;i<ls.length-1;++i) {
+			for (var j=i+1;j<ls.length;++j) {
+				if (Line.isSameLine(ls[i],ls[j])) {
+					ls[i] = ls[j] = undefined;
+				}
+			}
+		}
+		for (var i=0;i<ls.length;) {
+			if (!ls[i]) {
+				var j=i+1;
+				while (j<ls.length && !ls[j]) ++j;
+				ls.splice(i,j-i);
+			} else {
+				++i;
+			}
+		}
+		
+		return ls.loopSet();		
 	}
 }
 

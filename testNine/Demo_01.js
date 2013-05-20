@@ -39,5 +39,6 @@ function main() {
 	});
 	
 	//try
-	
+	var p = new Point(0,1,2);
+	cb.writeln(p);
 }

@@ -5,9 +5,10 @@ function Polyline (_ls) {
 	if (_ls && _ls instanceof LineSet) {
 		ls = _ls;
 	} else {
-		ls = new LineSet();
+//		ls = new LineSet();
+		return undefined;
 	}
-	
+/*	
 	this.push = function (line) {
 		if (Line.isJoined(self[self.length-1],line)) {
 			ls.push(line);
@@ -19,26 +20,28 @@ function Polyline (_ls) {
 			ls.unshift(line);
 		}
 	};
-	
+*/	
 	this.lineAt = function (i) {
 		if (i==undefined || !$.isNumeric(i)) return undefined;
 		if (i<0 || i>=ls.length) return undefined;
 		return ls[i];
 	};
 	
-	this.lineLength = function (i) {
-		return ls.length;
-	};
+	//this.lineLength
+	Object.defineProperty(this, "lineLength", {
+		get : function () {return ls.length;}, 
+		enumerable : true, 
+		configurable : false,
+	});
 	
 	this.toString = function () {
 		return "Polyline{" + ls + "}";
 	};
 	
 	Object.defineProperties(this, {
-		push : {writable : false, enumerable : false, configurable : false,},
-		unshift : {writable : false, enumerable : false, configurable : false,},
-		lineAt : {writable : false, enumerable : false, configurable : false,},
-		lineLength : {writable : false, enumerable : false, configurable : false,},
+		push : {writable : false, enumerable : true, configurable : false,},
+		unshift : {writable : false, enumerable : true, configurable : false,},
+		lineAt : {writable : false, enumerable : true, configurable : false,},
 		toString : {enumerable : false},
 	});
 }

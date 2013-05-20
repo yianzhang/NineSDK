@@ -1,15 +1,15 @@
 function LoopSet () {
 	var self = this;
 	
-	this.push = function (line) {
-		if (line && line instanceof Line) {
-			[].push.call(self, line);
+	this.push = function (loop) {
+		if (loop && loop instanceof Loop) {
+			[].push.call(self, loop);
 		}
 	};
 	
-	this.unshift = function (line) {
-		if (line && line instanceof Line) {
-			[].unshift.call(self, this);
+	this.unshift = function (loop) {
+		if (loop && loop instanceof Loop) {
+			[].unshift.call(self, loop);
 		}
 	};
 	

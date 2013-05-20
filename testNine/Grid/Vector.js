@@ -7,35 +7,41 @@ function Vector (__x,__y,__z) {
 		return "Vector{x:" + _x + ", y:" + _y + ", z:" + _z +"}"; 
 	};
 	
+	//this.x
+	Object.defineProperty(this, "x", {
+		get : function () {return _x},
+//		set : function (__x) {if ($.isNumeric(__x)) _x = __x},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//this.y
+	Object.defineProperty(this, "y", {
+		get : function () {return _y},
+//		set : function (__y) {if ($.isNumeric(__y)) _y = __y},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//this.z
+	Object.defineProperty(this, "z", {
+		get : function () {return _z},
+//		set : function (__z) {if ($.isNumeric(__z)) _z = __z},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//this.length
+	Object.defineProperty(this, "length", {
+		get : function () {
+			return Math.sqrt(_x*_x+_y*_y+_z*_z);
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
 	Object.defineProperties(this,{
-		x : {
-			get : function () {return _x},
-			set : function (__x) {if ($.isNumeric(__x)) _x = __x},
-			enumerable : true,
-			configurable : false,
-		},
-		y : {
-			get : function () {return _y},
-			set : function (__y) {if ($.isNumeric(__y)) _y = __y},
-			enumerable : true,
-			configurable : false,
-		},
-		z : {
-			get : function () {return _z},
-			set : function (__z) {if ($.isNumeric(__z)) _z = __z},
-			enumerable : true,
-			configurable : false,
-		},
-		length : {
-			get : function () {
-				return Math.sqrt(_x*_x+_y*_y+_z*_z);
-			},
-			enumerable : true,
-			configurable : false,
-		},
-		toString : {
-			enumerable : false,
-		}
+		toString : {enumerable : false,},
 	});
 }
 
