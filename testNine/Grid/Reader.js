@@ -4,10 +4,10 @@ Reader.readSTL = function (reader) {
 	var ts = new TriangleSet();
 	
 	var s;
-	var v = null;
-	var p0 = null;
-	var p1 = null;
-	var p2 = null;
+	var v = undefined;
+	var p0 = undefined;
+	var p1 = undefined;
+	var p2 = undefined;
 	while (s = reader.getString()) {
 		if (s == "normal") {
 			var x = reader.getString();
@@ -36,7 +36,7 @@ Reader.readSTL = function (reader) {
 				var t = new Triangle(p0,p1,p2,v);
 				ts.push(t);
 				
-				v = p0 = p1 = p2 = null;
+				v = p0 = p1 = p2 = undefined;
 			}
 		}
 	}
