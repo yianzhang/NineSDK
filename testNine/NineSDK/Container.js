@@ -1,65 +1,87 @@
 function Container (props) {
-	this.items = {};
-	this._props = props;
+	var items = {};
+	var _divNode;
+
+	init();
 	
-	this.node = this._divNode = $("<div/>");
-	this._divNode.addClass("nineContainer");
-	this._divNode.css({
-		"margin":props["margin"],
-		"padding":props["padding"],
-		"border":props["border"],
-		"width":props["width"],
-		"height":props["height"],
-		"text-align":props["horizon_align"],
-		"overflow-x":props["overflow_x"],
-		"overflow-y":props["overflow_y"],
-		"-webkit-box-orient":props["box_orient"],
-		"-moz-box-orient":props["box_orient"],
-		"-webkit-box-flex":props["box_flex"],
-		"-moz-box-flex":props["box_flex"],
+	//this.node
+	Object.defineProperty(this, "node", {
+		get : function () {
+			return _divNode;
+		},
+		enumerable : true,
+		configurable : false,
 	});
-}
-
-Container.prototype.addContainer = function (name,props) {
-	var container = new Container(props);
-	this.items[name] = container;
-	this._divNode.append(container.node);
 	
-	return container;
-}
-
-Container.prototype.addMenu = function (name,props) {
-	var menuBar = new MenuBar(props);
-	this.items[name] = menuBar;
-	this._divNode.append(menuBar.node);
+	this.addContainer = function (name,props) {
+		var container = new Container(props);
+		items[name] = container;
+		_divNode.append(container.node);
+		
+		return container;
+	}
 	
-	return menuBar;
-}
+	this.addMenu = function (name,props) {
+		var menuBar = new MenuBar(props);
+		items[name] = menuBar;
+		_divNode.append(menuBar.node);
+		
+		return menuBar;
+	}
+		
+	this.addToolBar = function (name,props) {
+		var toolBar = new ToolBar(props);
+		items[name] = toolBar;
+		_divNode.append(toolBar.node);
+		
+		return toolBar;
+	}
+		
+	this.addTree = function (name,props) {
+		var tree = new Tree(props);
+		items[name] = tree;
+		_divNode.append(tree.node);
+		
+		return tree;
+	}
 	
-Container.prototype.addToolBar = function (name,props) {
-	var toolBar = new ToolBar(props);
-	this.items[name] = toolBar;
-	this._divNode.append(toolBar.node);
+	this.addCallBoard = function (name,props) {
+		var callBoard = new CallBoard(props);
+		items[name] = callBoard;
+		_divNode.append(callBoard.node);
+		
+		return callBoard;
+	}
 	
-	return toolBar;
-}
+	this.itemAt = function (name) {
+		return items[name];
+	}
 	
-Container.prototype.addTree = function (name,props) {
-	var tree = new Tree(props);
-	this.items[name] = tree;
-	this._divNode.append(tree.node);
+	Object.defineProperties(this, {
+		addContainer : {writable : false, enumerable : true, configurable : false,},
+		addMenu : {writable : false, enumerable : true, configurable : false,},
+		addToolBar : {writable : false, enumerable : true, configurable : false,},
+		addTree : {writable : false, enumerable : true, configurable : false,},
+		addCallBoard : {writable : false, enumerable : true, configurable : false,},
+		itemAt : {writable : false, enumerable : true, configurable : false,},
+	});
 	
-	return tree;
-}
-
-Container.prototype.addCallBoard = function (name,props) {
-	var callBoard = new CallBoard(props);
-	this.items[name] = callBoard;
-	this._divNode.append(callBoard.node);
-	
-	return callBoard;
-}
-
-Container.prototype.itemAt = function (name) {
-	return this.items[name];
+	function init () {
+		_divNode = $("<div/>");
+		_divNode.addClass("nineContainer");
+		_divNode.css({
+			"margin":props["margin"],
+			"padding":props["padding"],
+			"border":props["border"],
+			"width":props["width"],
+			"height":props["height"],
+			"text-align":props["horizon_align"],
+			"overflow-x":props["overflow_x"],
+			"overflow-y":props["overflow_y"],
+			"-webkit-box-orient":props["box_orient"],
+			"-moz-box-orient":props["box_orient"],
+			"-webkit-box-flex":props["box_flex"],
+			"-moz-box-flex":props["box_flex"],
+		});
+	}
 }
