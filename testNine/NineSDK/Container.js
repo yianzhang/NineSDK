@@ -1,5 +1,5 @@
 function Container (props) {
-	var items = {};
+	var items;
 	var _divNode;
 
 	init();
@@ -67,6 +67,8 @@ function Container (props) {
 	});
 	
 	function init () {
+		items = {};
+		
 		_divNode = $("<div/>");
 		_divNode.addClass("nineContainer");
 		_divNode.css({

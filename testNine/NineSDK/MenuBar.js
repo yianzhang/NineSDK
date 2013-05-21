@@ -1,33 +1,53 @@
 function MenuBar(props) {
-	this.items = {};
-	this._props = props;
-	
-	this.node = this._divNode = $("<div/>");
-	this._divNode.addClass("nineMenuDiv");
-	this._divNode.css({
-		"background-color":props["bgcolor"],
-		"padding":props["padding"],
-		"margin":props["margin"],
-		"border":props["border"],
-		"-webkit-box-flex":props["box_flex"],
-		"-moz-box-flex":props["box_flex"],
+	var items;
+	var _divNode, _ulNode;
+
+	init();
+
+	//this.node
+	Object.defineProperty(this, "node", {
+		get : function () {
+			return _divNode;
+		},
+		enumerable : true,
+		configurable : false,
 	});
 	
-	this._ulNode = $("<ul/>");
-	this._ulNode.addClass("nineMenuList0");
-
-	this._divNode.append(this._ulNode);
-}
-
-MenuBar.prototype.addItem = function (text) {
-	var item = new MenuItem(text,0,this._props);
-	this.items[text] = item;
+	this.addItem = function (name) {
+		var item = new MenuItem(name,0,props);
+		items[name] = item;
+		
+		_ulNode.append(item.node);
+		
+		return item;
+	}
 	
-	this._ulNode.append(item.node);
+	this.itemAt = function(i) {
+		return items[i];
+	}
 	
-	return item;
-}
-
-MenuBar.prototype.itemAt = function(i) {
-	return this.items[i];
+	Object.defineProperties(this, {
+		addItem : {writable : false, enumerable : true, configurable : false,},
+		itemAt : {writable : false, enumerable : true, configurable : false,},
+	});
+	
+	function init () {
+		items = {};
+		
+		_divNode = $("<div/>");
+		_divNode.addClass("nineMenuDiv");
+		_divNode.css({
+			"background-color":props["bgcolor"],
+			"padding":props["padding"],
+			"margin":props["margin"],
+			"border":props["border"],
+			"-webkit-box-flex":props["box_flex"],
+			"-moz-box-flex":props["box_flex"],
+		});
+		
+		_ulNode = $("<ul/>");
+		_ulNode.addClass("nineMenuList0");
+	
+		_divNode.append(_ulNode);
+	}
 }

@@ -20,16 +20,16 @@ function main() {
 	});
 
 	menu.addItem("File");
-	menu.items["File"].addItem("Imp...");
-	menu.items["File"].addItem("Exp...");
+	menu.itemAt("File").addItem("Imp...");
+	menu.itemAt("File").addItem("Exp...");
 	
 	menu.addItem("Edit");
 	
 	menu.addItem("Other");
-	menu.items["Other"].addItem("1");
-	menu.items["Other"].items["1"].addItem("2");
-	menu.items["Other"].items["1"].items["2"].addItem("abcdefghijklmnopqrstuvwxyz");
-	menu.items["Other"].addItem("ShowDialog");
+	menu.itemAt("Other").addItem("1");
+	menu.itemAt("Other").itemAt("1").addItem("2");
+	menu.itemAt("Other").itemAt("1").itemAt("2").addItem("abcdefghijklmnopqrstuvwxyz");
+	menu.itemAt("Other").addItem("ShowDialog");
 
 	//add a toobar
 	var toolBar = view.container.addToolBar("toolbar",{
@@ -74,21 +74,21 @@ function main() {
 	tree.addItem("buddy");
 	tree.addItem("cherry");
 
-	tree.items["amy"].addItem("albert");
-	tree.items["amy"].addItem("alpha");
-	tree.items["amy"].addItem("aptana");
+	tree.itemAt("amy").addItem("albert");
+	tree.itemAt("amy").addItem("alpha");
+	tree.itemAt("amy").addItem("aptana");
 
-	tree.items["buddy"].addItem("bolt");
-	tree.items["buddy"].addItem("billy");
-	tree.items["buddy"].addItem("billbert");
+	tree.itemAt("buddy").addItem("bolt");
+	tree.itemAt("buddy").addItem("billy");
+	tree.itemAt("buddy").addItem("billbert");
 
-	tree.items["cherry"].addItem("cathrine");
-	tree.items["cherry"].addItem("chesley");
-	tree.items["cherry"].addItem("charley");
+	tree.itemAt("cherry").addItem("cathrine");
+	tree.itemAt("cherry").addItem("chesley");
+	tree.itemAt("cherry").addItem("charley");
 
-	tree.items["amy"].items["alpha"].addItem("Android");
-	tree.items["amy"].items["alpha"].addItem("Apple");
-	tree.items["amy"].items["alpha"].addItem("Aeronautics");
+	tree.itemAt("amy").itemAt("alpha").addItem("Android");
+	tree.itemAt("amy").itemAt("alpha").addItem("Apple");
+	tree.itemAt("amy").itemAt("alpha").addItem("Aeronautics");
 	
 	//add a callboard
 	var callBoard = view.container.addCallBoard("callboard",{
@@ -162,18 +162,18 @@ function main() {
 	//add a listener to menuItem
 	menu.itemAt("File").itemAt("Imp...").click(fimp.trigger);
 	menu.itemAt("File").itemAt("Exp...").click(fexp.trigger());
-	menu.items["Other"].items["ShowDialog"].click(function(){dia.show();});
+	menu.itemAt("Other").itemAt("ShowDialog").click(function(){dia.show();});
 	
 	//add a listener to toolItem
-	toolBar.items["refresh0"].click(function() {
+	toolBar.itemAt("refresh0").click(function() {
 		callBoard.writeln(tree.filterCheckedItems().map(function(x){return x.title;}).join(", "));
 	});
-	toolBar.items["refresh1"].click(function() {
+	toolBar.itemAt("refresh1").click(function() {
 		callBoard.writeln(tree.filterCheckedItems().map(function(x){return x.title;}).join(", "));
 		tree.deleteCheckedItems();
 		callBoard.writeln("Deletion Over!");
 	});
-	toolBar.items["refresh2"].click(function() {
+	toolBar.itemAt("refresh2").click(function() {
 		var item = tree.selectedItem();
 		if (item)
 			callBoard.writeln(item.title);
@@ -198,7 +198,7 @@ function main() {
 	model.localStorage.setObjectItem("i",{"9233":"=7*1319"});
 	model.localStorage.setNumericItem("9","1319");
 	model.localStorage.setArrayItem("1319",[0,1,2,3,4])
-	toolBar.items["refresh3"].click(function() {
+	toolBar.itemAt("refresh3").click(function() {
 		callBoard.writeln(model.localStorage.getItem("9233"));
 		callBoard.writeln(JSON.stringify(model.localStorage.getObjectItem("i")));
 		callBoard.writeln(model.localStorage.getNumericItem("9")+66);
