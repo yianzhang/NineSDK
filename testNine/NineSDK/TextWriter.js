@@ -1,45 +1,58 @@
 function TextWriter() {
-	this._text = "";
-}
+	text = "";
 
-TextWriter.prototype.trigger = function () {
-	var self = this;
-	return function(){
+	//this.trigger
+	Object.defineProperty(this, "trigger", {
+		get : function () {
+			var self = this;
+			return function(){
+				self.saveAs("download.txt");
+			};
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	this.write = function (_text) {
+		text += _text;
+	}
+	
+	this.writeln = function (_text) {
+		this.write(_text);
+		text += '\n';
+	}
+	
+	this.saveAs = function (name){
 		window.Blob = window.Blob || window.WebKitBlob || window.MozBlob;
-		var blob = new Blob([self._text],{type:"text/plain;charset=UTF-8"});
-		self.saveAs(blob, "download.txt");
-	};
-}
-
-TextWriter.prototype.write = function (text) {
-	this._text += text;
-}
-
-TextWriter.prototype.writeln = function (text) {
-	this.write(text);
-	this._text += '\n';
-}
-
-TextWriter.prototype.saveAs = function (blob, name){
-	window.URL = window.URL || window.WebKitURL || window.MozURL;
-	navigator.saveBlob = navigator.saveBlob || navigator.webkitSaveBlob || navigator.mozSaveBlob;
-
-	if (navigator.saveBlob) {
-		navigator.saveBlob(blob, name);
+		window.URL = window.URL || window.WebKitURL || window.MozURL;
+		navigator.saveBlob = navigator.saveBlob || navigator.webkitSaveBlob || navigator.mozSaveBlob;
+	
+		var blob = new Blob([text],{type:"text/plain;charset=UTF-8"});
+		name = name || "download.txt";
+	
+		if (navigator.saveBlob) {
+			navigator.saveBlob(blob, name);
+		}
+	
+		else if (window.URL) {
+			var url = URL.createObjectURL(blob);
+	
+			var link = $("<a style='display:none'/>");
+			link.attr("href",url);
+			link.attr("download",name);
+			
+			var event = document.createEvent('MouseEvents');
+			event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+			
+			link[0].dispatchEvent(event);
+	
+//			URL.revokeObjectURL(url);
+		}
 	}
 
-	else if (window.URL) {
-		var url = URL.createObjectURL(blob);
-
-		var link = $("<a style='display:none'/>");
-		link.attr("href",url);
-		link.attr("download",name);
-		
-		var event = document.createEvent('MouseEvents');
-		event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
-		
-		link[0].dispatchEvent(event);
-
-//		URL.revokeObjectURL(url);
-	}
+	Object.defineProperties(this, {
+		write : {writable : false, enumerable : true, configurable : false,},
+		writeln : {writable : false, enumerable : true, configurable : false,},
+		saveAs : {writable : false, enumerable : true, configurable : false,},
+	});
 }

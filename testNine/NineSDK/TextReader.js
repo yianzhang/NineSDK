@@ -1,11 +1,72 @@
 function TextReader () {
 	var self = this;
-	var _fileNode = null;
+	var _fileNode = undefined;
 	var _reader = new FileReader();
-	var _file = null;
-	var _result = null;
+	var _file = undefined;
+	var _result = undefined;
 	var _anchor = 0;
 
+	//this.trigger
+	Object.defineProperty(this, "trigger", {
+		get : 	function() {
+			return function(){
+				if (_fileNode) _fileNode.remove();	
+				_fileNode = $("<input type='file' style='display:none' />");
+				$(document.body).append(_fileNode);
+		
+				_fileNode.change(function() {
+					_file = undefined;
+					_result = undefined;
+					_anchor = 0;
+					
+					if (this.value) {
+						_file = this.files[0];
+						_reader.readAsText(_file);
+					}
+				});
+			
+				_fileNode.click();
+			};
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//this.content
+	Object.defineProperty(this, "content", {
+		get : function () {
+			return _result;
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//this.type
+	Object.defineProperty(this, "type", {
+		get : function () {
+			if (_file) {
+				return _file.type;
+			} else {
+				return undefined;
+			}
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//this.size
+	Object.defineProperty(this, "size", {
+		get : function () {
+			if (_file) {
+				return _file.size;
+			} else {
+				return NaN;
+			}
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
 	this.getChar = function () {
 		if (!_result) return undefined;
 
@@ -56,8 +117,22 @@ function TextReader () {
 			_anchor = x+1;
 			return v;
 		} else 
-			return null;
+			return undefined;
 	}
+	
+	//this.readHead
+	Object.defineProperty(this, "readHead", {
+		get : function () {
+			return _anchor;
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	this.seek = function (i) {
+		if (i<0) _anchor = 0;
+		if (i>_result.length) _anchor = _result.length;
+	};
 	
 	this.read = function (handler,context) {
 		_reader.onload = function(){
@@ -68,65 +143,11 @@ function TextReader () {
 		};
 	}
 	
-	Object.defineProperties(this,{
-		content : {
-			get : function () {
-				return _result;
-			},
-			configurable : false,
-		},
-		type : {
-			get : function () {
-				if (_file) {
-					return _file.type;
-				} else {
-					return undefined;
-				}
-			},
-			configurable : false,
-		},
-		size : {
-			get : function () {
-				if (_file) {
-					return _file.size;
-				} else {
-					return NaN;
-				}
-			},
-			configurable : false,
-		},
-		seek : {
-			get : function () {
-				return _anchor;
-			},
-			set : function (i) {
-				if (i<0) _anchor = 0;
-				if (i>_result.length) _anchor = _result.length;
-			},
-			configurable : false,
-		},
-		trigger : {
-			get : 	function() {
-				return function(){
-					if (_fileNode) _fileNode.remove();	
-					_fileNode = $("<input type='file' style='display:none' />");
-					$(document.body).append(_fileNode);
-			
-					_fileNode.change(function() {
-						_file = null;
-						_result = null;
-						_anchor = 0;
-						
-						if (this.value) {
-							_file = this.files[0];
-							_reader.readAsText(_file);
-						}
-					});
-				
-					_fileNode.click();
-				};
-			},
-			configurable : false,
-		},
+	Object.defineProperties(this, {
+		getChar : {writable : false, enumerable : true, configurable : false,},
+		getString : {writable : false, enumerable : true, configurable : false,},
+		getLine : {writable : false, enumerable : true, configurable : false,},
+		seek : {writable : false, enumerable : true, configurable : false,},
+		read : {writable : false, enumerable : true, configurable : false,},
 	});
 }

@@ -161,7 +161,7 @@ function main() {
 	
 	//add a listener to menuItem
 	menu.itemAt("File").itemAt("Imp...").click(fimp.trigger);
-	menu.itemAt("File").itemAt("Exp...").click(fexp.trigger());
+	menu.itemAt("File").itemAt("Exp...").click(fexp.trigger);
 	menu.itemAt("Other").itemAt("ShowDialog").click(function(){dia.show();});
 	
 	//add a listener to toolItem
@@ -205,8 +205,8 @@ function main() {
 		callBoard.writeln(model.localStorage.getArrayItem("1319")[0]+66);
 	});
 	
-	
+*/	
 	fexp.write(9233);
 	fexp.writeln("=7*1319");
-*/
+
 }
