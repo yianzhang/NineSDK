@@ -191,6 +191,12 @@ function main() {
 		while((c = this.getString())!=undefined) {
 			cb.writeln(c);
 		}
+		
+		this.seek(0);
+		cb.writeln(this.content);
+		while((c = this.getString())!=undefined) {
+			cb.writeln(c);
+		}
 	});
 /*	
 	model.localStorage.clear();

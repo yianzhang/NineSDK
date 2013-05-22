@@ -1,6 +1,26 @@
-Reader = {};
+model.Reader = {};
 
-Reader.readSTL = function (reader) {
+model.Reader.readSTL = function (reader) {
+	var ps = new PointSet();
+	
+	var s;
+	
+	reader.seek(0);
+	while (s = reader.getString()) {
+		if (s == "vertex") {
+			var x = reader.getString();
+			var y = reader.getString();
+			var z = reader.getString();
+			x = parseFloat(x);
+			y = parseFloat(y);
+			z = parseFloat(z);
+			
+			if (ps.indexOfCoord(x, y, z) == -1) {
+				ps.push(new Point(x, y, z));
+			}
+		}
+	}
+	
 	var ts = new TriangleSet();
 	
 	var s;
@@ -8,6 +28,8 @@ Reader.readSTL = function (reader) {
 	var p0 = undefined;
 	var p1 = undefined;
 	var p2 = undefined;
+	
+	reader.seek(0);
 	while (s = reader.getString()) {
 		if (s == "normal") {
 			var x = reader.getString();
@@ -27,11 +49,11 @@ Reader.readSTL = function (reader) {
 			z = parseFloat(z);
 			
 			if (!p0) {
-				p0 = new Point(x,y,z);
+				p0 = ps[ps.indexOfCoord(x, y, z)];
 			} else if (!p1) {
-				p1 = new Point(x,y,z);
+				p1 = ps[ps.indexOfCoord(x, y, z)];
 			} else if (!p2) {
-				p2 = new Point(x,y,z);
+				p2 = ps[ps.indexOfCoord(x, y, z)];
 
 				var t = new Triangle(p0,p1,p2,v);
 				ts.push(t);
@@ -40,10 +62,10 @@ Reader.readSTL = function (reader) {
 			}
 		}
 	}
-	
+
 	var fs = ts.faceSet();
 	var bs = fs.bodySet();
-	var ab = new AllBody(bs);
+	var ab = new AllBody(bs, ps);
 	
 	return ab;
 };

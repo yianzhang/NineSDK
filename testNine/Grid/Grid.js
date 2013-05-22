@@ -38,6 +38,7 @@ document.writeln("<script src='Grid/Vector.js'></script>");
 
 //Point
 document.writeln("<script src='Grid/Point.js'></script>");
+document.writeln("<script src='Grid/PointSet.js'></script>");
 
 //Reader
 document.writeln("<script src='Grid/Reader.js'></script>");

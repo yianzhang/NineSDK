@@ -20,20 +20,76 @@ function main() {
 	var menuFile = menu.addItem("File");
 	var menuImp = menuFile.addItem("Imp...");
 	
-	 cb = ct.addCallBoard("cb",{
+	//add a toobar
+	var toolBar = view.container.addToolBar("toolbar",{
+		"bgcolor":"#00CCFF",
+		"bgcolor:hover":"#FF66FF",
+		"padding":"3px",
+		"margin":"0 0 5px 0",
+		"item_width":"20px",
+	});
+	
+	toolBar.addItem("refresh0","NineSDK/img/refresh.png");
+	toolBar.addItem("refresh1","NineSDK/img/refresh.png");
+	toolBar.addItem("refresh2","NineSDK/img/refresh.png");
+	toolBar.addItem("refresh3","NineSDK/img/refresh.png");
+	toolBar.addItem("refresh4","NineSDK/img/refresh.png");
+	toolBar.addItem("refresh5","NineSDK/img/refresh.png");
+	toolBar.addItem("refresh6","NineSDK/img/refresh.png");
+	toolBar.addItem("refresh7","NineSDK/img/refresh.png");
+	
+	//add a sub-container
+	var ctn1 = view.container.addContainer("ctn1",{
+		"box_orient":"horizontal",
+		"margin":"0 0 5px 0",
+
+		"box_flex":"1",
+	});
+	
+	//add a tree
+	var tree = ctn1.addTree("tree",{
+		"bgcolor":"#00CCFF",
+		"selected_color":"#FF66FF",
+		"width":"200px",
+		"height":"473px",
+		"padding":"5px",
+		"margin":"0 5px 0 0",
+		"font_color":"yellow",
+		"font_size":"20px",
+		"font_weight":"normal",
+	});
+	
+	//add a callboard
+	cb = view.container.addCallBoard("callboard",{
 		"bgcolor":"#00CCFF",
 		"padding":"5px",
 		"font_color":"white",
 		"height":"100px",
-		"box_flex" : "1",
+	});
+
+	//add a listener to toolItem
+	toolBar.itemAt("refresh0").click(function() {
+		cb.writeln(tree.filterCheckedItems().map(function(x){return x.title;}).join(", "));
+	});
+	toolBar.itemAt("refresh1").click(function() {
+		cb.writeln(tree.filterCheckedItems().map(function(x){return x.title;}).join(", "));
+		tree.deleteCheckedItems();
+		cb.writeln("Deletion Over!");
+	});
+	toolBar.itemAt("refresh2").click(function() {
+		var item = tree.selectedItem;
+		if (item)
+			cb.writeln(item.title);
+		else
+			cb.writeln("null");
 	});
 	
 	var fileImp = model.newTextReader();
 	menuImp.click(fileImp.trigger);
 	
 	fileImp.read(function() {
-		x = Reader.readSTL(fileImp);
-		cb.writeln(x);
+		var x = model.Reader.readSTL(fileImp);
+		tree.genFromGrid(x);
 	});
 	
 	//try

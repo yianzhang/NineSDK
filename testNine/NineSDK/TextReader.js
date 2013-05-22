@@ -130,8 +130,16 @@ function TextReader () {
 	});
 	
 	this.seek = function (i) {
-		if (i<0) _anchor = 0;
-		if (i>_result.length) _anchor = _result.length;
+		if (i==undefined || !$.isNumeric(i))
+			return;
+			
+		if (i<0) {
+			_anchor = 0;
+		} else if (i>_result.length) {
+			_anchor = _result.length;
+		} else {
+			_anchor = i;
+		}
 	};
 	
 	this.read = function (handler,context) {

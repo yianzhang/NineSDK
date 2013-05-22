@@ -1,4 +1,4 @@
-function AllBody (_bs) {
+function AllBody (_bs, _ps) {
 	var self = this;
 	
 	var bs;
@@ -6,6 +6,14 @@ function AllBody (_bs) {
 		bs = _bs;
 	} else {
 //		bs = new BodySet();
+		return undefined;
+	}
+	
+	var ps;
+	if (_ps && _ps instanceof PointSet) {
+		ps = _ps;
+	} else {
+//		ps = new PointSet();
 		return undefined;
 	}
 	
@@ -22,8 +30,25 @@ function AllBody (_bs) {
 		configurable : false,
 	});
 	
+	this.pointAt = function (i) {
+		if (i==undefined || !$.isNumeric(i)) return undefined;
+		if (i<0 || i>=ps.length) return undefined;
+		return ps[i];
+	}
+	
+	//this.pointLength
+	Object.defineProperty(this, "pointLength", {
+		get : function () {return ps.length;},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	this.pointIndexOfPoint = function (p) {
+		return ps.indexOfPoint(p);
+	};
+	
 	this.toString = function () {
-		return "AllBody{" + bs + "}";
+		return "AllBody{" + bs + "; " + ps + "}";
 	};
 	
 	Object.defineProperties(this,{

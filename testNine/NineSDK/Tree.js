@@ -80,6 +80,28 @@ function Tree(props) {
 		sltItem = undefined;
 	};
 	
+	this.genFromGrid = function (ab) {
+		if (!ab || !(ab instanceof AllBody)) return;
+		
+		this.empty();//alert(0);
+		for (var i=0;i<ab.bodyLength;++i) {//alert("i = "+i);
+			var body = ab.bodyAt(i);//alert("body");
+			var item0 = this.addItem("Body_"+i, body);//alert("item0");
+			for (var j=0;j<body.faceLength;++j) {//alert("j = "+j);
+				var face = body.faceAt(j);//alert("face");
+				var item1 = item0.addItem("Face_"+j, face);//alert("item1");
+				for (var k=0;k<face.loopLength;++k) {//alert("k = "+k);
+					var loop = face.loopAt(k);//alert("loop");
+					var item2 = item1.addItem("Loop_"+k, loop);//alert("item2");
+					for (var l=0;l<loop.polylineLength;++l) {//alert("l = "+l);
+						var polyline = loop.polylineAt(l);//alert("polyline");
+						var item3 = item2.addItem("Polyline_"+l, polyline);//alert("item3");
+					}
+				}
+			}
+		}
+	};
+	
 	Object.defineProperties(this, {
 		addItem : {writable : false, enumerable : true, configurable : false,},
 		filterCheckedItems : {writable : false, enumerable : true, configurable : false,},

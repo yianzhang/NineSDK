@@ -1,6 +1,7 @@
-function TreeItem(title,parent,lev,props) {
+function TreeItem(title,parent,lev,props,_data) {
 	var items ={};
 	var count = 0;
+	var data = _data || {};
 	var _liNode, _triNode, _checkboxNode, _spanNode, _ulNode;
 	
 	init();
@@ -54,6 +55,15 @@ function TreeItem(title,parent,lev,props) {
 	Object.defineProperty(this, "itemLength", {
 		get : function () {
 			return count;
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//this.data
+	Object.defineProperty(this, "data", {
+		get : function () {
+			return data;
 		},
 		enumerable : true,
 		configurable : false,
@@ -185,7 +195,5 @@ function TreeItem(title,parent,lev,props) {
 			}
 			_isFolded = !_isFolded;
 		});
-		
-//		$.extend(this,data);
 	}
 }
