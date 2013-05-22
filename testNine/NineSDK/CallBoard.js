@@ -25,7 +25,7 @@ function CallBoard (props) {
 		
 		_ulNode.append(_liNode);
 //		_divNode.scrollTop(999999999);
-		_divNode.scrollTop(this._divNode[0].scrollHeight);
+		_divNode.scrollTop(_divNode[0].scrollHeight);
 	};
 	
 	this.update = function (text) {
@@ -40,7 +40,7 @@ function CallBoard (props) {
 		_liNode.text(time + "  " + (text || " "));
 		
 //		_divNode.scrollTop(999999999);
-		_divNode.scrollTop(this._divNode[0].scrollHeight);
+		_divNode.scrollTop(_divNode[0].scrollHeight);
 	};
 	
 	Object.defineProperties(this, {

@@ -91,7 +91,7 @@ function main() {
 	tree.itemAt("amy").itemAt("alpha").addItem("Aeronautics");
 	
 	//add a callboard
-	var callBoard = view.container.addCallBoard("callboard",{
+	cb = view.container.addCallBoard("callboard",{
 		"bgcolor":"#00CCFF",
 		"padding":"5px",
 		"font_color":"white",
@@ -166,19 +166,19 @@ function main() {
 	
 	//add a listener to toolItem
 	toolBar.itemAt("refresh0").click(function() {
-		callBoard.writeln(tree.filterCheckedItems().map(function(x){return x.title;}).join(", "));
+		cb.writeln(tree.filterCheckedItems().map(function(x){return x.title;}).join(", "));
 	});
 	toolBar.itemAt("refresh1").click(function() {
-		callBoard.writeln(tree.filterCheckedItems().map(function(x){return x.title;}).join(", "));
+		cb.writeln(tree.filterCheckedItems().map(function(x){return x.title;}).join(", "));
 		tree.deleteCheckedItems();
-		callBoard.writeln("Deletion Over!");
+		cb.writeln("Deletion Over!");
 	});
 	toolBar.itemAt("refresh2").click(function() {
-		var item = tree.selectedItem();
+		var item = tree.selectedItem;
 		if (item)
-			callBoard.writeln(item.title);
+			cb.writeln(item.title);
 		else
-			callBoard.writeln("null");
+			cb.writeln("null");
 	});
 	
 	//add a listener to tree
@@ -186,10 +186,10 @@ function main() {
 
 	//add a listener to textreader
 	fimp.read(function(){
-		callBoard.writeln(this.content);
+		cb.writeln(this.content);
 		var c;
 		while((c = this.getString())!=undefined) {
-			callBoard.writeln(c);
+			cb.writeln(c);
 		}
 	});
 /*	
@@ -199,14 +199,13 @@ function main() {
 	model.localStorage.setNumericItem("9","1319");
 	model.localStorage.setArrayItem("1319",[0,1,2,3,4])
 	toolBar.itemAt("refresh3").click(function() {
-		callBoard.writeln(model.localStorage.getItem("9233"));
-		callBoard.writeln(JSON.stringify(model.localStorage.getObjectItem("i")));
-		callBoard.writeln(model.localStorage.getNumericItem("9")+66);
-		callBoard.writeln(model.localStorage.getArrayItem("1319")[0]+66);
+		cb.writeln(model.localStorage.getItem("9233"));
+		cb.writeln(JSON.stringify(model.localStorage.getObjectItem("i")));
+		cb.writeln(model.localStorage.getNumericItem("9")+66);
+		cb.writeln(model.localStorage.getArrayItem("1319")[0]+66);
 	});
 	
 */	
 	fexp.write(9233);
 	fexp.writeln("=7*1319");
-
 }
