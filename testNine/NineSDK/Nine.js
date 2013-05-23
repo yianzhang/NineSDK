@@ -21,6 +21,10 @@ document.writeln("<link rel='stylesheet' type='text/css' href='NineSDK/css/Tree.
 document.writeln("<script src='NineSDK/TreeItem.js'></script>");
 document.writeln("<script src='NineSDK/Tree.js'></script>");
 
+//canvas
+document.writeln("<link rel='stylesheet' type='text/css' href='NineSDK/css/Canvas.css' />");
+document.writeln("<script src='NineSDK/Canvas.js'></script>");
+
 //callboard
 document.writeln("<link rel='stylesheet' type='text/css' href='NineSDK/css/CallBoard.css' />");
 document.writeln("<script src='NineSDK/CallBoard.js'></script>");

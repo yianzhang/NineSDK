@@ -5,8 +5,8 @@ function ToolGroup (name,props, advisory) {
 	
 	init();
 	
-	//this.title
-	Object.defineProperty(this, "title", {
+	//this.name
+	Object.defineProperty(this, "name", {
 		get : function () {
 			return name;
 		},

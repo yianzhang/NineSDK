@@ -1,4 +1,4 @@
-function TreeItem(title,parent,lev,props,_data) {
+function TreeItem(name,parent,lev,props,_data) {
 	var items ={};
 	var count = 0;
 	var data = _data || {};
@@ -6,19 +6,19 @@ function TreeItem(title,parent,lev,props,_data) {
 	
 	init();
 
-	//this.node
-	Object.defineProperty(this, "node", {
+	//this.name
+	Object.defineProperty(this, "name", {
 		get : function () {
-			return _liNode;
+			return name;
 		},
 		enumerable : true,
 		configurable : false,
 	});
 	
-	//this.title
-	Object.defineProperty(this, "title", {
+	//this.node
+	Object.defineProperty(this, "node", {
 		get : function () {
-			return title;
+			return _liNode;
 		},
 		enumerable : true,
 		configurable : false,
@@ -69,10 +69,10 @@ function TreeItem(title,parent,lev,props,_data) {
 		configurable : false,
 	});
 	
-	this.addItem = function (title,data) {
-		var item = new TreeItem(title,this,lev+1,props,data || {});
+	this.addItem = function (name,data) {
+		var item = new TreeItem(name,this,lev+1,props,data || {});
 		
-		items[title] = item;
+		items[name] = item;
 		count++;
 		_ulNode.append(item.node);
 		
@@ -103,7 +103,7 @@ function TreeItem(title,parent,lev,props,_data) {
 		
 		//remove from parent.items
 		if (parent) {
-			delete parent.items[title];
+			delete parent.items[name];
 			parent.count--;
 			parent = undefined;
 		}
@@ -160,12 +160,11 @@ function TreeItem(title,parent,lev,props,_data) {
 		_triNode.addClass("nineTreeItemTriangle");
 		_triNode.css("color",props["font_color"]);
 		
-		_checkboxNode = $("<input/>");
-		_checkboxNode.attr("type","checkbox");
-		_checkboxNode.val(title);
+		_checkboxNode = $("<input type='checkbox' />");
+		_checkboxNode.val(name);
 		
 		_spanNode = $("<span/>");
-		_spanNode.text(title);
+		_spanNode.text(name);
 		_spanNode.addClass("nineTreeItemText");
 		
 		_spanNode.css({

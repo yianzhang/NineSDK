@@ -1,7 +1,7 @@
 var view = {
 	container : {},
 	init : function () {
-		this.container = new Container({
+		this.container = new Container("rootContainer",{
 			"box_orient":"vertical",
 			"width":"100%",
 			"height":$(window).height(),
@@ -9,8 +9,12 @@ var view = {
 		$(document.body).append(this.container.node);
 	},
 	
-	addDialog : function(title,props) {
-		return new Dialog(title,props);
+	addDialog : function(name,props) {
+		return new Dialog(name,props);
+	},
+	
+	resize : function (handler) {
+		$(window).resize(handler);
 	},
 };
 

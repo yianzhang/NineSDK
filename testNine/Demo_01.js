@@ -21,7 +21,7 @@ function main() {
 	var menuImp = menuFile.addItem("Imp...");
 	
 	//add a toobar
-	var toolBar = view.container.addToolBar("toolbar",{
+	var toolBar = ct.addToolBar("toolbar",{
 		"bgcolor":"#00CCFF",
 		"bgcolor:hover":"#FF66FF",
 		"bgcolor:selected":"#FF66FF",
@@ -51,19 +51,6 @@ function main() {
 		"box_flex":"1",
 	});
 	
-	//add a tree
-	var tree = ctn1.addTree("tree",{
-		"bgcolor":"#00CCFF",
-		"bgcolor:selected":"#FF66FF",
-		"width":"200px",
-		"height":"473px",
-		"padding":"5px",
-		"margin":"0 5px 0 0",
-		"font_color":"yellow",
-		"font_size":"20px",
-		"font_weight":"normal",
-	});
-	
 	//add a callboard
 	cb = view.container.addCallBoard("callboard",{
 		"bgcolor":"#00CCFF",
@@ -71,7 +58,33 @@ function main() {
 		"font_color":"white",
 		"height":"100px",
 	});
-
+	
+	//add a tree
+	var tree = ctn1.addTree("tree",{
+		"bgcolor":"#00CCFF",
+		"bgcolor:selected":"#FF66FF",
+		"width":"200px",
+		"height": (ctn1.node.height()-10)+"px",
+		"padding":"5px",
+		"margin":"0 5px 0 0",
+		"font_color":"yellow",
+		"font_size":"20px",
+		"font_weight":"normal",
+	});
+	
+	var canvas = ctn1.addCanvas("canvas", {
+		"border" : "1px #00CCFF solid",
+		"width" : (ctn1.node.width()-2-tree.node.outerWidth(true))+"px",
+		"height" : (ctn1.node.height()-2)+"px",
+//		"box_flex" : 1,
+	});
+	
+	view.resize(function () {
+		tree.node.height((ctn1.node.height()-10)+"px");
+		canvas.node.width((ctn1.node.width()-2-tree.node.outerWidth(true))+"px");
+		canvas.node.height((ctn1.node.height()-2)+"px");
+	});
+	
 	//add a listener to toolItem
 	toolBar.itemAt("refresh0").click(function() {
 		cb.writeln(tree.filterCheckedItems().map(function(x){return x.title;}).join(", "));

@@ -1,8 +1,17 @@
-function CallBoard (props) {
+function CallBoard (name,props) {
 	var _divNode, _ulNode;
 
 	init();
 
+	//this.name
+	Object.defineProperty(this, "name", {
+		get : function () {
+			return name;
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
 	//this.node
 	Object.defineProperty(this, "node", {
 		get : function () {

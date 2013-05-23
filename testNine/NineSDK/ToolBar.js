@@ -1,15 +1,26 @@
-function ToolBar(props) {
+function ToolBar(name,props) {
 	var items = {};
 	var groups = {};
 	var _divNode;
 	
 	init();
 	
+	//this.name
+	Object.defineProperty(this, "name", {
+		get : function () {
+			return name;
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
 	//this.node
 	Object.defineProperty(this, "node", {
 		get : function () {
 			return _divNode;
-		}
+		},
+		enumerable : true,
+		configurable : false,
 	});
 	
 	this.addItem = function (name,url,advisory) {

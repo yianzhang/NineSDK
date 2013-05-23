@@ -1,8 +1,17 @@
-function Container (props) {
+function Container (name,props) {
 	var items;
 	var _divNode;
 
 	init();
+	
+	//this.name
+	Object.defineProperty(this, "name", {
+		get : function () {
+			return name;
+		},
+		enumerable : true,
+		configurable : false,
+	});
 	
 	//this.node
 	Object.defineProperty(this, "node", {
@@ -14,7 +23,7 @@ function Container (props) {
 	});
 	
 	this.addContainer = function (name,props) {
-		var container = new Container(props);
+		var container = new Container(name,props);
 		items[name] = container;
 		_divNode.append(container.node);
 		
@@ -22,7 +31,7 @@ function Container (props) {
 	}
 	
 	this.addMenu = function (name,props) {
-		var menuBar = new MenuBar(props);
+		var menuBar = new MenuBar(name,props);
 		items[name] = menuBar;
 		_divNode.append(menuBar.node);
 		
@@ -30,7 +39,7 @@ function Container (props) {
 	}
 		
 	this.addToolBar = function (name,props) {
-		var toolBar = new ToolBar(props);
+		var toolBar = new ToolBar(name,props);
 		items[name] = toolBar;
 		_divNode.append(toolBar.node);
 		
@@ -38,15 +47,23 @@ function Container (props) {
 	}
 		
 	this.addTree = function (name,props) {
-		var tree = new Tree(props);
+		var tree = new Tree(name,props);
 		items[name] = tree;
 		_divNode.append(tree.node);
 		
 		return tree;
 	}
 	
+	this.addCanvas = function (name, props) {
+		var canvas = new Canvas(name, props);
+		items[name] = canvas;
+		_divNode.append(canvas.node);
+		
+		return canvas;
+	};
+	
 	this.addCallBoard = function (name,props) {
-		var callBoard = new CallBoard(props);
+		var callBoard = new CallBoard(name,props);
 		items[name] = callBoard;
 		_divNode.append(callBoard.node);
 		

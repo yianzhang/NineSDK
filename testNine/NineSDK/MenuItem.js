@@ -1,11 +1,11 @@
 function MenuItem(name,lev,props) {
-	var items;
+	var items = {};
 	var _liNode, _ulNode;
 	
 	init();
 	
-	//this.title
-	Object.defineProperty(this, "title", {
+	//this.name
+	Object.defineProperty(this, "name", {
 		get : function () {
 			return name;
 		},
@@ -47,9 +47,7 @@ function MenuItem(name,lev,props) {
 		itemAt : {writable : false, enumerable : true, configurable : false,},
 	});
 	
-	function init () {
-		items = {};
-	
+	function init () {	
 		_liNode = $("<li/>");
 		_liNode.addClass("nineMenuItem"+(lev>1?2:lev));
 		_liNode.html((lev>0?"&nbsp;&nbsp;":"")+name);

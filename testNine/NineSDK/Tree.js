@@ -1,4 +1,4 @@
-function Tree(props) {
+function Tree(name,props) {
 	var self = this;
 	
 	var items = {};
@@ -7,6 +7,15 @@ function Tree(props) {
 	var _divNode, _ulNode;
 	
 	init();
+	
+	//this.name
+	Object.defineProperty(this, "name", {
+		get : function () {
+			return name;
+		},
+		enumerable : true,
+		configurable : false,
+	});
 	
 	//this.node
 	Object.defineProperty(this, "node", {
@@ -17,10 +26,10 @@ function Tree(props) {
 		configurable : false,
 	});
 	
-	this.addItem = function (title,data) {
-		var item = new TreeItem(title,this,1,props,data || {});
+	this.addItem = function (name,data) {
+		var item = new TreeItem(name,this,1,props,data || {});
 		
-		items[title] = item;
+		items[name] = item;
 		count++;
 		_ulNode.append(item.node);
 		
@@ -137,7 +146,7 @@ function Tree(props) {
 			var item = self;
 			for (var i=0;i<list.length;i++) {
 				for (var j in item.items) {
-					if (item.items[j].title == $(list[i]).children("span:last").text()) {
+					if (item.items[j].name == $(list[i]).children("span:last").text()) {
 						item = item.items[j];
 						break;
 					}

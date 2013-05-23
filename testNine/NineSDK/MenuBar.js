@@ -1,9 +1,18 @@
-function MenuBar(props) {
+function MenuBar(name,props) {
 	var items;
 	var _divNode, _ulNode;
 
 	init();
 
+	//this.name
+	Object.defineProperty(this, "name", {
+		get : function () {
+			return name;
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
 	//this.node
 	Object.defineProperty(this, "node", {
 		get : function () {
