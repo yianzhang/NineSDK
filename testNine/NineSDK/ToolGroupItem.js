@@ -1,4 +1,4 @@
-function ToolItem (name,url,props,advisory) {
+function ToolGroupItem (name, url, group, props, advisory) {
 	var _imgNode;
 	
 	init();
@@ -11,31 +11,21 @@ function ToolItem (name,url,props,advisory) {
 		enumerable : true,
 		configurable : false,
 	});
-
+	
 	//this.node
 	Object.defineProperty(this, "node", {
-		get: function () {
+		get : function () {
 			return _imgNode;
 		},
 		enumerable : true,
 		configurable : false,
 	});
 	
-	this.click = function (handler,context) {
-		if ($.isFunction(handler)) {
-			_imgNode.click($.proxy(handler,context || _imgNode));
-		}
-	}
-	
-	Object.defineProperties(this, {
-		click : {writable : false, enumerable : true, configurable : false,},
-	});
-	
 	function init () {
 		_imgNode = $("<img/>");
-		_imgNode.addClass("nineToolImg");
+		_imgNode.addClass("nineToolGroupImg");
 		_imgNode.attr("name", name);
-		_imgNode.attr("src",url);
+		_imgNode.attr("src", url);
 		_imgNode.attr("title", advisory);
 		_imgNode.css({
 			"width":props["item_width"],
@@ -47,7 +37,10 @@ function ToolItem (name,url,props,advisory) {
 			},
 			function () {
 				$(this).css("background-color","transparent");
+				if (group.status) {
+					group.itemAt(group.status).node.css("background-color",props["bgcolor:selected"]);
+				}
 			}
 		);
-	}
+	} 
 }

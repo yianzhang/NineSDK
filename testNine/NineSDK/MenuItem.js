@@ -1,8 +1,17 @@
-function MenuItem(text,lev,props) {
+function MenuItem(name,lev,props) {
 	var items;
 	var _liNode, _ulNode;
 	
 	init();
+	
+	//this.title
+	Object.defineProperty(this, "title", {
+		get : function () {
+			return name;
+		},
+		enumerable : true,
+		configurable : false,
+	});
 	
 	//this.node
 	Object.defineProperty(this, "node", {
@@ -13,9 +22,9 @@ function MenuItem(text,lev,props) {
 		configurable : false,
 	});
 	
-	this.addItem = function (text) {
-		var item = new MenuItem(text,lev+1,props);
-		items[text] = item;
+	this.addItem = function (name) {
+		var item = new MenuItem(name,lev+1,props);
+		items[name] = item;
 		
 		_ulNode.append(item.node);
 		
@@ -43,7 +52,7 @@ function MenuItem(text,lev,props) {
 	
 		_liNode = $("<li/>");
 		_liNode.addClass("nineMenuItem"+(lev>1?2:lev));
-		_liNode.html((lev>0?"&nbsp;&nbsp;":"")+text);
+		_liNode.html((lev>0?"&nbsp;&nbsp;":"")+name);
 		_liNode.css({
 			"background-color":props["bgcolor"],
 			"width":props["item_width"],

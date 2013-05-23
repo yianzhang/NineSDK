@@ -24,19 +24,24 @@ function main() {
 	var toolBar = view.container.addToolBar("toolbar",{
 		"bgcolor":"#00CCFF",
 		"bgcolor:hover":"#FF66FF",
+		"bgcolor:selected":"#FF66FF",
 		"padding":"3px",
 		"margin":"0 0 5px 0",
 		"item_width":"20px",
 	});
 	
-	toolBar.addItem("refresh0","NineSDK/img/refresh.png");
-	toolBar.addItem("refresh1","NineSDK/img/refresh.png");
-	toolBar.addItem("refresh2","NineSDK/img/refresh.png");
-	toolBar.addItem("refresh3","NineSDK/img/refresh.png");
-	toolBar.addItem("refresh4","NineSDK/img/refresh.png");
-	toolBar.addItem("refresh5","NineSDK/img/refresh.png");
-	toolBar.addItem("refresh6","NineSDK/img/refresh.png");
-	toolBar.addItem("refresh7","NineSDK/img/refresh.png");
+	toolBar.addItem("refresh0","NineSDK/img/refresh.png","i0");
+	toolBar.addItem("refresh1","NineSDK/img/refresh.png","i1");
+	toolBar.addItem("refresh2","NineSDK/img/refresh.png","i2");
+	
+	var group0 = toolBar.addGroup("g0","g0");
+	group0.addItem("refresh3","NineSDK/img/refresh.png","i3");
+	group0.addItem("refresh4","NineSDK/img/refresh.png","i4");
+	group0.addItem("refresh5","NineSDK/img/refresh.png","i5");
+	
+	var group1 = toolBar.addGroup("g1","g1");
+	group1.addItem("refresh6","NineSDK/img/refresh.png","i6");
+	group1.addItem("refresh7","NineSDK/img/refresh.png","i7");
 	
 	//add a sub-container
 	var ctn1 = view.container.addContainer("ctn1",{
@@ -49,7 +54,7 @@ function main() {
 	//add a tree
 	var tree = ctn1.addTree("tree",{
 		"bgcolor":"#00CCFF",
-		"selected_color":"#FF66FF",
+		"bgcolor:selected":"#FF66FF",
 		"width":"200px",
 		"height":"473px",
 		"padding":"5px",

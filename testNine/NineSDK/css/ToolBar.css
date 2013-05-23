@@ -10,3 +10,13 @@ img.nineToolImg{
 
 img.nineToolImg:hover {
 }
+
+div.nineToolGroup {
+	display : inline-block;
+	padding : 0 5px 0 5px;
+}
+
+img.nineToolGroupImg{
+	vertical-align:bottom;
+	cursor: pointer;
+}

@@ -13,6 +13,8 @@ document.writeln("<script src='NineSDK/MenuBar.js'></script>");
 document.writeln("<link rel='stylesheet' type='text/css' href='NineSDK/css/ToolBar.css' />");
 document.writeln("<script src='NineSDK/ToolItem.js'></script>");
 document.writeln("<script src='NineSDK/ToolBar.js'></script>");
+document.writeln("<script src='NineSDK/ToolGroup.js'></script>");
+document.writeln("<script src='NineSDK/ToolGroupItem.js'></script>");
 
 //tree
 document.writeln("<link rel='stylesheet' type='text/css' href='NineSDK/css/Tree.css' />");

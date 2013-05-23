@@ -1,28 +1,60 @@
 function ToolBar(props) {
-	this.items = {};
-	this._props = props;
+	var items = {};
+	var groups = {};
+	var _divNode;
 	
-	this.node = this._divNode = $("<div/>");
-	this._divNode.addClass("nineToolBar");
-	this._divNode.css({
-		"background-color":props["bgcolor"],
-		"padding":props["padding"],
-		"margin":props["margin"],
-		"border":props["border"],
-		"-webkit-box-flex":props["box_flex"],
-		"-moz-box-flex":props["box_flex"],
+	init();
+	
+	//this.node
+	Object.defineProperty(this, "node", {
+		get : function () {
+			return _divNode;
+		}
 	});
-}
-
-ToolBar.prototype.addItem = function (text,url) {
-	var item = new ToolItem(url,this._props);
-	this.items[text] = item;
 	
-	this._divNode.append(item.node);
-	
-	return item;
-}
+	this.addItem = function (name,url,advisory) {
+		var item = new ToolItem(name,url,props,advisory || "");
+		items[name] = item;
+		
+		_divNode.append(item.node);
+		
+		return item;
+	}
 
-ToolBar.prototype.itemAt = function (i) {
-	return this.items[i];
+	this.itemAt = function (i) {
+		return items[i];
+	}
+	
+	this.addGroup = function (name, advisory) {
+		var group = new ToolGroup(name, props, advisory || "");
+		groups[name] = group;
+		
+		_divNode.append(group.node);
+		
+		return group;
+	};
+	
+	this.groupAt = function (i) {
+		return groups[i];
+	} ;
+	
+	Object.defineProperties(this, {
+		addItem : {writable : false, enumerable : true, configurable : false,},
+		itemAt : {writable : false, enumerable : true, configurable : false,},
+		addGroup : {writable : false, enumerable : true, configurable : false,},
+		GroupAt : {writable : false, enumerable : true, configurable : false,},
+	})
+	
+	function init() {
+		_divNode = $("<div/>");
+		_divNode.addClass("nineToolBar");
+		_divNode.css({
+			"background-color":props["bgcolor"],
+			"padding":props["padding"],
+			"margin":props["margin"],
+			"border":props["border"],
+			"-webkit-box-flex":props["box_flex"],
+			"-moz-box-flex":props["box_flex"],
+		});
+	}
 }

@@ -124,7 +124,7 @@ function TreeItem(title,parent,lev,props,_data) {
 		});
 		
 		_spanNode.css({
-			"background-color":props["selected_color"],
+			"background-color":props["bgcolor:selected"],
 			"color":props["bgcolor"],
 		});
 	}
