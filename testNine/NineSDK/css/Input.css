@@ -1,0 +1,49 @@
+@charset "utf-8";
+
+div.nineInputDiv{
+	
+}
+
+span.nineInputSpan{
+	vertical-align: middle;
+}
+
+input.nineInputCheckbox{
+	vertical-align: middle;
+}
+
+input.nineInputRadio{
+	vertical-align: middle;
+}
+
+input.nineInputText{
+	vertical-align: middle;
+}
+
+input.nineInputPassword{
+	vertical-align: middle;
+}
+
+input.nineInputRange{
+	vertical-align: middle;
+}
+
+input.nineInputColor{
+	vertical-align: middle;
+	background-color:transparent;
+	border:0;
+}
+
+input.nineInputTextarea{
+	vertical-align:middle;
+	overflow-y: auto;
+}
+
+input.nineInputSelect{
+	vertical-align: middle;
+}
+
+input.nineInputFile{
+	width:68px;
+	overflow-x:hidden;
+}

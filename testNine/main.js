@@ -109,24 +109,24 @@ function main() {
 	
 	dia.addCheckbox(
 		"Favor:","favor",
-		{"value":"basketball","checked":true,"linefeed":false},
-		{"value":"soccer","check":false,"linefeed":true}
+		{"value":"basketball","title":"BASKETBALL","checked":true,"linefeed":false},
+		{"value":"soccer","title":"SOCCER","check":false,"linefeed":true}
 	);
 	
 	dia.addRadio(
 		"Sex:","sex",
-		{"value":"Male","checked":true,"linefeed":false},
-		{"value":"Female","checked":true,"linefeed":true}
+		{"value":"Male","title":"MALE","checked":true,"linefeed":false},
+		{"value":"Female","title":"FEMALE","checked":true,"linefeed":true}
 	);
 	
 	dia.addText(
 		"Name:","name",
-		{"default_value":"Yian","placeholder":"Please type your name.","maxlength":9,"size":300}
+		{"value":"Susie","placeholder":"Please type your name.","maxlength":9,"width":300}
 	);
 	
 	dia.addPassword(
 		"Password:","password",
-		{"default_value":"Yian","placeholder":"Please type password.","maxlength":9,"size":300}
+		{"value":"Susie","placeholder":"Please type password.","maxlength":9,"width":300}
 	);
 	
 	dia.addRange(

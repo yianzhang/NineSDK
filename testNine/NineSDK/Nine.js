@@ -33,6 +33,10 @@ document.writeln("<script src='NineSDK/CallBoard.js'></script>");
 document.writeln("<link rel='stylesheet' type='text/css' href='NineSDK/css/Container.css' />");
 document.writeln("<script src='NineSDK/Container.js'></script>");
 
+//Input
+document.writeln("<link rel='stylesheet' type='text/css' href='NineSDK/css/Input.css' />");
+document.writeln("<script src='NineSDK/Input/Input.js'></script>");
+
 //dialog
 document.writeln("<link rel='stylesheet' type='text/css' href='NineSDK/css/Dialog.css' />");
 document.writeln("<script src='NineSDK/Dialog.js'></script>");

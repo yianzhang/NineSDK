@@ -128,7 +128,7 @@ Dialog.prototype.show = function () {
 }
 
 Dialog.prototype.close = function (e) {
-	var dia = $(document.body).children(".nineDialog").eq(0);
+/*	var dia = $(document.body).children(".nineDialog").eq(0);
 	
 	for(var name in e.data.result) {
 		var tgt = dia.find("[name="+name+"]");
@@ -164,13 +164,13 @@ Dialog.prototype.close = function (e) {
 				break;
 		}}
 	}
-	
+*/	
 	$(document.body).children(".nineDialogShadow").eq(0).detach();
 	$(document.body).children('.nineDialog').eq(0).detach();
 }
 
 Dialog.prototype.confirm = function (e) {
-	var dia = $(document.body).children(".nineDialog").eq(0);
+/*	var dia = $(document.body).children(".nineDialog").eq(0);
 	
 	for(var name in e.data.result) {
 		var tgt = dia.find("[name="+name+"]");
@@ -201,7 +201,7 @@ Dialog.prototype.confirm = function (e) {
 				break;
 		}}
 	}
-	
+*/
 	$(document.body).children(".nineDialogShadow").eq(0).detach();
 	$(document.body).children('.nineDialog').eq(0).detach();
 }
@@ -222,38 +222,9 @@ Dialog.prototype.addCheckbox = function (label,name) {
 	_labelNode.text(label);
 	_tdNode0.append(_labelNode);
 	
-	var args = arguments;
-	for (var i=2;i<args.length;i++) if (typeof args[i] === "object"){
-		var _divNode = $("<div style='display:inline-block' />");
-		
-		var _checkboxNode = $("<input type='checkbox'/>");
-		_checkboxNode.addClass("nineDialogBodyCheckbox");
-		_checkboxNode.attr("name",name);
-		_checkboxNode.attr("value",args[i]["value"]);
-
-		if (typeof args[i]["checked"] === "boolean")
-			_checkboxNode.prop("checked",args[i]["checked"]);
-		_divNode.append(_checkboxNode);
-		
-		var _spanNode = $("<span/>");
-		_spanNode.addClass("nineDialogBodySpan");
-		_spanNode.html(args[i]["value"]+"&nbsp;&nbsp;");
-		_divNode.append(_spanNode);
-		
-		_tdNode1.append(_divNode);
-		if (i<args.length-1 && 
-			typeof args[i]["linefeed"] === "boolean" && 
-			args[i]["linefeed"]) {
-			_tdNode1.append($("<br/>"));
-		}
-	}
-	
-	var value = {};
-	$(this.node).find("[name="+name+"]").val(function(i,v){
-		value[v] = this.checked;
-		return v;
-	});
-	this.result[name] = value;
+	var items = [].slice.call(arguments,2);
+	var checkbox = new Input.Checkbox(name,items);
+	_tdNode1.append(checkbox.node);
 }
 
 Dialog.prototype.addRadio = function (label,name) {
@@ -272,37 +243,9 @@ Dialog.prototype.addRadio = function (label,name) {
 	_labelNode.text(label);
 	_tdNode0.append(_labelNode);
 	
-	var args = arguments;
-	for (var i=2;i<args.length;i++) if (typeof args[i] === "object"){
-		var _divNode = $("<div style='display:inline-block' />");
-		
-		var _radioNode = $("<input type='radio'/>");
-		_radioNode.addClass("nineDialogBodyRadio");
-		_radioNode.attr("name",name);
-		_radioNode.attr("value",args[i]["value"]);
-		if (typeof args[i]["checked"] === "boolean")
-			_radioNode.prop("checked",args[i]["checked"]);
-		_divNode.append(_radioNode);
-		
-		var _spanNode = $("<span/>");
-		_spanNode.addClass("nineDialogBodySpan");
-		_spanNode.html(args[i]["value"]+"&nbsp;&nbsp;");
-		_divNode.append(_spanNode);
-		
-		_tdNode1.append(_divNode);
-		if (i<args.length-1 && 
-			typeof args[i]["linefeed"] === "boolean" && 
-			args[i]["linefeed"]) {
-			_tdNode1.append($("<br/>"));
-		}
-	}
-	
-	var value = "";
-	$(this.node).find("[name="+name+"]").val(function(i,v){
-		if (this.checked) value = v;
-		return v;
-	});
-	this.result[name] = value;
+	var items = [].slice.call(arguments,2);
+	var radio = new Input.Radio(name,items);
+	_tdNode1.append(radio.node);
 }
 
 Dialog.prototype.addText = function (label,name) {
@@ -321,29 +264,9 @@ Dialog.prototype.addText = function (label,name) {
 	_labelNode.text(label);
 	_tdNode0.append(_labelNode);
 	
-	var args = arguments;
-	var props = this._props;
-	var _textNode = $("<input type='text' />");
-	_textNode.addClass("nineDialogBodyText");
-	_textNode.attr("name",name);
-	_textNode.css({
-		"background-color":props["body_bgcolor"],
-		"border":"1px solid "+props["body_font_color"],
-		"color":props["body_font_color"],
-		"font-size":props["body_font_size"],
-		"font-family":props["body_font_family"],
-		"font-weight":props["body_font_weight"],
-	});
-	if (args[2]) {
-		_textNode.attr("value",args[2]["default_value"]);
-		_textNode.attr("placeholder",args[2]["placeholder"]);
-		_textNode.attr("maxlength",args[2]["maxlength"]);
-		_textNode.css("width",args[2]["size"]);
-	}
-	
-	_tdNode1.append(_textNode);
-	
-	this.result[name] = _textNode.val();
+	var args = arguments[2];
+	var text = new Input.Text(name, args || {}, this._props);
+	_tdNode1.append(text.node);
 }
 
 Dialog.prototype.addPassword = function (label,name) {
@@ -362,31 +285,11 @@ Dialog.prototype.addPassword = function (label,name) {
 	_labelNode.text(label);
 	_tdNode0.append(_labelNode);
 	
-	var args = arguments;
-	var props = this._props;
-	var _passwordNode = $("<input type='password' />");
-	_passwordNode.addClass("nineDialogBodyPassword");
-	_passwordNode.attr("name",name);
-	_passwordNode.css({
-		"background-color":props["body_bgcolor"],
-		"border":"1px solid "+props["body_font_color"],
-		"color":props["body_font_color"],
-		"font-size":props["body_font_size"],
-		"font-family":props["body_font_family"],
-		"font-weight":props["body_font_weight"],
-	});
-	if (args[2]) {
-		_passwordNode.attr("value",args[2]["default_value"]);
-		_passwordNode.attr("placeholder",args[2]["placeholder"]);
-		_passwordNode.attr("maxlength",args[2]["maxlength"]);
-		_passwordNode.css("width",args[2]["size"]);
-	}
-	
-	_tdNode1.append(_passwordNode);
-	
-	this.result[name] = _passwordNode.val();
+	var args = arguments[2];
+	var password = new Input.Password(name, args || {}, this._props);
+	_tdNode1.append(password.node);
 }
-
+/*
 Dialog.prototype.addFile = function (label,name) {
 	var _trNode = $("<tr/>");
 	_trNode.addClass("nineDialogBodyTr");
@@ -413,7 +316,7 @@ Dialog.prototype.addFile = function (label,name) {
 	
 	this.result[name] = _fileNode.val();
 }
-
+*/
 Dialog.prototype.addRange = function (label,name) {
 	var _trNode = $("<tr/>");
 	_trNode.addClass("nineDialogBodyTr");
@@ -430,47 +333,9 @@ Dialog.prototype.addRange = function (label,name) {
 	_labelNode.text(label);
 	_tdNode0.append(_labelNode);
 	
-	var args = arguments;
-	var props = this._props;
-	var _divNode = $("<div style='display:inline-block' />");
-	var _rangeNode = $("<input type='range' />");
-	_rangeNode.addClass("nineDialogBodyRange");
-	var _showNode = $("<input type='number'/>");
-	_showNode.addClass("nineDialogBodyShow");
-	_showNode.css({
-		"background-color":props["body_bgcolor"],
-		"border":"1px solid "+props["body_font_color"],
-		"color":props["body_font_color"],
-		"font-size":props["body_font_size"],
-		"font-family":props["body_font_family"],
-		"font-weight":props["body_font_weight"],
-	});
-	_rangeNode.attr("name",name);
-	if (args[2]) {
-		_rangeNode.attr("min",args[2]["min"]);
-		_rangeNode.attr("max",args[2]["max"]);
-		_rangeNode.attr("step",args[2]["step"]);
-		_rangeNode.val(args[2]["default_value"]);
-		_rangeNode.css("width",args[2]["size"]);
-		_showNode.attr("min",args[2]["min"]);
-		_showNode.attr("max",args[2]["max"]);
-		_showNode.attr("step",args[2]["step"]);
-	}
-	
-	_showNode.val(_rangeNode.val());
-	
-	_showNode.change(function() {
-		_rangeNode.val(_showNode.val());
-	});
-	_rangeNode.change(function(){
-		_showNode.val(_rangeNode.val());
-	});
-	
-	_divNode.append(_rangeNode);
-	_divNode.append(_showNode);
-	_tdNode1.append(_divNode);
-	
-	this.result[name] = _rangeNode.val();
+	var args = arguments[2];
+	var range = new Input.Range(name, args || {}, this._props);
+	_tdNode1.append(range.node);
 }
 
 Dialog.prototype.addColor = function (label,name) {
