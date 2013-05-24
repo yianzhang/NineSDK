@@ -15,7 +15,17 @@ function ToolGroupItem (name, url, group, props, advisory) {
 	//this.node
 	Object.defineProperty(this, "node", {
 		get : function () {
-			return _imgNode;
+			return _imgNode[0];
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//node.object
+	var self = this;
+	Object.defineProperty(_imgNode[0], "object", {
+		get : function () {
+			return self;
 		},
 		enumerable : true,
 		configurable : false,
@@ -38,7 +48,7 @@ function ToolGroupItem (name, url, group, props, advisory) {
 			function () {
 				$(this).css("background-color","transparent");
 				if (group.status) {
-					group.itemAt(group.status).node.css("background-color",props["bgcolor:selected"]);
+					$(group.itemAt(group.status).node).css("background-color",props["bgcolor:selected"]);
 				}
 			}
 		);

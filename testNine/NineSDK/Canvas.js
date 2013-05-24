@@ -15,7 +15,17 @@ function Canvas (name,props) {
 	//this.node
 	Object.defineProperty(this, "node", {
 		get : function () {
-			return _canvasNode;
+			return _canvasNode[0];
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//node.object
+	var self = this;
+	Object.defineProperty(_canvasNode[0], "object", {
+		get : function () {
+			return self;
 		},
 		enumerable : true,
 		configurable : false,

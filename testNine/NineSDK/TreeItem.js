@@ -1,6 +1,6 @@
 function TreeItem(name,parent,lev,props,_data) {
 	var items ={};
-	var count = 0;
+//	var count = 0;
 	var data = _data || {};
 	var _liNode, _triNode, _checkboxNode, _spanNode, _ulNode;
 	
@@ -18,7 +18,17 @@ function TreeItem(name,parent,lev,props,_data) {
 	//this.node
 	Object.defineProperty(this, "node", {
 		get : function () {
-			return _liNode;
+			return _liNode[0];
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//node.object
+	var self = this;
+	Object.defineProperty(_liNode[0], "object", {
+		get : function () {
+			return self;
 		},
 		enumerable : true,
 		configurable : false,
@@ -41,7 +51,7 @@ function TreeItem(name,parent,lev,props,_data) {
 		enumerable : true,
 		configurable : false,
 	});
-	
+/*
 	//this.items
 	Object.defineProperty(this, "items", {
 		get : function () {
@@ -50,7 +60,7 @@ function TreeItem(name,parent,lev,props,_data) {
 		enumerable : true,
 		configurable : false,
 	});
-	
+*//*	
 	//this.itemLength
 	Object.defineProperty(this, "itemLength", {
 		get : function () {
@@ -59,7 +69,7 @@ function TreeItem(name,parent,lev,props,_data) {
 		enumerable : true,
 		configurable : false,
 	});
-	
+*/	
 	//this.data
 	Object.defineProperty(this, "data", {
 		get : function () {
@@ -73,43 +83,52 @@ function TreeItem(name,parent,lev,props,_data) {
 		var item = new TreeItem(name,this,lev+1,props,data || {});
 		
 		items[name] = item;
-		count++;
+//		count++;
 		_ulNode.append(item.node);
 		
 		return item;
 	}
 	
+	this.deleteItem = function (name) {
+		if (items[name]) {
+			$(items[name].node).remove();
+			delete items[name];
+//			--count;
+			return true;
+		}
+		return false;
+	};
+	
 	this.isChecked = function () {
 		return _checkboxNode[0].checked;
 	}
 	
-	this.filterCheckedItems = function () {
+	this.filterCheckedItems = function (bool) {
 		var result = [];
-		for (var i in items) {
-			if (items[i].isChecked()) {
-				result.push(items[i]);
-			}
+		
+		if (this.isChecked()) {
+			result.push(this);
 			
-			$.merge(result,items[i].filterCheckedItems());
+			if (!bool) return result;
+		}
+		
+		for (var i in items) {
+			$.merge(result,items[i].filterCheckedItems(bool));
 		}
 		
 		return result;
 	}
 	
-	this.deleteItems = function() {
+	this.del = function() {
 		//remove children & children'children & ...
 		for (var i in items)
-			items[i].deleteItems();
+			items[i].del();
 		
 		//remove from parent.items
 		if (parent) {
-			delete parent.items[name];
-			parent.count--;
+			parent.deleteItem(name);
 			parent = undefined;
 		}
-			
-		//remove Dom node
-		_liNode.remove();
 	}
 	
 	this.itemAt = function (i) {

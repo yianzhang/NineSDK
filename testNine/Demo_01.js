@@ -64,7 +64,7 @@ function main() {
 		"bgcolor":"#00CCFF",
 		"bgcolor:selected":"#FF66FF",
 		"width":"200px",
-		"height": (ctn1.node.height()-10)+"px",
+		"height": ($(ctn1.node).height()-10)+"px",
 		"padding":"5px",
 		"margin":"0 5px 0 0",
 		"font_color":"yellow",
@@ -74,32 +74,33 @@ function main() {
 	
 	var canvas = ctn1.addCanvas("canvas", {
 		"border" : "1px #00CCFF solid",
-		"width" : (ctn1.node.width()-2-tree.node.outerWidth(true))+"px",
-		"height" : (ctn1.node.height()-2)+"px",
+		"width" : ($(ctn1.node).width()-2-$(tree.node).outerWidth(true))+"px",
+		"height" : ($(ctn1.node).height()-2)+"px",
 //		"box_flex" : 1,
 	});
 	
 	view.resize(function () {
-		tree.node.height((ctn1.node.height()-10)+"px");
-		canvas.node.width((ctn1.node.width()-2-tree.node.outerWidth(true))+"px");
-		canvas.node.height((ctn1.node.height()-2)+"px");
+		$(tree.node).height(($(ctn1.node).height()-10)+"px");
+		$(canvas.node).width(($(ctn1.node).width()-2-$(tree.node).outerWidth(true))+"px");
+		$(canvas.node).height(($(ctn1.node).height()-2)+"px");
 	});
 	
 	//add a listener to toolItem
 	toolBar.itemAt("refresh0").click(function() {
-		cb.writeln(tree.filterCheckedItems().map(function(x){return x.title;}).join(", "));
+		cb.writeln(tree.filterCheckedItems(true).map(function(x){return x.name;}).join(", "));
+		cb.writeln(tree.filterCheckedItems().map(function(x){return x.name;}).join(", "));
 	});
 	toolBar.itemAt("refresh1").click(function() {
-		cb.writeln(tree.filterCheckedItems().map(function(x){return x.title;}).join(", "));
+		cb.writeln(tree.filterCheckedItems(true).map(function(x){return x.name;}).join(", "));
 		tree.deleteCheckedItems();
 		cb.writeln("Deletion Over!");
 	});
 	toolBar.itemAt("refresh2").click(function() {
 		var item = tree.selectedItem;
 		if (item)
-			cb.writeln(item.title);
+			cb.writeln(item.name);
 		else
-			cb.writeln("null");
+			cb.writeln("undefined");
 	});
 	
 	var fileImp = model.newTextReader();

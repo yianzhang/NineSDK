@@ -2,7 +2,7 @@ function Tree(name,props) {
 	var self = this;
 	
 	var items = {};
-	var count = 0;
+//	var count = 0;
 	var sltItem = undefined;
 	var _divNode, _ulNode;
 	
@@ -20,7 +20,17 @@ function Tree(name,props) {
 	//this.node
 	Object.defineProperty(this, "node", {
 		get : function () {
-			return _divNode;
+			return _divNode[0];
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//node.object
+	var self = this;
+	Object.defineProperty(_divNode[0], "object", {
+		get : function () {
+			return self;
 		},
 		enumerable : true,
 		configurable : false,
@@ -30,30 +40,45 @@ function Tree(name,props) {
 		var item = new TreeItem(name,this,1,props,data || {});
 		
 		items[name] = item;
-		count++;
+//		count++;
 		_ulNode.append(item.node);
 		
 		return item;
 	};
 	
-	this.filterCheckedItems = function () {
+	this.deleteItem = function(name) {
+		if (items[name]) {
+			$(items[name].node).remove();
+			delete items[name];
+//			--count;
+			return true;
+		}
+		return false;
+	};
+	
+	this.filterCheckedItems = function (bool) {
 		var result = [];
+		
 		for (var i in items) {
-			if (items[i].isChecked()) {
-				result.push(items[i]);
-			}
-			
-			$.merge(result,items[i].filterCheckedItems());
+			$.merge(result,items[i].filterCheckedItems(bool));
 		}
 		
 		return result;
 	};
 	
 	this.deleteCheckedItems = function () {
-		var tmp = this.filterCheckedItems();
+		var tmp = this.filterCheckedItems(true);
+		for (var i=0;i<tmp.length;++i) {
+			if (tmp[i] = sltItem) {
+				sltItem = undefined;
+				break;
+			}
+		}
+		
+		var tmp = this.filterCheckedItems(false);
 		for (var i=0;i<tmp.length;i++) {
 			if (tmp[i]) {
-				tmp[i].deleteItems();
+				tmp[i].del();
 			}
 		}
 	};
@@ -63,7 +88,7 @@ function Tree(name,props) {
 	this.itemAt = function (i) {
 		return items[i];
 	};
-	
+/*
 	//this.items
 	Object.defineProperty(this, "items", {
 		get : function () {
@@ -72,7 +97,7 @@ function Tree(name,props) {
 		enumerable : true,
 		configurable : false,
 	});
-	
+*/	
 	//this.selectedItem
 	Object.defineProperty(this, "selectedItem", {
 		get : function () {
@@ -85,7 +110,7 @@ function Tree(name,props) {
 	this.empty = function () {
 		_ulNode.empty();
 		items = {};
-		count = 0;
+//		count = 0;
 		sltItem = undefined;
 	};
 	
@@ -118,6 +143,7 @@ function Tree(name,props) {
 		change : {writable : false, enumerable : true, configurable : false,},
 		itemAt : {writable : false, enumerable : true, configurable : false,},
 		empty : {writable : false, enumerable : true, configurable : false,},
+		genFromGrid : {writable : false, enumerable : true, configurable : false,},
 	});
 
 	function init() {
@@ -140,7 +166,7 @@ function Tree(name,props) {
 		_divNode.append(_ulNode);
 		
 		_divNode.on("click","span.nineTreeItemText",function() {
-			var list = $(this).parentsUntil("div","li");
+/*			var list = $(this).parentsUntil("div","li");
 			list = [].reverse.apply(list);
 						
 			var item = self;
@@ -152,7 +178,8 @@ function Tree(name,props) {
 					}
 				}
 			}
-			
+*/
+			var item = $(this).parent()[0].object;		
 			if (sltItem == item) {
 				item.unselected();
 				sltItem = undefined;

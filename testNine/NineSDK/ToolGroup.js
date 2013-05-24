@@ -17,7 +17,17 @@ function ToolGroup (name,props, advisory) {
 	//this.node
 	Object.defineProperty(this, "node", {
 		get : function () {
-			return _divNode;
+			return _divNode[0];
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//node.object
+	var self = this;
+	Object.defineProperty(_divNode[0], "object", {
+		get : function () {
+			return self;
 		},
 		enumerable : true,
 		configurable : false,
@@ -66,7 +76,7 @@ function ToolGroup (name,props, advisory) {
 				$(this).css("background-color","transparent");
 				status = undefined;
 			} else {
-				items[status].node.css("background-color","transparent");
+				$(items[status].node).css("background-color","transparent");
 				$(this).css("background-color",props["bgcolor:selected"]);
 				status = target;
 			}

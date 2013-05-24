@@ -16,7 +16,17 @@ function MenuItem(name,lev,props) {
 	//this.node
 	Object.defineProperty(this, "node", {
 		get : function () {
-			return _liNode;
+			return _liNode[0];
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
+	//node.object
+	var self = this;
+	Object.defineProperty(_liNode[0], "object", {
+		get : function () {
+			return self;
 		},
 		enumerable : true,
 		configurable : false,
