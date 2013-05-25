@@ -3,6 +3,15 @@ Input.Text = function (name, args, props) {
 	
 	init();
 	
+	//this.name
+	Object.defineProperty(this, "name", {
+		get : function () {
+			return name;
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
 	//this.node
 	Object.defineProperty(this, "node", {
 		get : function () {
@@ -13,22 +22,26 @@ Input.Text = function (name, args, props) {
 	});
 	
 	//node.object
-	var object = this;
+	var _object = this;
 	Object.defineProperty(_divNode[0], "object", {
 		get : function () {
-			return object;
+			return _object;
 		},
 		enumerable : true,
 		configurable : false,
 	});
 	
-	this.getValue = function () {		
-		return _textNode.val();
-	};
+	//this.value
+	Object.defineProperty(this, "value", {
+		get : getValue,
+		set : setValue,
+		enumerable : true,
+		configurable : false,
+	});
 	
-	this.setValue = function (val) {		
-		_textNode.val(val);
-	};
+	this.getValue = getValue;
+	
+	this.setValue = setValue;
 	
 	Object.defineProperties(this, {
 		getValue : {writable : false, enumerable : true, configurable : false,},
@@ -41,21 +54,29 @@ Input.Text = function (name, args, props) {
 		
 		_textNode = $("<input type='text' />");
 		_textNode.addClass("nineInputText");
-		_textNode.attr("name",name);
 		_textNode.css({
-			"background-color":props["body_bgcolor"],
-			"border":"1px solid "+props["body_font_color"],
-			"color":props["body_font_color"],
-			"font-size":props["body_font_size"],
-			"font-family":props["body_font_family"],
-			"font-weight":props["body_font_weight"],
+			"background-color":props["bgcolor"],
+			"border":props["border"],
+			"color":props["font_color"],
+			"font-size":props["font_size"],
+			"font-family":props["font_family"],
+			"font-weight":props["font_weight"],
 		});
-
+		
+		_textNode.attr("name",name);
 		_textNode.attr("value",args["value"]);
 		_textNode.attr("placeholder",args["placeholder"]);
 		_textNode.attr("maxlength",args["maxlength"]);
 		_textNode.css("width",args["width"]);
 
 		_divNode.append(_textNode);
+	}
+	
+	function getValue() {		
+		return _textNode.val();
+	}
+	
+	function setValue(val) {		
+		_textNode.val(val);
 	}
 }

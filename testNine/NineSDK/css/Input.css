@@ -28,6 +28,10 @@ input.nineInputRange{
 	vertical-align: middle;
 }
 
+input.nineInputNumber{
+	vertical-align: middle;
+}
+
 input.nineInputColor{
 	vertical-align: middle;
 	background-color:transparent;

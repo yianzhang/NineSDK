@@ -109,6 +109,8 @@ function main() {
 	fileImp.read(function() {
 		var x = model.Reader.readSTL(fileImp);
 		tree.genFromGrid(x);
+		
+		//
 	});
 	
 	//try

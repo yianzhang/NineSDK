@@ -107,6 +107,8 @@ function main() {
 		"body_font_color":"white",
 	});
 	
+	dia.addHeadline("9233");
+	
 	dia.addCheckbox(
 		"Favor:","favor",
 		{"value":"basketball","title":"BASKETBALL","checked":true,"linefeed":false},
@@ -129,28 +131,30 @@ function main() {
 		{"value":"Susie","placeholder":"Please type password.","maxlength":9,"width":300}
 	);
 	
+	dia.addHeadline("7*1319");
+	
 	dia.addRange(
 		"Length:","length",
-		{min:0,max:100,step:0.1,default_value:33,size:"100px"}
+		{min:0,max:100,step:0.1,value:33,size:"100px"}
 	);
 	
 	dia.addColor(
 		"Color:","color",
-		{default_value:"#00ccff"}
+		{value:"#00ccff"}
 	);
 	
 	dia.addSelect(
 		"EDU:","edu",
-		{value:"Primary school",selected:false},
-		{value:"Junior high school",selected:false},
-		{value:"Senior high school",selected:false},
-		{value:"College",selected:false},
-		{value:"University",selected:true}
+		{value:"p",title:"Primary school",selected:false},
+		{value:"j",title:"Junior high school",selected:false},
+		{value:"s",title:"Senior high school",selected:true},
+		{value:"c",title:"College",selected:false},
+		{value:"u",title:"University",selected:false}
 	);
 	
 	dia.addTextarea(
 		"Intro:","intro",
-		{"default_value":"9233","size_width":"300px","size_height":"100px"}
+		{"value":"9233","placeholder":"type something","width":"300px","height":"100px"}
 	);
 	
 	//add a textreader

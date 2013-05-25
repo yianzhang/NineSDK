@@ -3,6 +3,15 @@ Input.Range = function (name, args, props) {
 	
 	init();
 	
+	//this.name
+	Object.defineProperty(this, "name", {
+		get : function () {
+			return name;
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
 	//this.node
 	Object.defineProperty(this, "node", {
 		get : function () {
@@ -13,23 +22,26 @@ Input.Range = function (name, args, props) {
 	});
 	
 	//node.object
-	var object = this;
+	var _object = this;
 	Object.defineProperty(_divNode[0], "object", {
 		get : function () {
-			return object;
+			return _object;
 		},
 		enumerable : true,
 		configurable : false,
 	});
 	
-	this.getValue = function () {		
-		return _rangeNode.val();
-	};
+	//this.value
+	Object.defineProperty(this, "value", {
+		get : getValue,
+		set : setValue,
+		enumerable : true,
+		configurable : false,
+	});
 	
-	this.setValue = function (val) {		
-		_rangeNode.val(val);
-		_numberNode.val(val);
-	};
+	this.getValue = getValue;
+	
+	this.setValue = setValue;
 	
 	Object.defineProperties(this, {
 		getValue : {writable : false, enumerable : true, configurable : false,},
@@ -42,26 +54,27 @@ Input.Range = function (name, args, props) {
 		
 		var _wrapNode = $("<div style='display:inline-block' />");
 		
-		var _rangeNode = $("<input type='range' />");
+		_rangeNode = $("<input type='range' />");
 		_rangeNode.addClass("nineInputRange");
-		_rangeNode.attr("name",name);
 				
-		var _numberNode = $("<input type='number'/>");
+		_numberNode = $("<input type='number'/>");
 		_numberNode.addClass("nineInputNumber");
 		_numberNode.css({
-			"background-color":props["body_bgcolor"],
-			"border":"1px solid "+props["body_font_color"],
-			"color":props["body_font_color"],
-			"font-size":props["body_font_size"],
-			"font-family":props["body_font_family"],
-			"font-weight":props["body_font_weight"],
+			"background-color":props["bgcolor"],
+			"border":props["border"],
+			"color":props["font_color"],
+			"font-size":props["font_size"],
+			"font-family":props["font_family"],
+			"font-weight":props["font_weight"],
 		});
 		
+		_rangeNode.attr("name",name);
 		_rangeNode.attr("min",args["min"]);
 		_rangeNode.attr("max",args["max"]);
 		_rangeNode.attr("step",args["step"]);
 		_rangeNode.css("width",args["size"]);
 		_rangeNode.val(args["value"]);
+		
 		_numberNode.attr("min",args["min"]);
 		_numberNode.attr("max",args["max"]);
 		_numberNode.attr("step",args["step"]);
@@ -78,5 +91,14 @@ Input.Range = function (name, args, props) {
 		_wrapNode.append(_numberNode);
 		
 		_divNode.append(_wrapNode);
+	}
+	
+	function getValue() {		
+		return _rangeNode.val();
+	}
+	
+	function setValue(val) {		
+		_rangeNode.val(val);
+		_numberNode.val(val);
 	}
 }

@@ -3,6 +3,15 @@ Input.Checkbox = function (name, items, props) {
 	
 	init();
 	
+	//this.name
+	Object.defineProperty(this, "name", {
+		get : function () {
+			return name;
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
 	//this.node
 	Object.defineProperty(this, "node", {
 		get : function () {
@@ -13,35 +22,26 @@ Input.Checkbox = function (name, items, props) {
 	});
 	
 	//node.object
-	var object = this;
+	var _object = this;
 	Object.defineProperty(_divNode[0], "object", {
 		get : function () {
-			return object;
+			return _object;
 		},
 		enumerable : true,
 		configurable : false,
 	});
 	
-	this.getValue = function () {
-		var value = {};
-		_divNode.find("[name="+name+"]").val(function(i,v){
-			value[v] = this.checked;
-			return v;
-		});
-		
-		return value;
-	};
+	//Object.value
+	Object.defineProperty(this, "value", {
+		get : getValue,
+		set : setValue,
+		enumerable : true,
+		configurable : false,
+	});
 	
-	this.setValue = function (val) {
-		if (typeof val != "object") {
-			return;
-		}
-		
-		_divNode.find("[name="+name+"]").val(function(i,v){
-			$(this).prop("checked",val[v]);
-			return v;
-		});
-	};
+	this.getValue = getValue;
+	
+	this.setValue = setValue;
 	
 	Object.defineProperties(this, {
 		getValue : {writable : false, enumerable : true, configurable : false,},
@@ -59,13 +59,20 @@ Input.Checkbox = function (name, items, props) {
 			
 			var _checkboxNode = $("<input type='checkbox'/>");
 			_checkboxNode.addClass("nineInputCheckbox");
-			_checkboxNode.attr("name",name);
-			_checkboxNode.attr("value",item["value"]);
-			_checkboxNode.prop("checked",item["checked"]);
 			
 			var _spanNode = $("<span/>");
 			_spanNode.addClass("nineInputSpan");
 			_spanNode.html(item["title"]+"&nbsp;&nbsp;");
+			_spanNode.css({
+				"color" : "font_color",
+				"font-size" : "font_size",
+				"font-family" : "font_family",
+				"font-weight" : "font_weight",
+			});
+			
+			_checkboxNode.attr("name",name);
+			_checkboxNode.attr("value",item["value"]);
+			_checkboxNode.prop("checked",item["checked"]);
 			
 			_wrapNode.append(_checkboxNode);
 			_wrapNode.append(_spanNode);
@@ -78,5 +85,26 @@ Input.Checkbox = function (name, items, props) {
 				_divNode.append($("<br/>"));
 			}
 		}
+	}
+	
+	function getValue() {
+		var value = {};
+		_divNode.find("[name="+name+"]").val(function(i,v){
+			value[v] = this.checked;
+			return v;
+		});
+		
+		return value;
+	}
+	
+	function setValue(val) {
+		if (typeof val != "object") {
+			return;
+		}
+		
+		_divNode.find("[name="+name+"]").val(function(i,v){
+			$(this).prop("checked",val[v]);
+			return v;
+		});
 	}
 }

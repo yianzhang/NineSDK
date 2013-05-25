@@ -3,6 +3,15 @@ Input.Radio = function (name, items, props) {
 	
 	init();
 	
+	//this.name
+	Object.defineProperty(this, "name", {
+		get : function () {
+			return name;
+		},
+		enumerable : true,
+		configurable : false,
+	});
+	
 	//this.node
 	Object.defineProperty(this, "node", {
 		get : function () {
@@ -13,32 +22,26 @@ Input.Radio = function (name, items, props) {
 	});
 	
 	//node.object
-	var object = this;
+	var _object = this;
 	Object.defineProperty(_divNode[0], "object", {
 		get : function () {
-			return object;
+			return _object;
 		},
 		enumerable : true,
 		configurable : false,
 	});
 	
-	this.getValue = function () {
-		var value = {};
-		_divNode.find("[name="+name+"]").val(function(i,v){
-			if (this.checked) value = v;
-			return v;
-		});
-		
-		return value;
-	};
+	//this.value
+	Object.defineProperty(this, "value", {
+		get : getValue,
+		set : setValue,
+		enumerable : true,
+		configurable : false,
+	});
 	
-	this.setValue = function (val) {
-		if (typeof val != "string") {
-			return;
-		}
-		
-		_divNode.find("[name="+name+"]").val(val);
-	};
+	this.getValue = getValue;
+	
+	this.setValue = setValue;
 	
 	Object.defineProperties(this, {
 		getValue : {writable : false, enumerable : true, configurable : false,},
@@ -56,13 +59,20 @@ Input.Radio = function (name, items, props) {
 			
 			var _radioNode = $("<input type='radio'/>");
 			_radioNode.addClass("nineInputRadio");
-			_radioNode.attr("name",name);
-			_radioNode.attr("value",item["value"]);
-			_radioNode.prop("checked",item["checked"]);
 			
 			var _spanNode = $("<span/>");
 			_spanNode.addClass("nineInputSpan");
 			_spanNode.html(item["title"]+"&nbsp;&nbsp;");
+			_spanNode.css({
+				"color" : "font_color",
+				"font-size" : "font_size",
+				"font-family" : "font_family",
+				"font-weight" : "font_weight",
+			});
+			
+			_radioNode.attr("name",name);
+			_radioNode.attr("value",item["value"]);
+			_radioNode.prop("checked",item["checked"]);
 			
 			_wrapNode.append(_radioNode);
 			_wrapNode.append(_spanNode);
@@ -75,5 +85,23 @@ Input.Radio = function (name, items, props) {
 				_divNode.append($("<br/>"));
 			}
 		}
+	}
+	
+	function getValue() {
+		var value = {};
+		_divNode.find("[name="+name+"]").val(function(i,v){
+			if (this.checked) value = v;
+			return v;
+		});
+		
+		return value;
+	}
+	
+	function setValue(val) {
+		if (typeof val != "string") {
+			return;
+		}
+		
+		_divNode.find("[name="+name+"]").val(val);
 	}
 }
