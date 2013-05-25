@@ -1,6 +1,3 @@
-//jQuery
-document.writeln("<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>");
-
 //Constant
 var LIMIT_IN_SAME_FACE = Math.PI/6;
 var LIMIT_IN_SAME_POLYLINE = Math.PI/6;
