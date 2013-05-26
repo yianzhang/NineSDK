@@ -1,5 +1,7 @@
 function main() {
 	var ct = view.container;
+	
+	//menu
 	var menu = ct.addMenu("menu",{
 		"bgcolor":"#00CCFF",
 		"bgcolor:hover":"#FF66FF",
@@ -15,8 +17,20 @@ function main() {
 		"font1_family":"",
 		"font1_weight":"",
 	});
+	
 	var menuFile = menu.addItem("file","File");
-	var menuImp = menuFile.addItem("imp","Imp...");
+	var menuOpen = menuFile.addItem("open","Open...");
+	var menuSave = menuFile.addItem("save","SaveAs...");
+	var menuClose = menuFile.addItem("close","Close");
+	
+	var menuView = menu.addItem("view", "View");
+	var menuDisp = menuView.addItem("display", "Display Attribute Setting");
+	var menuRotate = menuView.addItem("rotate", "Rotate");
+	var menuTrans = menuView.addItem("trans", "Translate");
+	var menuZoom = menuView.addItem("zoom", "Zoom");
+	
+	var menuGrid = menu.addItem("grid", "Grid");
+	var menuPara = menuGrid.addItem("para", "Parameter");
 	
 	//add a toobar
 	var toolBar = ct.addToolBar("toolbar",{
@@ -45,7 +59,6 @@ function main() {
 	var ctn1 = view.container.addContainer("ctn1",{
 		"box_orient":"horizontal",
 		"margin":"0 0 5px 0",
-
 		"box_flex":"1",
 	});
 	
@@ -65,22 +78,200 @@ function main() {
 		"height": ($(ctn1.node).height()-10)+"px",
 		"padding":"5px",
 		"margin":"0 5px 0 0",
-		"font_color":"yellow",
+		"font_color":"white",
+		"font_color:selected" : "white",
 		"font_size":"20px",
 		"font_weight":"normal",
 	});
 	
+	//add a canvas
 	var canvas = ctn1.addCanvas("canvas", {
 		"border" : "1px #00CCFF solid",
 		"width" : ($(ctn1.node).width()-2-$(tree.node).outerWidth(true))+"px",
 		"height" : ($(ctn1.node).height()-2)+"px",
-//		"box_flex" : 1,
 	});
 	
 	view.resize(function () {
 		$(tree.node).height(($(ctn1.node).height()-10)+"px");
 		$(canvas.node).width(($(ctn1.node).width()-2-$(tree.node).outerWidth(true))+"px");
 		$(canvas.node).height(($(ctn1.node).height()-2)+"px");
+	});
+	
+	//add a dialog
+	var dlgParaBody = view.addDialog("paraBody", "Parameters of Body", {
+		"head_bgcolor":"#00CCFF",
+		"head_padding":"5px",
+		"head_font_color":"white",
+		"body_bgcolor":"white",
+//		"body_font_color":"white",
+	});
+	
+	dlgParaBody.addHeadline("Display Attribute");
+	dlgParaBody.addColor(
+		"Color:", "color", 
+		{value:"#000000"}
+	);
+	dlgParaBody.addRange(
+		"Alpha:", "alpha", 
+		{min:0,max:1,step:0.01,value:0,size:"100px"}
+	);
+	dlgParaBody.addSelect(
+		"Display Style:", "display",
+		{value:"color", title:"Colored Surface", selected:true},
+		{value:"alpha", title:"Translucence", selected:false},
+		{value:"wire", title:"Wireframe", selected:false},
+		{value:"stereo", title:"Stereo Display", selected:false}
+	);
+	
+	var dlgParaFace = view.addDialog("paraBody", "Parameters of Face", {
+		"head_bgcolor":"#00CCFF",
+		"head_padding":"5px",
+		"head_font_color":"white",
+		"body_bgcolor":"white",
+//		"body_font_color":"white",
+	});
+	
+	dlgParaFace.addHeadline("Display Attribute");
+	dlgParaFace.addColor(
+		"Color:", "color", 
+		{value:"#000000"}
+	);
+	dlgParaFace.addRange(
+		"Alpha:", "alpha", 
+		{min:0,max:1,step:0.01,value:0,size:"100px"}
+	);
+	dlgParaFace.addSelect(
+		"Display Style:", "display",
+		{value:"color", title:"Colored Surface", selected:true},
+		{value:"alpha", title:"Translucence", selected:false},
+		{value:"wire", title:"Wireframe", selected:false},
+		{value:"stereo", title:"Stereo Display", selected:false}
+	);
+	
+	var dlgParaLoop = view.addDialog("paraBody", "Parameters of Loop", {
+		"head_bgcolor":"#00CCFF",
+		"head_padding":"5px",
+		"head_font_color":"white",
+		"body_bgcolor":"white",
+//		"body_font_color":"white",
+	});
+	
+	dlgParaLoop.addHeadline("Display Attribute");
+	dlgParaLoop.addColor(
+		"Color:", "color", 
+		{value:"#000000"}
+	);
+	dlgParaLoop.addRange(
+		"Alpha:", "alpha", 
+		{min:0,max:1,step:0.01,value:0,size:"100px"}
+	);
+	dlgParaLoop.addSelect(
+		"Display Style:", "display",
+		{value:"color", title:"Colored Surface", selected:true},
+		{value:"alpha", title:"Translucence", selected:false},
+		{value:"wire", title:"Wireframe", selected:false},
+		{value:"stereo", title:"Stereo Display", selected:false}
+	);
+	
+	var dlgParaPolyline = view.addDialog("paraBody", "Parameters of Polyline", {
+		"head_bgcolor":"#00CCFF",
+		"head_padding":"5px",
+		"head_font_color":"white",
+		"body_bgcolor":"white",
+//		"body_font_color":"white",
+	});
+	
+	dlgParaPolyline.addHeadline("Display Attribute");
+	dlgParaPolyline.addColor(
+		"Color:", "color", 
+		{value:"#000000"}
+	);
+	dlgParaPolyline.addRange(
+		"Alpha:", "alpha", 
+		{min:0,max:1,step:0.01,value:0,size:"100px"}
+	);
+	dlgParaPolyline.addSelect(
+		"Display Style:", "display",
+		{value:"color", title:"Colored Surface", selected:true},
+		{value:"alpha", title:"Translucence", selected:false},
+		{value:"wire", title:"Wireframe", selected:false},
+		{value:"stereo", title:"Stereo Display", selected:false}
+	);
+	
+	//add listeners to menu
+	var fileOpen = model.newTextReader();
+	menuOpen.click(fileOpen.trigger);
+	
+	menuClose.click(function() {
+		tree.empty();
+		cb.clear();
+		//
+	});
+	
+	var slt = {};slt.data = {};
+	menuDisp.click(function () {
+		slt = tree.selectedItem;
+		if (!slt) {
+			alert("Not Select Item!");
+			return;
+		}
+		
+		if (slt.data instanceof Body) {
+			dlgParaBody.setValue({
+				"color":slt.data["color"] || "#000000",
+				"alpha":slt.data["alpha"] || 0,
+				"display":slt.data["display"] || "color",
+			});
+			dlgParaBody.show();
+			
+		} else if (slt.data instanceof Face) {
+			dlgParaFace.setValue({
+				"color":slt.data["color"] || "#000000",
+				"alpha":slt.data["alpha"] || 0,
+				"display":slt.data["display"] || "color",
+			});
+			dlgParaFace.show();
+			
+		} else if (slt.data instanceof Loop) {
+			dlgParaLoop.setValue({
+				"color":slt.data["color"] || "#000000",
+				"alpha":slt.data["alpha"] || 0,
+				"display":slt.data["display"] || "color",
+			});
+			dlgParaLoop.show();
+			
+		} else if (slt.data instanceof Polyline) {
+			dlgParaPolyline.setValue({
+				"color":slt.data["color"] || "#000000",
+				"alpha":slt.data["alpha"] || 0,
+				"display":slt.data["display"] || "color",
+			});
+			dlgParaPolyline.show();
+		}
+	});
+	
+	dlgParaBody.confirm(function () {
+		slt.data["color"] = dlgParaBody.result["color"];
+		slt.data["alpha"] = dlgParaBody.result["alpha"];
+		slt.data["display"] = dlgParaBody.result["display"];
+	});
+	
+	dlgParaFace.confirm(function () {
+		slt.data["color"] = dlgParaFace.result["color"];
+		slt.data["alpha"] = dlgParaFace.result["alpha"];
+		slt.data["display"] = dlgParaFace.result["display"];
+	});
+	
+	dlgParaLoop.confirm(function () {
+		slt.data["color"] = dlgParaLoop.result["color"];
+		slt.data["alpha"] = dlgParaLoop.result["alpha"];
+		slt.data["display"] = dlgParaLoop.result["display"];
+	});
+	
+	dlgParaPolyline.confirm(function () {
+		slt.data["color"] = dlgParaPolyline.result["color"];
+		slt.data["alpha"] = dlgParaPolyline.result["alpha"];
+		slt.data["display"] = dlgParaPolyline.result["display"];
 	});
 	
 	//add a listener to toolItem
@@ -101,15 +292,10 @@ function main() {
 			cb.writeln("undefined");
 	});
 	
-	var fileImp = model.newTextReader();
-	menuImp.click(fileImp.trigger);
-	
-	fileImp.read(function() {
-		var x = Grid.Reader.readSTL(fileImp);
+	fileOpen.read(function() {
+		var x = Grid.Reader.readSTL(fileOpen);
 		tree.genFromGrid(x);
 		
 		//
 	});
-	
-	//try
 }

@@ -76,7 +76,9 @@ Input.Password = function (name, args, props) {
 		return _passwordNode.val();
 	}
 	
-	function setValue(val) {		
+	function setValue(val) {
+		if (val==undefined) return;
+			
 		_passwordNode.val(val);
 	}
 }

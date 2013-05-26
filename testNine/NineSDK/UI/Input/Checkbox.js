@@ -98,6 +98,8 @@ Input.Checkbox = function (name, items, props) {
 	}
 	
 	function setValue(val) {
+		if (val==undefined) return;
+		
 		if (typeof val != "object") {
 			return;
 		}

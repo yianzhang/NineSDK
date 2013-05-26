@@ -88,7 +88,9 @@ Input.Color = function (name, args, props) {
 		return _colorNode.val();
 	}
 	
-	function setValue(val) {		
+	function setValue(val) {
+		if (val == undefined) return;
+			
 		_colorNode.val(val);
 		_spanNode.val(val);
 	}

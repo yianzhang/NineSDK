@@ -60,10 +60,10 @@ function MenuItem(name,title,lev,props) {
 	function init () {	
 		_liNode = $("<li/>");
 		_liNode.addClass("nineMenuItem"+(lev>1?2:lev));
-		_liNode.html((lev>0?"&nbsp;&nbsp;":"")+title);
+		_liNode.html((lev>0?"&nbsp;&nbsp;":"")+title+(lev>0?"&nbsp;&nbsp;":""));
 		_liNode.css({
 			"background-color":props["bgcolor"],
-			"width":props["item_width"],
+			"min-width":props["item_width"],
 			"height":props["item_height"],
 			"line-height":props["item_height"],
 			"color":props["font_color"],
@@ -74,20 +74,20 @@ function MenuItem(name,title,lev,props) {
 		_liNode.hover(
 			function () {
 				$(this).css("background-color",props["bgcolor:hover"]);
+				if (lev>0) {
+					_ulNode.css({
+						"left":_liNode.width(),
+					});
+				}
 			},
 			function () {
 				$(this).css("background-color",props["bgcolor"]);
 			}
 		);
-		
+
 		_ulNode = $("<ul/>");
 		_ulNode.addClass("nineMenuList"+(lev>0?2:1));
-		if (lev>0) {
-			_ulNode.css({
-				"left":props["item_width"],
-			});
-		}
-			
+
 		_liNode.append(_ulNode);
 	}
 }

@@ -76,7 +76,9 @@ Input.Text = function (name, args, props) {
 		return _textNode.val();
 	}
 	
-	function setValue(val) {		
+	function setValue(val) {
+		if (val == undefined) return;
+			
 		_textNode.val(val);
 	}
 }

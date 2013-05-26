@@ -86,7 +86,9 @@ Input.Select = function (name, args, props) {
 		return _selectNode.val();
 	}
 	
-	function setValue(val) {		
+	function setValue(val) {
+		if (val == undefined) return;
+			
 		_selectNode.val(val);
 	}
 }

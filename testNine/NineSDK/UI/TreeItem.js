@@ -144,7 +144,8 @@ function TreeItem(name,title,parent,lev,props,_data) {
 		
 		_spanNode.css({
 			"background-color":props["bgcolor:selected"],
-			"color":props["bgcolor"],
+//			"color":props["bgcolor"],
+			"color":props["font_color:selected"],
 		});
 	}
 	

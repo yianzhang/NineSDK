@@ -78,7 +78,9 @@ Input.Textarea = function (name, args, props) {
 		return _textareaNode.val();
 	}
 	
-	function setValue(val) {		
+	function setValue(val) {
+		if (val == undefined) return;
+		
 		_textareaNode.val(val);
 	}
 }

@@ -2,6 +2,7 @@ function Dialog (name,title,props) {
 	var result = {};
 	var items = {};
 	var _divNode, _shadowNode, _tableNode;
+	var _confirmNode, _closeNode;
 
 	init();
 
@@ -46,11 +47,28 @@ function Dialog (name,title,props) {
 		return items[i];
 	};
 	
+	this.setValue = function (val) {
+		for (var i in val) {
+			if (items[i]) {
+				items[i].value = val[i];
+				result[i] = items[i].value;
+			}
+		}
+	};
+	
 	this.show = show;
 	
-	this.close = close;
+	this.close = function(handler) {		
+		if ($.isFunction(handler)) {
+			_closeNode.click(handler);
+		}
+	}
 	
-	this.confirm = confirm;
+	this.confirm = function(handler) {
+		if ($.isFunction(handler)) {
+			_confirmNode.click(handler);
+		}
+	}
 	
 	this.addHeadline = function (title) {
 		var _trNode = $("<tr/>");
@@ -188,6 +206,7 @@ function Dialog (name,title,props) {
 		show : {writable : false, enumerable : true, configurable : false},
 		close : {writable : false, enumerable : true, configurable : false},
 		confirm : {writable : false, enumerable : true, configurable : false},
+		setValue : {writable : false, enumerable : true, configurable : false},
 		addHeadline : {writable : false, enumerable : true, configurable : false},
 		addCheckbox : {writable : false, enumerable : true, configurable : false},
 		addRadio : {writable : false, enumerable : true, configurable : false},
@@ -231,7 +250,7 @@ function Dialog (name,title,props) {
 	
 		});
 		
-		var _confirmNode = $("<span/>");
+		_confirmNode = $("<span/>");
 		_confirmNode.text("✔");
 		_confirmNode.attr("title","Confirm");
 		_confirmNode.addClass("nineDialogConfirm");
@@ -249,12 +268,12 @@ function Dialog (name,title,props) {
 				$(this).css({
 					"background-color":"transparent",
 					"color":props["head_font_color"],
-				})
+				});
 			}
 		);
 		_confirmNode.click(confirm);
 		
-		var _closeNode = $("<span/>");
+		_closeNode = $("<span/>");
 		_closeNode.text("✖");
 		_closeNode.attr("title","Close");
 		_closeNode.addClass("nineDialogClose");

@@ -98,6 +98,8 @@ Input.Radio = function (name, items, props) {
 	}
 	
 	function setValue(val) {
+		if (val == undefined) return;
+		
 		if (typeof val != "string") {
 			return;
 		}

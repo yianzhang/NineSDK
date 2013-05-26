@@ -97,7 +97,9 @@ Input.Range = function (name, args, props) {
 		return _rangeNode.val();
 	}
 	
-	function setValue(val) {		
+	function setValue(val) {
+		if (val == undefined) return;
+			
 		_rangeNode.val(val);
 		_numberNode.val(val);
 	}
