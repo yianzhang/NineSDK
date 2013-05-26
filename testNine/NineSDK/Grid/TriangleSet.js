@@ -84,4 +84,3 @@ Object.defineProperties(TriangleSet.prototype,{
 	length : {writable : true, enumerable : false},
 	constructor : {writable : false, enumerable : false, configurable : false,},
 });
-
