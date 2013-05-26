@@ -1,6 +1,4 @@
 function main() {
-	view.init();
-	
 	var ct = view.container;
 	var menu = ct.addMenu("menu",{
 		"bgcolor":"#00CCFF",
