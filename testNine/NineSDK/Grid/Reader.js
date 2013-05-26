@@ -1,6 +1,6 @@
-model.Reader = {};
+Grid.Reader = {};
 
-model.Reader.readSTL = function (reader) {
+Grid.Reader.readSTL = function (reader) {
 	var ps = new PointSet();
 	
 	var s;

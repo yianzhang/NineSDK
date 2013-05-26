@@ -32,8 +32,8 @@ function MenuBar(name,props) {
 		configurable : false,
 	});
 	
-	this.addItem = function (name) {
-		var item = new MenuItem(name,0,props);
+	this.addItem = function (name,title) {
+		var item = new MenuItem(name,title,0,props);
 		items[name] = item;
 		
 		_ulNode.append(item.node);

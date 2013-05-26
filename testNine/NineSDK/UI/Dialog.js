@@ -1,4 +1,4 @@
-function Dialog (name,props) {
+function Dialog (name,title,props) {
 	var result = {};
 	var items = {};
 	var _divNode, _shadowNode, _tableNode;
@@ -225,7 +225,7 @@ function Dialog (name,props) {
 		});
 		
 		var _titleNode = $("<span/>");
-		_titleNode.text(name);
+		_titleNode.text(title);
 		_titleNode.addClass("nineDialogTitle");
 		_titleNode.css({
 	

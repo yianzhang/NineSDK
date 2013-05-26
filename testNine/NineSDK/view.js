@@ -9,8 +9,8 @@ var view = {
 		$(document.body).append(this.container.node);
 	},
 	
-	addDialog : function(name,props) {
-		return new Dialog(name,props);
+	addDialog : function(name,title,props) {
+		return new Dialog(name,title,props);
 	},
 	
 	resize : function (handler) {

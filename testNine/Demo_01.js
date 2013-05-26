@@ -17,8 +17,8 @@ function main() {
 		"font1_family":"",
 		"font1_weight":"",
 	});
-	var menuFile = menu.addItem("File");
-	var menuImp = menuFile.addItem("Imp...");
+	var menuFile = menu.addItem("file","File");
+	var menuImp = menuFile.addItem("imp","Imp...");
 	
 	//add a toobar
 	var toolBar = ct.addToolBar("toolbar",{
@@ -107,7 +107,7 @@ function main() {
 	menuImp.click(fileImp.trigger);
 	
 	fileImp.read(function() {
-		var x = model.Reader.readSTL(fileImp);
+		var x = Grid.Reader.readSTL(fileImp);
 		tree.genFromGrid(x);
 		
 		//

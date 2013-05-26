@@ -1,4 +1,4 @@
-function TreeItem(name,parent,lev,props,_data) {
+function TreeItem(name,title,parent,lev,props,_data) {
 	var items ={};
 //	var count = 0;
 	var data = _data || {};
@@ -79,8 +79,8 @@ function TreeItem(name,parent,lev,props,_data) {
 		configurable : false,
 	});
 	
-	this.addItem = function (name,data) {
-		var item = new TreeItem(name,this,lev+1,props,data || {});
+	this.addItem = function (name,title,data) {
+		var item = new TreeItem(name,title,this,lev+1,props,data || {});
 		
 		items[name] = item;
 //		count++;
@@ -183,7 +183,7 @@ function TreeItem(name,parent,lev,props,_data) {
 		_checkboxNode.val(name);
 		
 		_spanNode = $("<span/>");
-		_spanNode.text(name);
+		_spanNode.text(title);
 		_spanNode.addClass("nineTreeItemText");
 		
 		_spanNode.css({
