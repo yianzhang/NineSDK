@@ -1,95 +1,41 @@
 function main() {
 	var ct = view.container;
 	
-	//menu
-	var menu = ct.addMenu("menu",{
-		"bgcolor":"#00CCFF",
-		"bgcolor:hover":"#FF66FF",
-		"padding":"5px",
-		"margin":"0 0 5px 0",
-		"item_width":"100px",
-		"item_height":"30px",
-		"font_color":"white",
-		"font0_size":"15px",
-		"font0_family":"",
-		"font0_weight":"bold",
-		"font1_size":"10px",
-		"font1_family":"",
-		"font1_weight":"",
-	});
+	//add a menu
+	var menu;
+	var menuFile, menuView, menuGrid;
+	var menuOpen, menuSave, menuClose;
+	var menuDisp, menuRotate, menuTrans, menuZoom, menuGlobe;
+	var menuPara;
 	
-	var menuFile = menu.addItem("file","文件");
-	var menuOpen = menuFile.addItem("open","打开...");
-	var menuSave = menuFile.addItem("save","另存为...");
-	var menuClose = menuFile.addItem("close","关闭");
+	initMenu();
 	
-	var menuView = menu.addItem("view", "视图");
-	var menuDisp = menuView.addItem("display", "显示属性设置");
-	var menuRotate = menuView.addItem("rotate", "旋转");
-	var menuTrans = menuView.addItem("trans", "平移");
-	var menuZoom = menuView.addItem("zoom", "缩放");
-	
-	var menuGrid = menu.addItem("grid", "网格生成");
-	var menuPara = menuGrid.addItem("para", "参数");
 	
 	//add a toobar
-	var toolBar = ct.addToolBar("toolbar",{
-		"bgcolor":"#00CCFF",
-		"bgcolor:hover":"#FF66FF",
-		"bgcolor:selected":"#FF66FF",
-		"padding":"3px",
-		"margin":"0 0 5px 0",
-		"item_width":"20px",
-	});
+	var tool;
+	var toolDisp, toolRotate, toolTrans, toolZoom, toolGlobe;	
 	
-	toolBar.addItem("refresh0","NineSDK/img/refresh.png","i0");
-	toolBar.addItem("refresh1","NineSDK/img/refresh.png","i1");
-	toolBar.addItem("refresh2","NineSDK/img/refresh.png","i2");
-	
-	var group0 = toolBar.addGroup("g0","g0");
-	group0.addItem("refresh3","NineSDK/img/refresh.png","i3");
-	group0.addItem("refresh4","NineSDK/img/refresh.png","i4");
-	group0.addItem("refresh5","NineSDK/img/refresh.png","i5");
-	
-	var group1 = toolBar.addGroup("g1","g1");
-	group1.addItem("refresh6","NineSDK/img/refresh.png","i6");
-	group1.addItem("refresh7","NineSDK/img/refresh.png","i7");
+	initTool();
 	
 	//add a sub-container
-	var ctn1 = view.container.addContainer("ctn1",{
-		"box_orient":"horizontal",
-		"margin":"0 0 5px 0",
-		"box_flex":"1",
-	});
+	var ctn1;
+	
+	initContainer();
 	
 	//add a callboard
-	cb = view.container.addCallBoard("callboard",{
-		"bgcolor":"#00CCFF",
-		"padding":"5px",
-		"font_color":"white",
-		"height":"100px",
-	});
+//	var cb;
+
+	initCall();
 	
 	//add a tree
-	var tree = ctn1.addTree("tree",{
-		"bgcolor":"#00CCFF",
-		"bgcolor:selected":"#FF66FF",
-		"width":"200px",
-		"height": ($(ctn1.node).height()-10)+"px",
-		"padding":"5px",
-		"margin":"0 5px 0 0",
-		"font_color":"white",
-		"font_color:selected" : "white",
-		"font_size":"20px",
-		"font_weight":"normal",
-	});
+	var tree;
+	
+	initTree();
 	
 	//add a canvas
-	var canvas = ctn1.addCanvas("canvas", {
-		"border" : "1px #00CCFF solid",
-		"width" : ($(ctn1.node).width()-2-$(tree.node).outerWidth(true))+"px",
-		"height" : ($(ctn1.node).height()-2)+"px",
-	});
+	var canvas;
+	
+	initCanvas();
 	
 	view.resize(function () {
 		$(tree.node).height(($(ctn1.node).height()-10)+"px");
@@ -98,115 +44,328 @@ function main() {
 	});
 	
 	//add a dialog
-	var dlgParaBody = view.addDialog("paraBody", "体网格显示属性", {
-		"head_bgcolor":"#00CCFF",
-		"head_padding":"5px",
-		"head_font_color":"white",
-		"body_bgcolor":"white",
-//		"body_font_color":"white",
-	});
+	var dlgParaBody, dlgParaFace, dlgParaLoop, dlgParaPolyline;
+	var dlgGridPara;
 	
-	dlgParaBody.addHeadline("显示属性");
-	dlgParaBody.addColor(
-		"颜色:", "color", 
-		{value:"#000000"}
-	);
-	dlgParaBody.addRange(
-		"透明度:", "alpha", 
-		{min:0,max:1,step:0.01,value:0,width:"100px"}
-	);
-	dlgParaBody.addSelect(
-		"显示类型:", "display",
-		{value:"color", title:"着色面", selected:true},
-		{value:"alpha", title:"半透明", selected:false},
-		{value:"wire", title:"线框", selected:false},
-		{value:"stereo", title:"立体显示", selected:false}
-	);
+	initDialogParaBody();
+	initDialogParaFace();
+	initDialogParaLoop();
+	initDialogParaPolyline();
+	initDialogGridPara();
 	
-	var dlgParaFace = view.addDialog("paraBody", "面网格显示属性", {
-		"head_bgcolor":"#00CCFF",
-		"head_padding":"5px",
-		"head_font_color":"white",
-		"body_bgcolor":"white",
-//		"body_font_color":"white",
-	});
-	
-	dlgParaFace.addHeadline("显示属性");
-	dlgParaFace.addColor(
-		"颜色:", "color", 
-		{value:"#000000"}
-	);
-	dlgParaFace.addRange(
-		"透明度:", "alpha", 
-		{min:0,max:1,step:0.01,value:0,width:"100px"}
-	);
-	dlgParaFace.addSelect(
-		"显示类型:", "display",
-		{value:"color", title:"着色面", selected:true},
-		{value:"alpha", title:"半透明", selected:false},
-		{value:"wire", title:"线框", selected:false},
-		{value:"stereo", title:"立体显示", selected:false}
-	);
-	
-	var dlgParaLoop = view.addDialog("paraBody", "环网格显示属性", {
-		"head_bgcolor":"#00CCFF",
-		"head_padding":"5px",
-		"head_font_color":"white",
-		"body_bgcolor":"white",
-//		"body_font_color":"white",
-	});
-	
-	dlgParaLoop.addHeadline("显示属性");
-	dlgParaLoop.addColor(
-		"颜色:", "color", 
-		{value:"#000000"}
-	);
-	dlgParaLoop.addSelect(
-		"显示类型:", "display",
-		{value:"normal", title:"正常显示", selected:true},
-		{value:"stereo", title:"立体显示", selected:false}
-	);
-	dlgParaLoop.addRange(
-		"点元大小:","size",
-		{min:0,max:10,step:0.01,value:1,width:"100px"}
-	);
-	
-	var dlgParaPolyline = view.addDialog("paraBody", "折线网格显示属性", {
-		"head_bgcolor":"#00CCFF",
-		"head_padding":"5px",
-		"head_font_color":"white",
-		"body_bgcolor":"white",
-//		"body_font_color":"white",
-	});
-	
-	dlgParaPolyline.addHeadline("显示属性");
-	dlgParaPolyline.addColor(
-		"颜色:", "color", 
-		{value:"#000000"}
-	);
-	dlgParaPolyline.addSelect(
-		"显示类型:", "display",
-		{value:"normal", title:"正常显示", selected:true},
-		{value:"stereo", title:"立体显示", selected:false}
-	);
-	dlgParaPolyline.addRange(
-		"点元大小:", "size", 
-		{min:0,max:10,step:0.01,value:0,width:"100px"}
-	);
-	
-	//add listeners to menu
+	//add a textreader
 	var fileOpen = model.newTextReader();
+	
+	//add listener to menu
 	menuOpen.click(fileOpen.trigger);
+	menuDisp.click(displaySetting);
 	
-	menuClose.click(function() {
-		tree.empty();
-		cb.clear();
-		//
-	});
+	listenToMenuClose();
+	listenToMenuPara();
 	
-	var slt = {};slt.data = {};
-	menuDisp.click(function () {
-		slt = tree.selectedItem;
+	//add listener to toobar
+	toolDisp.click(displaySetting);
+	
+	//confirm or close Dialog
+	oxDialogParaBody();
+	oxDialogParaFace();
+	oxDialogParaLoop();
+	oxDialogParaPolyline();
+	
+	//read textreader
+	readFileOpen();
+	
+	function initMenu() {
+		menu = ct.addMenu("menu",{
+			"bgcolor":"#00CCFF",
+			"bgcolor:hover":"#FF66FF",
+			"padding":"5px",
+			"margin":"0 0 5px 0",
+			"item_width":"100px",
+			"item_height":"30px",
+			"font_color":"white",
+			"font0_size":"15px",
+			"font0_family":"",
+			"font0_weight":"bold",
+			"font1_size":"10px",
+			"font1_family":"",
+			"font1_weight":"",
+		});
+		
+		menuFile = menu.addItem("file","文件");
+		menuOpen = menuFile.addItem("open","打开...");
+		menuSave = menuFile.addItem("save","另存为...");
+		menuClose = menuFile.addItem("close","关闭");
+		
+		menuView = menu.addItem("view", "视图");
+		menuDisp = menuView.addItem("display", "显示属性设置...");
+		menuRotate = menuView.addItem("rotate", "旋转...");
+		menuTrans = menuView.addItem("trans", "平移...");
+		menuZoom = menuView.addItem("zoom", "缩放...");
+		menuGlobe = menuView.addItem("globe", "全局显示");
+		
+		menuGrid = menu.addItem("grid", "网格生成");
+		menuPara = menuGrid.addItem("para", "参数...");
+	}
+	
+	function initTool() {
+		var tool = ct.addToolBar("toolbar",{
+			"bgcolor":"#00CCFF",
+			"bgcolor:hover":"#FF66FF",
+			"bgcolor:selected":"#FF66FF",
+			"padding":"3px",
+			"margin":"0 0 5px 0",
+			"item_width":"20px",
+		});
+		
+		toolDisp = tool.addItem("display", "NineSDK/icons/setting00_white_128x128.png", "显示属性设置...");
+		toolRotate = tool.addItem("rotate", "NineSDK/icons/rotate00_white_96x96.png", "旋转...");
+		toolTrans = tool.addItem("trans", "NineSDK/icons/pan00_white_96x96.png", "平移...");
+		toolZoom = tool.addItem("zoom", "NineSDK/icons/zoom01_white_64x64.png", "缩放...");
+		toolGlobe = tool.addItem("globe", "NineSDK/icons/globe00_white_64x64.png", "全局显示");
+	}
+	
+	function initContainer() {
+		ctn1 = view.container.addContainer("ctn1",{
+			"box_orient":"horizontal",
+			"margin":"0 0 5px 0",
+			"box_flex":"1",
+		});
+	}
+	
+	function initCall() {
+		cb = view.container.addCallBoard("callboard",{
+			"bgcolor":"#00CCFF",
+			"padding":"5px",
+			"font_color":"white",
+			"height":"100px",
+		});
+	}
+	
+	function initTree() {
+		tree = ctn1.addTree("tree",{
+			"bgcolor":"#00CCFF",
+			"bgcolor:selected":"#FF66FF",
+			"width":"200px",
+			"height": ($(ctn1.node).height()-10)+"px",
+			"padding":"5px",
+			"margin":"0 5px 0 0",
+			"font_color":"white",
+			"font_color:selected" : "white",
+			"font_size":"20px",
+			"font_weight":"normal",
+		});
+	}
+	
+	function initCanvas() {
+		canvas = ctn1.addCanvas("canvas", {
+			"border" : "1px #00CCFF solid",
+			"width" : ($(ctn1.node).width()-2-$(tree.node).outerWidth(true))+"px",
+			"height" : ($(ctn1.node).height()-2)+"px",
+		});
+		
+		$(canvas.node).attr("id", "mycanvas");
+	}
+	
+	function initDialogParaBody () {
+		dlgParaBody = view.addDialog("paraBody", "体网格显示属性", {
+			"head_bgcolor":"#00CCFF",
+			"head_padding":"5px",
+			"head_font_color":"white",
+			"body_bgcolor":"white",
+		});
+		
+		dlgParaBody.addHeadline("显示属性");
+		dlgParaBody.addColor(
+			"颜色:", "color", 
+			{value:"#000000"}
+		);
+		dlgParaBody.addRange(
+			"透明度:", "alpha", 
+			{min:0,max:1,step:0.01,value:0,width:"100px"}
+		);
+		dlgParaBody.addSelect(
+			"显示类型:", "display",
+			{value:"color", title:"着色面", selected:true},
+			{value:"alpha", title:"半透明", selected:false},
+			{value:"wire", title:"线框", selected:false},
+			{value:"stereo", title:"立体显示", selected:false}
+		);
+	}
+	
+	function initDialogParaFace () {
+		dlgParaFace = view.addDialog("paraBody", "面网格显示属性", {
+			"head_bgcolor":"#00CCFF",
+			"head_padding":"5px",
+			"head_font_color":"white",
+			"body_bgcolor":"white",
+		});
+		
+		dlgParaFace.addHeadline("显示属性");
+		dlgParaFace.addColor(
+			"颜色:", "color", 
+			{value:"#000000"}
+		);
+		dlgParaFace.addRange(
+			"透明度:", "alpha", 
+			{min:0,max:1,step:0.01,value:0,width:"100px"}
+		);
+		dlgParaFace.addSelect(
+			"显示类型:", "display",
+			{value:"color", title:"着色面", selected:true},
+			{value:"alpha", title:"半透明", selected:false},
+			{value:"wire", title:"线框", selected:false},
+			{value:"stereo", title:"立体显示", selected:false}
+		);
+	}
+	
+	function initDialogParaLoop () {
+		dlgParaLoop = view.addDialog("paraBody", "环网格显示属性", {
+			"head_bgcolor":"#00CCFF",
+			"head_padding":"5px",
+			"head_font_color":"white",
+			"body_bgcolor":"white",
+		});
+		
+		dlgParaLoop.addHeadline("显示属性");
+		dlgParaLoop.addColor(
+			"颜色:", "color", 
+			{value:"#000000"}
+		);
+		dlgParaLoop.addSelect(
+			"显示类型:", "display",
+			{value:"normal", title:"正常显示", selected:true},
+			{value:"stereo", title:"立体显示", selected:false}
+		);
+		dlgParaLoop.addRange(
+			"点元大小:","size",
+			{min:0,max:10,step:0.01,value:1,width:"100px"}
+		);
+	}
+	
+	function initDialogParaPolyline () {
+		dlgParaPolyline = view.addDialog("paraBody", "折线网格显示属性", {
+			"head_bgcolor":"#00CCFF",
+			"head_padding":"5px",
+			"head_font_color":"white",
+			"body_bgcolor":"white",
+		});
+		
+		dlgParaPolyline.addHeadline("显示属性");
+		dlgParaPolyline.addColor(
+			"颜色:", "color", 
+			{value:"#000000"}
+		);
+		dlgParaPolyline.addSelect(
+			"显示类型:", "display",
+			{value:"normal", title:"正常显示", selected:true},
+			{value:"stereo", title:"立体显示", selected:false}
+		);
+		dlgParaPolyline.addRange(
+			"点元大小:", "size", 
+			{min:0,max:10,step:0.01,value:0,width:"100px"}
+		);
+	}
+	
+	function initDialogGridPara() {
+		dlgGridPara = new view.addDialog("paraGrid", "Grid Parameter Setting", {
+			"head_bgcolor":"#00CCFF",
+			"head_padding":"5px",
+			"head_font_color":"white",
+			"body_bgcolor":"white",
+		});
+		
+		dlgGridPara.addHeadline("体网格生成参数");
+		dlgGridPara.addRadio(
+			"质量优化因子:","bodyfactor",
+			{value:"yes",title:"使用",checked:false},
+			{value:"no",title:"不使用",checked:true}
+		);
+		dlgGridPara.addText(
+			"质量优化因子参数:","bodypara",
+			{value:"1",placeholder:"输入质量优化因子",maxlength:3,width:"30px"}
+		);
+		dlgGridPara.addHeadline("面网格生成参数");
+		dlgGridPara.addRadio(
+			"质量优化因子:","facefactor",
+			{value:"yes",title:"使用",checked:false},
+			{value:"no",title:"不使用",checked:true}
+		);
+		dlgGridPara.addText(
+			"质量优化因子参数:","facepara",
+			{value:"1",placeholder:"输入质量优化因子",maxlength:3,width:"30px"}
+		);
+	}
+	
+	function listenToMenuClose() {
+		menuClose.click(function() {
+			tree.empty();
+			cb.clear();
+			//
+		});
+	}
+	
+	function listenToMenuPara() {
+		menuPara.click(function () {
+			dlgGridPara.show();
+		});
+	}
+	
+	function oxDialogParaBody() {
+		dlgParaBody.confirm(function () {
+			var slt = tree.selectedItem;
+			if (!slt) return;
+			
+			slt.data["color"] = dlgParaBody.result["color"];
+			slt.data["alpha"] = dlgParaBody.result["alpha"];
+			slt.data["display"] = dlgParaBody.result["display"];
+		});
+	}
+	
+	function oxDialogParaFace() {
+		dlgParaFace.confirm(function () {
+			var slt = tree.selectedItem;
+			if (!slt) return;
+			
+			slt.data["color"] = dlgParaFace.result["color"];
+			slt.data["alpha"] = dlgParaFace.result["alpha"];
+			slt.data["display"] = dlgParaFace.result["display"];
+		});
+	}
+	
+	function oxDialogParaLoop() {
+		dlgParaLoop.confirm(function () {
+			var slt = tree.selectedItem;
+			if (!slt) return;
+			
+			slt.data["color"] = dlgParaLoop.result["color"];
+			slt.data["display"] = dlgParaLoop.result["display"];
+			slt.data["size"] = dlgParaLoop.result["size"];
+		});
+	}
+	
+	function oxDialogParaPolyline() {
+		dlgParaPolyline.confirm(function () {
+			var slt = tree.selectedItem;
+			if (!slt) return;
+			
+			slt.data["color"] = dlgParaPolyline.result["color"];
+			slt.data["display"] = dlgParaPolyline.result["display"];
+			slt.data["size"] = dlgParaLoop.result["size"];
+		});
+	}
+	
+	function readFileOpen() {
+		fileOpen.read(function() {
+			var x = Grid.Reader.readSTL(fileOpen);
+			tree.genFromGrid(x);
+			
+			//
+		});
+	}
+	
+	function displaySetting() {
+		var slt = tree.selectedItem;
 		if (!slt) {
 			alert("Not Select Item!");
 			return;
@@ -244,87 +403,5 @@ function main() {
 			});
 			dlgParaPolyline.show();
 		}
-	});
-	
-	dlgParaBody.confirm(function () {
-		slt.data["color"] = dlgParaBody.result["color"];
-		slt.data["alpha"] = dlgParaBody.result["alpha"];
-		slt.data["display"] = dlgParaBody.result["display"];
-	});
-	
-	dlgParaFace.confirm(function () {
-		slt.data["color"] = dlgParaFace.result["color"];
-		slt.data["alpha"] = dlgParaFace.result["alpha"];
-		slt.data["display"] = dlgParaFace.result["display"];
-	});
-	
-	dlgParaLoop.confirm(function () {
-		slt.data["color"] = dlgParaLoop.result["color"];
-		slt.data["display"] = dlgParaLoop.result["display"];
-		slt.data["size"] = dlgParaLoop.result["size"];
-	});
-	
-	dlgParaPolyline.confirm(function () {
-		slt.data["color"] = dlgParaPolyline.result["color"];
-		slt.data["display"] = dlgParaPolyline.result["display"];
-		slt.data["size"] = dlgParaLoop.result["size"];
-	});
-	
-	var dlgGridPara = new view.addDialog("paraGrid", "Grid Parameter Setting", {
-		"head_bgcolor":"#00CCFF",
-		"head_padding":"5px",
-		"head_font_color":"white",
-		"body_bgcolor":"white",
-//		"body_font_color":"white",
-	});
-	
-	dlgGridPara.addHeadline("体网格生成参数");
-	dlgGridPara.addRadio(
-		"质量优化因子:","bodyfactor",
-		{value:"yes",title:"使用",checked:false},
-		{value:"no",title:"不使用",checked:true}
-	);
-	dlgGridPara.addText(
-		"质量优化因子参数:","bodypara",
-		{value:"1",placeholder:"输入质量优化因子",maxlength:3,width:"30px"}
-	);
-	dlgGridPara.addHeadline("面网格生成参数");
-	dlgGridPara.addRadio(
-		"质量优化因子:","facefactor",
-		{value:"yes",title:"使用",checked:false},
-		{value:"no",title:"不使用",checked:true}
-	);
-	dlgGridPara.addText(
-		"质量优化因子参数:","facepara",
-		{value:"1",placeholder:"输入质量优化因子",maxlength:3,width:"30px"}
-	);
-	
-	menuPara.click(function () {
-		dlgGridPara.show();
-	});
-	
-	//add a listener to toolItem
-	toolBar.itemAt("refresh0").click(function() {
-		cb.writeln(tree.filterCheckedItems(true).map(function(x){return x.name;}).join(", "));
-		cb.writeln(tree.filterCheckedItems().map(function(x){return x.name;}).join(", "));
-	});
-	toolBar.itemAt("refresh1").click(function() {
-		cb.writeln(tree.filterCheckedItems(true).map(function(x){return x.name;}).join(", "));
-		tree.deleteCheckedItems();
-		cb.writeln("Deletion Over!");
-	});
-	toolBar.itemAt("refresh2").click(function() {
-		var item = tree.selectedItem;
-		if (item)
-			cb.writeln(item.name);
-		else
-			cb.writeln("undefined");
-	});
-	
-	fileOpen.read(function() {
-		var x = Grid.Reader.readSTL(fileOpen);
-		tree.genFromGrid(x);
-		
-		//
-	});
+	}
 }

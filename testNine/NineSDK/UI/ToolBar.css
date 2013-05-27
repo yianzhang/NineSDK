@@ -4,6 +4,7 @@ div.nineToolBar {
 }
 
 img.nineToolImg{
+	margin : 0 0 0 3px;
 	vertical-align:bottom;
 	cursor: pointer;
 }
@@ -13,10 +14,11 @@ img.nineToolImg:hover {
 
 div.nineToolGroup {
 	display : inline-block;
-	padding : 0 5px 0 5px;
+	margin : 0 0 0 5px;
 }
 
 img.nineToolGroupImg{
+	margin : 0 0 0 1px;
 	vertical-align:bottom;
 	cursor: pointer;
 }
