@@ -10,7 +10,6 @@ function main() {
 	
 	initMenu();
 	
-	
 	//add a toobar
 	var tool;
 	var toolDisp, toolRotate, toolTrans, toolZoom, toolGlobe;	
@@ -46,18 +45,25 @@ function main() {
 	//add a dialog
 	var dlgParaBody, dlgParaFace, dlgParaLoop, dlgParaPolyline;
 	var dlgGridPara;
+	var dlgRotate, dlgTrans, dlgZoom;
 	
 	initDialogParaBody();
 	initDialogParaFace();
 	initDialogParaLoop();
 	initDialogParaPolyline();
 	initDialogGridPara();
+	initDialogRotate();
+	initDialogTrans();
+	initDialogZoom();
 	
 	//add a textreader
 	var fileOpen = model.newTextReader();
 	
 	//add listener to menu
 	menuOpen.click(fileOpen.trigger);
+	menuRotate.click(rotate);
+	menuTrans.click(trans);
+	menuZoom.click(zoom);
 	menuDisp.click(displaySetting);
 	
 	listenToMenuClose();
@@ -65,6 +71,9 @@ function main() {
 	
 	//add listener to toobar
 	toolDisp.click(displaySetting);
+	toolRotate.click(rotate);
+	toolTrans.click(trans);
+	toolZoom.click(zoom);
 	
 	//confirm or close Dialog
 	oxDialogParaBody();
@@ -268,7 +277,7 @@ function main() {
 	}
 	
 	function initDialogGridPara() {
-		dlgGridPara = new view.addDialog("paraGrid", "Grid Parameter Setting", {
+		dlgGridPara = new view.addDialog("paraGrid", "网格生成参数设置", {
 			"head_bgcolor":"#00CCFF",
 			"head_padding":"5px",
 			"head_font_color":"white",
@@ -294,6 +303,83 @@ function main() {
 		dlgGridPara.addText(
 			"质量优化因子参数:","facepara",
 			{value:"1",placeholder:"输入质量优化因子",maxlength:3,width:"30px"}
+		);
+	}
+	
+	function initDialogRotate() {
+		dlgRotate = new view.addDialog("rotate", "旋转", {
+			"head_bgcolor":"#00CCFF",
+			"head_padding":"5px",
+			"head_font_color":"white",
+			"body_bgcolor":"white",
+		});
+		
+		dlgRotate.addText(
+			"旋转法向量X值：", "rotateX",
+			{value:0, width:"100px"}
+		);
+		
+		dlgRotate.addText(
+			"旋转法向量Y值：", "rotateY",
+			{value:0, width:"100px"}
+		);
+		
+		dlgRotate.addText(
+			"旋转法向量Z值：", "rotateZ",
+			{value:0, width:"100px"}
+		);
+		
+		dlgRotate.addText(
+			"旋转角度(弧度)：", "rotateA",
+			{value:0, width:"100px"}
+		);
+	}
+	
+	function initDialogTrans() {
+		dlgTrans = new view.addDialog("trans", "平移", {
+			"head_bgcolor":"#00CCFF",
+			"head_padding":"5px",
+			"head_font_color":"white",
+			"body_bgcolor":"white",
+		});
+		
+		dlgTrans.addText(
+			"X轴平移量：", "transX",
+			{value:0, width:"100px"}
+		);
+		
+		dlgTrans.addText(
+			"Y轴平移量：", "transY",
+			{value:0, width:"100px"}
+		);
+		
+		dlgTrans.addText(
+			"Z轴平移量：", "transZ",
+			{value:0, width:"100px"}
+		);
+	}
+	
+	function initDialogZoom() {
+		dlgZoom = new view.addDialog("zoom", "缩放", {
+			"head_bgcolor":"#00CCFF",
+			"head_padding":"5px",
+			"head_font_color":"white",
+			"body_bgcolor":"white",
+		});
+		
+		dlgZoom.addText(
+			"X轴缩放比例：", "zoomX",
+			{value:1, width:"100px"}
+		);
+		
+		dlgZoom.addText(
+			"Y轴缩放比例：", "zoomY",
+			{value:1, width:"100px"}
+		);
+		
+		dlgZoom.addText(
+			"Z轴缩放比例：", "zoomZ",
+			{value:1, width:"100px"}
 		);
 	}
 	
@@ -403,5 +489,36 @@ function main() {
 			});
 			dlgParaPolyline.show();
 		}
+	}
+	
+	function rotate() {
+		dlgRotate.setValue({
+			"rotateX" : 0,
+			"rotateY" : 0,
+			"rotateZ" : 0,
+			"rotateA" : 0,
+		});
+		
+		dlgRotate.show();
+	}
+	
+	function trans() {
+		dlgTrans.setValue({
+			"transX" : 0,
+			"transY" : 0,
+			"transZ" : 0,
+		});
+		
+		dlgTrans.show();
+	}
+	
+	function zoom() {
+		dlgZoom.setValue({
+			"zoomX" : 1,
+			"zoomY" : 1,
+			"zoomZ" : 1,
+		});
+		
+		dlgZoom.show();
 	}
 }
