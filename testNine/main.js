@@ -135,7 +135,7 @@ function main() {
 	
 	dia.addRange(
 		"Length:","length",
-		{min:0,max:100,step:0.1,value:33,size:"100px"}
+		{min:0,max:100,step:0.1,value:33,width:"100px"}
 	);
 	
 	dia.addColor(

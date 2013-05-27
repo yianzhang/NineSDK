@@ -72,7 +72,7 @@ Input.Range = function (name, args, props) {
 		_rangeNode.attr("min",args["min"]);
 		_rangeNode.attr("max",args["max"]);
 		_rangeNode.attr("step",args["step"]);
-		_rangeNode.css("width",args["size"]);
+		_rangeNode.css("width",args["width"]);
 		_rangeNode.val(args["value"]);
 		
 		_numberNode.attr("min",args["min"]);

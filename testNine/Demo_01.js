@@ -18,19 +18,19 @@ function main() {
 		"font1_weight":"",
 	});
 	
-	var menuFile = menu.addItem("file","File");
-	var menuOpen = menuFile.addItem("open","Open...");
-	var menuSave = menuFile.addItem("save","SaveAs...");
-	var menuClose = menuFile.addItem("close","Close");
+	var menuFile = menu.addItem("file","文件");
+	var menuOpen = menuFile.addItem("open","打开...");
+	var menuSave = menuFile.addItem("save","另存为...");
+	var menuClose = menuFile.addItem("close","关闭");
 	
-	var menuView = menu.addItem("view", "View");
-	var menuDisp = menuView.addItem("display", "Display Attribute Setting");
-	var menuRotate = menuView.addItem("rotate", "Rotate");
-	var menuTrans = menuView.addItem("trans", "Translate");
-	var menuZoom = menuView.addItem("zoom", "Zoom");
+	var menuView = menu.addItem("view", "视图");
+	var menuDisp = menuView.addItem("display", "显示属性设置");
+	var menuRotate = menuView.addItem("rotate", "旋转");
+	var menuTrans = menuView.addItem("trans", "平移");
+	var menuZoom = menuView.addItem("zoom", "缩放");
 	
-	var menuGrid = menu.addItem("grid", "Grid");
-	var menuPara = menuGrid.addItem("para", "Parameter");
+	var menuGrid = menu.addItem("grid", "网格生成");
+	var menuPara = menuGrid.addItem("para", "参数");
 	
 	//add a toobar
 	var toolBar = ct.addToolBar("toolbar",{
@@ -98,7 +98,7 @@ function main() {
 	});
 	
 	//add a dialog
-	var dlgParaBody = view.addDialog("paraBody", "Parameters of Body", {
+	var dlgParaBody = view.addDialog("paraBody", "体网格显示属性", {
 		"head_bgcolor":"#00CCFF",
 		"head_padding":"5px",
 		"head_font_color":"white",
@@ -106,24 +106,24 @@ function main() {
 //		"body_font_color":"white",
 	});
 	
-	dlgParaBody.addHeadline("Display Attribute");
+	dlgParaBody.addHeadline("显示属性");
 	dlgParaBody.addColor(
-		"Color:", "color", 
+		"颜色:", "color", 
 		{value:"#000000"}
 	);
 	dlgParaBody.addRange(
-		"Alpha:", "alpha", 
-		{min:0,max:1,step:0.01,value:0,size:"100px"}
+		"透明度:", "alpha", 
+		{min:0,max:1,step:0.01,value:0,width:"100px"}
 	);
 	dlgParaBody.addSelect(
-		"Display Style:", "display",
-		{value:"color", title:"Colored Surface", selected:true},
-		{value:"alpha", title:"Translucence", selected:false},
-		{value:"wire", title:"Wireframe", selected:false},
-		{value:"stereo", title:"Stereo Display", selected:false}
+		"显示类型:", "display",
+		{value:"color", title:"着色面", selected:true},
+		{value:"alpha", title:"半透明", selected:false},
+		{value:"wire", title:"线框", selected:false},
+		{value:"stereo", title:"立体显示", selected:false}
 	);
 	
-	var dlgParaFace = view.addDialog("paraBody", "Parameters of Face", {
+	var dlgParaFace = view.addDialog("paraBody", "面网格显示属性", {
 		"head_bgcolor":"#00CCFF",
 		"head_padding":"5px",
 		"head_font_color":"white",
@@ -131,24 +131,24 @@ function main() {
 //		"body_font_color":"white",
 	});
 	
-	dlgParaFace.addHeadline("Display Attribute");
+	dlgParaFace.addHeadline("显示属性");
 	dlgParaFace.addColor(
-		"Color:", "color", 
+		"颜色:", "color", 
 		{value:"#000000"}
 	);
 	dlgParaFace.addRange(
-		"Alpha:", "alpha", 
-		{min:0,max:1,step:0.01,value:0,size:"100px"}
+		"透明度:", "alpha", 
+		{min:0,max:1,step:0.01,value:0,width:"100px"}
 	);
 	dlgParaFace.addSelect(
-		"Display Style:", "display",
-		{value:"color", title:"Colored Surface", selected:true},
-		{value:"alpha", title:"Translucence", selected:false},
-		{value:"wire", title:"Wireframe", selected:false},
-		{value:"stereo", title:"Stereo Display", selected:false}
+		"显示类型:", "display",
+		{value:"color", title:"着色面", selected:true},
+		{value:"alpha", title:"半透明", selected:false},
+		{value:"wire", title:"线框", selected:false},
+		{value:"stereo", title:"立体显示", selected:false}
 	);
 	
-	var dlgParaLoop = view.addDialog("paraBody", "Parameters of Loop", {
+	var dlgParaLoop = view.addDialog("paraBody", "环网格显示属性", {
 		"head_bgcolor":"#00CCFF",
 		"head_padding":"5px",
 		"head_font_color":"white",
@@ -156,24 +156,22 @@ function main() {
 //		"body_font_color":"white",
 	});
 	
-	dlgParaLoop.addHeadline("Display Attribute");
+	dlgParaLoop.addHeadline("显示属性");
 	dlgParaLoop.addColor(
-		"Color:", "color", 
+		"颜色:", "color", 
 		{value:"#000000"}
-	);
-	dlgParaLoop.addRange(
-		"Alpha:", "alpha", 
-		{min:0,max:1,step:0.01,value:0,size:"100px"}
 	);
 	dlgParaLoop.addSelect(
-		"Display Style:", "display",
-		{value:"color", title:"Colored Surface", selected:true},
-		{value:"alpha", title:"Translucence", selected:false},
-		{value:"wire", title:"Wireframe", selected:false},
-		{value:"stereo", title:"Stereo Display", selected:false}
+		"显示类型:", "display",
+		{value:"normal", title:"正常显示", selected:true},
+		{value:"stereo", title:"立体显示", selected:false}
+	);
+	dlgParaLoop.addRange(
+		"点元大小:","size",
+		{min:0,max:10,step:0.01,value:1,width:"100px"}
 	);
 	
-	var dlgParaPolyline = view.addDialog("paraBody", "Parameters of Polyline", {
+	var dlgParaPolyline = view.addDialog("paraBody", "折线网格显示属性", {
 		"head_bgcolor":"#00CCFF",
 		"head_padding":"5px",
 		"head_font_color":"white",
@@ -181,21 +179,19 @@ function main() {
 //		"body_font_color":"white",
 	});
 	
-	dlgParaPolyline.addHeadline("Display Attribute");
+	dlgParaPolyline.addHeadline("显示属性");
 	dlgParaPolyline.addColor(
-		"Color:", "color", 
+		"颜色:", "color", 
 		{value:"#000000"}
 	);
-	dlgParaPolyline.addRange(
-		"Alpha:", "alpha", 
-		{min:0,max:1,step:0.01,value:0,size:"100px"}
-	);
 	dlgParaPolyline.addSelect(
-		"Display Style:", "display",
-		{value:"color", title:"Colored Surface", selected:true},
-		{value:"alpha", title:"Translucence", selected:false},
-		{value:"wire", title:"Wireframe", selected:false},
-		{value:"stereo", title:"Stereo Display", selected:false}
+		"显示类型:", "display",
+		{value:"normal", title:"正常显示", selected:true},
+		{value:"stereo", title:"立体显示", selected:false}
+	);
+	dlgParaPolyline.addRange(
+		"点元大小:", "size", 
+		{min:0,max:10,step:0.01,value:0,width:"100px"}
 	);
 	
 	//add listeners to menu
@@ -235,16 +231,16 @@ function main() {
 		} else if (slt.data instanceof Loop) {
 			dlgParaLoop.setValue({
 				"color":slt.data["color"] || "#000000",
-				"alpha":slt.data["alpha"] || 0,
-				"display":slt.data["display"] || "color",
+				"display":slt.data["display"] || "normal",
+				"size":slt.data["size"] || 0,
 			});
 			dlgParaLoop.show();
 			
 		} else if (slt.data instanceof Polyline) {
 			dlgParaPolyline.setValue({
 				"color":slt.data["color"] || "#000000",
-				"alpha":slt.data["alpha"] || 0,
-				"display":slt.data["display"] || "color",
+				"display":slt.data["display"] || "normal",
+				"size":slt.data["size"] || 0,
 			});
 			dlgParaPolyline.show();
 		}
@@ -264,14 +260,47 @@ function main() {
 	
 	dlgParaLoop.confirm(function () {
 		slt.data["color"] = dlgParaLoop.result["color"];
-		slt.data["alpha"] = dlgParaLoop.result["alpha"];
 		slt.data["display"] = dlgParaLoop.result["display"];
+		slt.data["size"] = dlgParaLoop.result["size"];
 	});
 	
 	dlgParaPolyline.confirm(function () {
 		slt.data["color"] = dlgParaPolyline.result["color"];
-		slt.data["alpha"] = dlgParaPolyline.result["alpha"];
 		slt.data["display"] = dlgParaPolyline.result["display"];
+		slt.data["size"] = dlgParaLoop.result["size"];
+	});
+	
+	var dlgGridPara = new view.addDialog("paraGrid", "Grid Parameter Setting", {
+		"head_bgcolor":"#00CCFF",
+		"head_padding":"5px",
+		"head_font_color":"white",
+		"body_bgcolor":"white",
+//		"body_font_color":"white",
+	});
+	
+	dlgGridPara.addHeadline("体网格生成参数");
+	dlgGridPara.addRadio(
+		"质量优化因子:","bodyfactor",
+		{value:"yes",title:"使用",checked:false},
+		{value:"no",title:"不使用",checked:true}
+	);
+	dlgGridPara.addText(
+		"质量优化因子参数:","bodypara",
+		{value:"1",placeholder:"输入质量优化因子",maxlength:3,width:"30px"}
+	);
+	dlgGridPara.addHeadline("面网格生成参数");
+	dlgGridPara.addRadio(
+		"质量优化因子:","facefactor",
+		{value:"yes",title:"使用",checked:false},
+		{value:"no",title:"不使用",checked:true}
+	);
+	dlgGridPara.addText(
+		"质量优化因子参数:","facepara",
+		{value:"1",placeholder:"输入质量优化因子",maxlength:3,width:"30px"}
+	);
+	
+	menuPara.click(function () {
+		dlgGridPara.show();
 	});
 	
 	//add a listener to toolItem

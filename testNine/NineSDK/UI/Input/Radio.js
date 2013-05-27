@@ -104,6 +104,12 @@ Input.Radio = function (name, items, props) {
 			return;
 		}
 		
-		_divNode.find("[name="+name+"]").val(val);
+		_divNode.find("[name="+name+"]").val(function (i, v) {
+			if (v == val) {
+				$(this).prop("checked",true);
+			}
+			
+			return v;
+		});
 	}
 }

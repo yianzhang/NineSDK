@@ -343,7 +343,7 @@ function Dialog (name,title,props) {
 	
 	function close() {
 		for (var i in items) {
-			items[i].value =result[i];
+			items[i].value = result[i];
 		}
 			
 		$(document.body).children(".nineDialogShadow").eq(0).detach();
