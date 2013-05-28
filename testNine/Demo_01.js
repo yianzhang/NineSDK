@@ -59,6 +59,8 @@ function main() {
 	//add a textreader
 	var fileOpen = model.newTextReader();
 	
+	var ab;
+	
 	//add listener to menu
 	menuOpen.click(fileOpen.trigger);
 	menuRotate.click(rotate);
@@ -74,6 +76,7 @@ function main() {
 	toolRotate.click(rotate);
 	toolTrans.click(trans);
 	toolZoom.click(zoom);
+	toolTest.click(test);
 	
 	//confirm or close Dialog
 	oxDialogParaBody();
@@ -132,6 +135,7 @@ function main() {
 		toolTrans = tool.addItem("trans", "NineSDK/icons/pan00_white_96x96.png", "平移...");
 		toolZoom = tool.addItem("zoom", "NineSDK/icons/zoom01_white_64x64.png", "缩放...");
 		toolGlobe = tool.addItem("globe", "NineSDK/icons/globe00_white_64x64.png", "全局显示");
+		toolTest = tool.addItem("test", "NineSDK/icons/test00_white_64x64.png", "测试");
 	}
 	
 	function initContainer() {
@@ -443,9 +447,9 @@ function main() {
 	
 	function readFileOpen() {
 		fileOpen.read(function() {
-			var x = Grid.Reader.readSTL(fileOpen);
-			tree.genFromGrid(x);
-			
+			ab = Grid.Reader.readSTL(fileOpen);
+			tree.genFromGrid(ab);
+			cb.writeln(ab.pointSetToFloatArray());
 			//
 		});
 	}
@@ -520,5 +524,12 @@ function main() {
 		});
 		
 		dlgZoom.show();
+	}
+	
+	function test() {
+		var tmp = tree.filterCheckedItems(false);
+		tmp = tmp.map(function (x) {return x.data;});
+		tmp = ab.indexArrayOf(tmp);
+		cb.writeln(tmp.join(", ")); 
 	}
 }
