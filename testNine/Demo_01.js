@@ -12,7 +12,11 @@ function main() {
 	
 	//add a toobar
 	var tool;
-	var toolDisp, toolRotate, toolTrans, toolZoom, toolGlobe;	
+	var toolDisp, toolRotate, toolTrans, toolZoom, toolGlobe;
+	var toolTest;
+	var toolStyle;
+	var toolFill, toolWire, toolEdge;
+	var toolDraw;	
 	
 	initTool();
 	
@@ -60,6 +64,7 @@ function main() {
 	var fileOpen = model.newTextReader();
 	
 	var ab;
+	var pa;
 	
 	//add listener to menu
 	menuOpen.click(fileOpen.trigger);
@@ -77,6 +82,10 @@ function main() {
 	toolTrans.click(trans);
 	toolZoom.click(zoom);
 	toolTest.click(test);
+	toolDraw.click(draw);
+	
+	//add listener to tree
+
 	
 	//confirm or close Dialog
 	oxDialogParaBody();
@@ -136,6 +145,14 @@ function main() {
 		toolZoom = tool.addItem("zoom", "NineSDK/icons/zoom01_white_64x64.png", "缩放...");
 		toolGlobe = tool.addItem("globe", "NineSDK/icons/globe00_white_64x64.png", "全局显示");
 		toolTest = tool.addItem("test", "NineSDK/icons/test00_white_64x64.png", "测试");
+		
+		toolStyle = tool.addGroup("style");
+		toolFill = toolStyle.addItem("fill", "NineSDK/icons/fill00_white_64x64.png", "表面填充");
+		toolWire = toolStyle.addItem("wire", "NineSDK/icons/wire00_white_64x64.png", "线框");
+		toolEdge = toolStyle.addItem("edge", "NineSDK/icons/edge00_white_64x64.png", "边框");
+		$(toolFill.node).click();
+		
+		toolDraw = tool.addItem("draw", "NineSDK/icons/brush00_white_64x64.png", "重绘");
 	}
 	
 	function initContainer() {
@@ -191,11 +208,11 @@ function main() {
 		dlgParaBody.addHeadline("显示属性");
 		dlgParaBody.addColor(
 			"颜色:", "color", 
-			{value:"#000000"}
+			{value:"#ffffff"}
 		);
 		dlgParaBody.addRange(
 			"透明度:", "alpha", 
-			{min:0,max:1,step:0.01,value:0,width:"100px"}
+			{min:0,max:1,step:0.01,value:1,width:"100px"}
 		);
 		dlgParaBody.addSelect(
 			"显示类型:", "display",
@@ -217,11 +234,11 @@ function main() {
 		dlgParaFace.addHeadline("显示属性");
 		dlgParaFace.addColor(
 			"颜色:", "color", 
-			{value:"#000000"}
+			{value:"#ffffff"}
 		);
 		dlgParaFace.addRange(
 			"透明度:", "alpha", 
-			{min:0,max:1,step:0.01,value:0,width:"100px"}
+			{min:0,max:1,step:0.01,value:1,width:"100px"}
 		);
 		dlgParaFace.addSelect(
 			"显示类型:", "display",
@@ -243,7 +260,7 @@ function main() {
 		dlgParaLoop.addHeadline("显示属性");
 		dlgParaLoop.addColor(
 			"颜色:", "color", 
-			{value:"#000000"}
+			{value:"#ffffff"}
 		);
 		dlgParaLoop.addSelect(
 			"显示类型:", "display",
@@ -252,7 +269,7 @@ function main() {
 		);
 		dlgParaLoop.addRange(
 			"点元大小:","size",
-			{min:0,max:10,step:0.01,value:1,width:"100px"}
+			{min:0,max:10,step:0.01,value:0,width:"100px"}
 		);
 	}
 	
@@ -267,7 +284,7 @@ function main() {
 		dlgParaPolyline.addHeadline("显示属性");
 		dlgParaPolyline.addColor(
 			"颜色:", "color", 
-			{value:"#000000"}
+			{value:"#ffffff"}
 		);
 		dlgParaPolyline.addSelect(
 			"显示类型:", "display",
@@ -448,8 +465,9 @@ function main() {
 	function readFileOpen() {
 		fileOpen.read(function() {
 			ab = Grid.Reader.readSTL(fileOpen);
+			pa = ab.pointSetToFloatArray();
 			tree.genFromGrid(ab);
-			cb.writeln(ab.pointSetToFloatArray());
+
 			//
 		});
 	}
@@ -463,23 +481,23 @@ function main() {
 		
 		if (slt.data instanceof Body) {
 			dlgParaBody.setValue({
-				"color":slt.data["color"] || "#000000",
-				"alpha":slt.data["alpha"] || 0,
+				"color":slt.data["color"] || "#ffffff",
+				"alpha":slt.data["alpha"] || 1,
 				"display":slt.data["display"] || "color",
 			});
 			dlgParaBody.show();
 			
 		} else if (slt.data instanceof Face) {
 			dlgParaFace.setValue({
-				"color":slt.data["color"] || "#000000",
-				"alpha":slt.data["alpha"] || 0,
+				"color":slt.data["color"] || "#ffffff",
+				"alpha":slt.data["alpha"] || 1,
 				"display":slt.data["display"] || "color",
 			});
 			dlgParaFace.show();
 			
 		} else if (slt.data instanceof Loop) {
 			dlgParaLoop.setValue({
-				"color":slt.data["color"] || "#000000",
+				"color":slt.data["color"] || "#ffffff",
 				"display":slt.data["display"] || "normal",
 				"size":slt.data["size"] || 0,
 			});
@@ -487,7 +505,7 @@ function main() {
 			
 		} else if (slt.data instanceof Polyline) {
 			dlgParaPolyline.setValue({
-				"color":slt.data["color"] || "#000000",
+				"color":slt.data["color"] || "#ffffff",
 				"display":slt.data["display"] || "normal",
 				"size":slt.data["size"] || 0,
 			});
@@ -531,5 +549,139 @@ function main() {
 		tmp = tmp.map(function (x) {return x.data;});
 		tmp = ab.indexArrayOf(tmp);
 		cb.writeln(tmp.join(", ")); 
+	}
+	
+	function draw() {
+		var tmp = tree.filterCheckedItems(false).map(function (x) {return x.data;});
+		switch (toolStyle.status) {
+			case undefined :
+			case "fill" :
+				for (var i=0;i<tmp.length;++i) {
+					if (tmp[i] instanceof Body) {
+						drawFillBody(tmp[i]);
+					} else if (tmp[i] instanceof Face) {
+						drawFillFace(tmp[i]);
+					}
+				}
+				break;
+			case "wire" :
+				for (var i=0;i<tmp.length;++i) {
+					if (tmp[i] instanceof Body) {
+						drawWireBody(tmp[i]);
+						drawEdgeBody(tmp[i]);
+					} else if (tmp[i] instanceof Face) {
+						drawWireFace(tmp[i]);
+						drawEdgeFace(tmp[i]);
+					} else if (tmp[i] instanceof Loop) {
+						drawEdgeLoop(tmp[i]);
+					} else if (tmp[i] instanceof Polyline) {
+						drawEdgePolyline(tmp[i]);
+					}
+				}
+				break;
+			case "edge" :
+				for (var i=0;i<tmp.length;++i) {
+					if (tmp[i] instanceof Body) {
+						drawEdgeBody(tmp[i]);
+					} else if (tmp[i] instanceof Face) {
+						drawEdgeFace(tmp[i]);
+					} else if (tmp[i] instanceof Loop) {
+						drawEdgeLoop(tmp[i]);
+					} else if (tmp[i] instanceof Polyline) {
+						drawEdgePolyline(tmp[i]);
+					}
+				}
+				break;
+		}
+	}
+	
+	function drawFillBody(obj) {
+		for (var i=0;i<obj.faceLength;++i) {
+			drawFillFace(obj.faceAt(i), obj["color"], obj["alpha"], obj["display"]);
+		}
+	}
+	
+	function drawFillFace(obj, color, alpha, display) {
+		color = obj["color"] || color || "#ffffff";
+		alpha = obj["alpha"] || alpha || 1;
+		display = obj["display"] || display || "color";
+		
+		var ia = ab.indexArrayOfTri([obj]);
+//		cb.writeln(obj.name+": "+ ia.join(", "));
+		//
+	}
+	
+	function drawWireBody(obj) {
+		for (var i=0;i<obj.faceLength;++i) {
+			drawWireFace(obj.faceAt(i), obj["color"], obj["alpha"], obj["display"]);
+		}
+	}
+	
+	function drawWireFace(obj, color, alpha, display) {
+		color = obj["color"] || color || "#ffffff";
+		alpha = obj["alpha"] || alpha || 1;
+		display = obj["display"] || display || "color";
+		
+		var ia = ab.indexArrayOfLine([obj]);
+//		cb.writeln(obj.name+": "+ ia.join(", "));
+		//
+	}
+	
+	function drawEdgeBody(obj) {
+		for (var i=0;i<obj.faceLength;++i) {
+			drawEdgeFace(obj.faceAt(i), obj["color"], obj["alpha"], obj["display"]);
+		}
+	}
+	
+	function drawEdgeFace(obj, color, alpha, display) {
+		color = obj["color"] || color || "#ffffff";
+		alpha = obj["alpha"] || alpha || 1;
+		display = obj["display"] || display || "color";
+		
+		for (var i=0;i<obj.loopLength;++i) {
+			drawEdgeLoop(obj.loopAt(i), color, alpha, display);
+		}
+	}
+	
+	function drawEdgeLoop(obj, color, alpha, display) {
+		color = obj["color"] || color || "#ffffff";
+		
+		for (var i=0;i<obj.polylineLength;++i) {
+			drawEdgePolyline(obj.polylineAt(i), color, alpha, obj["display"], obj["size"]);
+		}
+	}
+	
+	function drawEdgePolyline(obj, color, alpha, display, size) {
+		color = obj["color"] || color || "#ffffff";
+		display = obj["display"] || display || "normal";
+		size = obj["size"] || size || 0;
+		
+		var ia = ab.indexArrayOfLine([obj]);
+//		cb.writeln(obj.name+": "+ ia.join(", "));
+		//
+	}
+	
+	function rOfColor(color) {
+		if (!color) return -1;
+		if (color.length!=7) return -1;
+		if (!/#[0-9a-fA-F]{6}/.test(color)) return -1;
+		
+		return parseInt(color.slice(1,3),16)/255;
+	}
+	
+	function gOfColor(color) {
+		if (!color) return -1;
+		if (color.length!=7) return -1;
+		if (!/#[0-9a-fA-F]{6}/.test(color)) return -1;
+		
+		return parseInt(color.slice(3,5),16)/255;
+	}
+	
+	function bOfColor(color) {
+		if (!color) return -1;
+		if (color.length!=7) return -1;
+		if (!/#[0-9a-fA-F]{6}/.test(color)) return -1;
+		
+		return parseInt(color.slice(5,7),16)/255;
 	}
 }

@@ -58,23 +58,38 @@ function AllBody (_bs, _ps) {
 		return result;
 	};
 	
-	this.indexArrayOf = function (objArr) {
+	this.indexArrayOfTri = function (objArr) {
 		var result = [];
 		for (var i=0;i<objArr.length;++i) {
 			if (objArr[i] instanceof Body) {
-				result = result.concat(indexArrayOfBody(objArr[i]));
+				result = result.concat(indexArrayOfTriBody(objArr[i]));
 			} else if (objArr[i] instanceof Face) {
-				result = result.concat(indexArrayOfFace(objArr[i]));
+				result = result.concat(indexArrayOfTriFace(objArr[i]));
 			} else if (objArr[i] instanceof Triangle) {
-				result = result.concat(indexArrayOfTriangle(objArr[i]));
+				result = result.concat(indexArrayOfTriTriangle(objArr[i]));
+			} 
+		}
+		
+		return result;
+	}
+	
+	this.indexArrayOfLine = function (objArr) {
+		var result = [];
+		for (var i=0;i<objArr.length;++i) {
+			if (objArr[i] instanceof Body) {
+				result = result.concat(indexArrayOfLineBody(objArr[i]));
+			} else if (objArr[i] instanceof Face) {
+				result = result.concat(indexArrayOfLineFace(objArr[i]));
+			} else if (objArr[i] instanceof Triangle) {
+				result = result.concat(indexArrayOfLineTriangle(objArr[i]));
 			} else if (objArr[i] instanceof Loop) {
-				result = result.concat(indexArrayOfLoop(objArr[i]));
+				result = result.concat(indexArrayOfLineLoop(objArr[i]));
 			} else if (objArr[i] instanceof Polyline) {
-				result = result.concat(indexArrayOfPolyline(objArr[i]));
+				result = result.concat(indexArrayOfLinePolyline(objArr[i]));
 			} else if (objArr[i] instanceof Line) {
-				result = result.concat(indexArrayOfLine(objArr[i]));
+				result = result.concat(indexArrayOfLineLine(objArr[i]));
 			} else if (objArr[i] instanceof Point) {
-				result = result.concat(indexArrayOfPoint(objArr[i]));
+//				result = result.concat(indexArrayOfPoint(objArr[i]));
 			}
 		}
 		
@@ -90,47 +105,71 @@ function AllBody (_bs, _ps) {
 		pointAt : {writable : false, enumerable : true, configurable : false,},
 		pointIndexOfPoint : {writable : false, enumerable : true, configurable : false,},
 		pointSetToFloatArray : {writable : false, enumerable : true, configurable : false,},
-		indexArrayOf : {writable : false, enumerable : true, configurable : false,},
+		indexArrayOfTri : {writable : false, enumerable : true, configurable : false,},
+		indexArrayOfLine : {writable : false, enumerable : true, configurable : false,},
 		toString : {enumerable : false},
 	});
 	
-	function indexArrayOfBody(b) {
+	function indexArrayOfTriBody(b) {
 		var result = [];
 		for (var i=0;i<b.faceLength;++i) {
-			result = result.concat(indexArrayOfFace(b.faceAt(i)));
+			result = result.concat(indexArrayOfTriFace(b.faceAt(i)));
 		}
 		
 		return result;
 	}
 	
-	function indexArrayOfFace(f) {
+	function indexArrayOfTriFace(f) {
 		var result = [];
 		for (var i=0;i<f.triangleLength;++i) {
-			result = result.concat(indexArrayOfTriangle(f.triangleAt(i)));
+			result = result.concat(indexArrayOfTriTriangle(f.triangleAt(i)));
 		}
 
 		return result;
 	}
 	
-	function indexArrayOfTriangle(t) {
+	function indexArrayOfTriTriangle(t) {
 		return [ps.indexOfPoint(t.p0), ps.indexOfPoint(t.p1), ps.indexOfPoint(t.p2)];
 	}
 	
-	function indexArrayOfLoop(l) {
+	function indexArrayOfLineBody(b) {
 		var result = [];
-		for(var i=0;i<l.polylineLength;++i) {
-			result = result.concat(indexArrayOfPolyline(l.polylineAt(i)).slice(0, -1));
+		for (var i=0;i<b.faceLength;++i) {
+			result = result.concat(indexArrayOfLineFace(b.faceAt(i)));
 		}
 		
 		return result;
 	}
 	
-	function indexArrayOfPolyline(p) {
+	function indexArrayOfLineFace(f) {
 		var result = [];
-		if (p.lineLength>0) {
-			result.push(ps.indexOfPoint(p.lineAt(0).p0));
+		for (var i=0;i<f.triangleLength;++i) {
+			result = result.concat(indexArrayOfLineTriangle(f.triangleAt(i)));
 		}
-		for(var i=0;i<p.lineLength;++i) {
+
+		return result;
+	}
+	
+	function indexArrayOfLineTriangle(t) {
+		return [ps.indexOfPoint(t.p0), ps.indexOfPoint(t.p1),
+				ps.indexOfPoint(t.p1), ps.indexOfPoint(t.p2),
+				ps.indexOfPoint(t.p2), ps.indexOfPoint(t.p0)
+		];
+	}
+	
+	function indexArrayOfLineLoop(l) {
+		var result = [];
+		for(var i=0;i<l.polylineLength;++i) {
+			result = result.concat(indexArrayOfLinePolyline(l.polylineAt(i)));
+		}
+		
+		return result;
+	}
+	
+	function indexArrayOfLinePolyline(p) {
+		var result = [];
+		for (var i=0;i<p.lineLength;++i) {
+			result.push(ps.indexOfPoint(p.lineAt(i).p0));
 			result.push(ps.indexOfPoint(p.lineAt(i).p1));
 		}
 		

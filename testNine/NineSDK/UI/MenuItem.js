@@ -42,8 +42,9 @@ function MenuItem(name,title,lev,props) {
 	}
 	
 	this.click = function (handler,context) {
+		var self = this;
 		if ($.isFunction(handler)) {
-			_liNode.click($.proxy(handler, context || _liNode));
+			_liNode.click($.proxy(handler, context || self));
 		}
 	}
 	

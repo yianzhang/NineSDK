@@ -43,7 +43,7 @@ function ToolGroup (name,props, advisory) {
 	});
 	
 	this.addItem = function (name, url, _advisory) {
-		var item = new ToolGroupItem(name, url, this, props, advisory+" : "+_advisory);
+		var item = new ToolGroupItem(name, url, this, props, (advisory?advisory+" : ":"")+_advisory);
 		items[name] = item;
 		
 		_divNode.append(item.node);
@@ -55,9 +55,17 @@ function ToolGroup (name,props, advisory) {
 		return items[i];
 	};
 	
+	this.click = function (handler,context) {
+		var self = this;
+		if ($.isFunction(handler)) {
+			_divNode.click($.proxy(handler,context || self));
+		}
+	} 
+	
 	Object.defineProperties(this, {
 		addItem : {writable : false, enumerable : true, configurable : false},
 		itemAt : {writable : false, enumerable : true, configurable : false},
+		click : {writable : false, enumerable : true, configurable : false},
 	});
 	
 	function init () {

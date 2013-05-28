@@ -181,6 +181,7 @@ function TreeItem(name,title,parent,lev,props,_data) {
 		_triNode.css("color",props["font_color"]);
 		
 		_checkboxNode = $("<input type='checkbox' />");
+		_checkboxNode.prop("checked", true);
 		_checkboxNode.val(name);
 		
 		_spanNode = $("<span/>");

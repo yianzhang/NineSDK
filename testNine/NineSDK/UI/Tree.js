@@ -83,7 +83,12 @@ function Tree(name,props) {
 		}
 	};
 	
-	this.onchange = change; 
+	this.change = function (handler,context) {
+		var self = this;
+		if ($.isFunction(handler)) {
+			_divNode.on("change", "input:checkbox" ,$.proxy(handler, context || self));
+		}
+	}; 
 	
 	this.itemAt = function (i) {
 		return items[i];
@@ -189,12 +194,12 @@ function Tree(name,props) {
 			}
 		});
 		
-		change(function(){});
+//		change(function(){});
+		change();
 	}
 	
-	function change (handler,context) {
-		_divNode.off("change","input:checkbox");
-		
+	function change () {
+/*		
 		var self = this;
 		_divNode.on("change","input:checkbox",function () {
 			var _ulNode = $(this).nextAll("ul");
@@ -214,8 +219,35 @@ function Tree(name,props) {
 				$(_liNode).parents().children("input:checked").prop("checked",false);
 			}
 			
-			if ($.isFunction(handler))
+			if ($.isFunction(handler)) {
 				($.proxy(handler,context || sltItem || $(this).parent()))();
+			}
+		});
+*/
+
+		_divNode.on("change", "input:checkbox", function () {
+			var _ulNode = $(this).nextAll("ul");
+			var _liNode = $(this).parent();
+			
+			if (this.checked) {
+				$(_ulNode).find("input:checkbox").prop("checked",true);
+				$(_liNode).parents().children("input:checkbox").prop("checked",function () {
+					var tmp = $(this).parent().children("ul").children("li");
+					if (tmp.children("input:checkbox").length === tmp.children("input:checked").length)
+						return true;
+					else
+						return false;
+				});
+			} else {
+				$(_ulNode).find("input:checked").prop("checked",false);
+				$(_liNode).parents().children("input:checkbox").prop("checked",function () {
+					var tmp = $(this).parent().children("ul").children("li");
+					if (tmp.children("input:checked").length == 0)
+						return false;
+					else
+						return true;
+				});
+			}
 		});
 	}
 }

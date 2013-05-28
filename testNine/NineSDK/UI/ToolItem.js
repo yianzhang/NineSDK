@@ -32,8 +32,9 @@ function ToolItem (name,url,props,advisory) {
 	});
 	
 	this.click = function (handler,context) {
+		var self = this;
 		if ($.isFunction(handler)) {
-			_imgNode.click($.proxy(handler,context || _imgNode));
+			_imgNode.click($.proxy(handler,context || self));
 		}
 	}
 	
