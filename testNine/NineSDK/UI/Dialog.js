@@ -58,15 +58,17 @@ function Dialog (name,title,props) {
 	
 	this.show = show;
 	
-	this.close = function(handler) {		
+	this.close = function(handler,context) {		
+		var self = this;
 		if ($.isFunction(handler)) {
-			_closeNode.click(handler);
+			_closeNode.click($.proxy(handler, context || self));
 		}
 	}
 	
-	this.confirm = function(handler) {
+	this.confirm = function(handler, context) {
+		var self = this;
 		if ($.isFunction(handler)) {
-			_confirmNode.click(handler);
+			_confirmNode.click($.proxy(handler, context || self));
 		}
 	}
 	

@@ -42,8 +42,13 @@ function main() {
 	
 	view.resize(function () {
 		$(tree.node).height(($(ctn1.node).height()-10)+"px");
-		$(canvas.node).width(($(ctn1.node).width()-2-$(tree.node).outerWidth(true))+"px");
-		$(canvas.node).height(($(ctn1.node).height()-2)+"px");
+		$(canvas.node).attr("width",($(ctn1.node).width()-2-$(tree.node).outerWidth(true))+"px");
+		$(canvas.node).attr("height",($(ctn1.node).height()-2)+"px");
+		$("#fps").css({
+			"left" : canvas.node.offsetLeft+"px",
+			"top" : canvas.node.offsetTop+"px",
+		});
+//		draw();
 	});
 	
 	//add a dialog
@@ -59,7 +64,10 @@ function main() {
 	initDialogRotate();
 	initDialogTrans();
 	initDialogZoom();
-	
+
+	//GL
+	initGL();
+		
 	//add a textreader
 	var fileOpen = model.newTextReader();
 	
@@ -83,15 +91,19 @@ function main() {
 	toolZoom.click(zoom);
 	toolTest.click(test);
 	toolDraw.click(draw);
+	toolStyle.click(draw);
 	
 	//add listener to tree
-
+	tree.change(draw);
 	
 	//confirm or close Dialog
 	oxDialogParaBody();
 	oxDialogParaFace();
 	oxDialogParaLoop();
 	oxDialogParaPolyline();
+	oxDialogRotate();
+	oxDialogTrans();
+	oxDialogZoom();
 	
 	//read textreader
 	readFileOpen();
@@ -195,6 +207,12 @@ function main() {
 		});
 		
 		$(canvas.node).attr("id", "mycanvas");
+		$("#fps").css({
+			"background-color":"#00ccff",
+			"color" : "white",
+			"left":canvas.node.offsetLeft+"px",
+			"top":canvas.node.offsetTop+"px",
+		});
 	}
 	
 	function initDialogParaBody () {
@@ -351,7 +369,7 @@ function main() {
 		);
 		
 		dlgRotate.addText(
-			"旋转角度(弧度)：", "rotateA",
+			"旋转角速度：", "rotateA",
 			{value:0, width:"100px"}
 		);
 	}
@@ -408,6 +426,7 @@ function main() {
 		menuClose.click(function() {
 			tree.empty();
 			cb.clear();
+			GL.cleanModelsToDraw();
 			//
 		});
 	}
@@ -426,6 +445,8 @@ function main() {
 			slt.data["color"] = dlgParaBody.result["color"];
 			slt.data["alpha"] = dlgParaBody.result["alpha"];
 			slt.data["display"] = dlgParaBody.result["display"];
+			
+			draw();
 		});
 	}
 	
@@ -437,6 +458,8 @@ function main() {
 			slt.data["color"] = dlgParaFace.result["color"];
 			slt.data["alpha"] = dlgParaFace.result["alpha"];
 			slt.data["display"] = dlgParaFace.result["display"];
+			
+			draw();
 		});
 	}
 	
@@ -448,6 +471,8 @@ function main() {
 			slt.data["color"] = dlgParaLoop.result["color"];
 			slt.data["display"] = dlgParaLoop.result["display"];
 			slt.data["size"] = dlgParaLoop.result["size"];
+			
+			draw();
 		});
 	}
 	
@@ -459,6 +484,39 @@ function main() {
 			slt.data["color"] = dlgParaPolyline.result["color"];
 			slt.data["display"] = dlgParaPolyline.result["display"];
 			slt.data["size"] = dlgParaLoop.result["size"];
+			
+			draw();
+		});
+	}
+	
+	function oxDialogRotate() {
+		dlgRotate.confirm(function () {
+			var rotateX = parseFloat(dlgRotate.result["rotateX"]);
+			var rotateY = parseFloat(dlgRotate.result["rotateY"]);
+			var rotateZ = parseFloat(dlgRotate.result["rotateZ"]);
+			var rotateA = parseFloat(dlgRotate.result["rotateA"]);
+			//	
+			GL.rotate(rotateA, [rotateX, rotateY, rotateZ]);
+		});
+	}
+	
+	function oxDialogTrans() {
+		dlgTrans.confirm(function () {
+			var transX = parseFloat(dlgTrans.result["transX"]);
+			var transY = parseFloat(dlgTrans.result["transY"]);
+			var transZ = parseFloat(dlgTrans.result["transZ"]);
+			//
+			GL.translate([transX, transY, transZ]);
+		});
+	}
+	
+	function oxDialogZoom() {
+		dlgZoom.confirm(function () {
+			var zoomX = parseFloat(dlgZoom.result["zoomX"]);
+			var zoomY = parseFloat(dlgZoom.result["zoomY"]);
+			var zoomZ = parseFloat(dlgZoom.result["zoomZ"]);
+			//
+			GL.scale([zoomX, zoomY, zoomZ]);
 		});
 	}
 	
@@ -468,7 +526,7 @@ function main() {
 			pa = ab.pointSetToFloatArray();
 			tree.genFromGrid(ab);
 
-			//
+			draw();
 		});
 	}
 	
@@ -552,47 +610,58 @@ function main() {
 	}
 	
 	function draw() {
-		var tmp = tree.filterCheckedItems(false).map(function (x) {return x.data;});
+		GL.cleanModelsToDraw();
+		
+		var tmp = tree.filterCheckedItems(true).map(function (x) {return x.data;});
 		switch (toolStyle.status) {
 			case undefined :
 			case "fill" :
 				for (var i=0;i<tmp.length;++i) {
-					if (tmp[i] instanceof Body) {
-						drawFillBody(tmp[i]);
-					} else if (tmp[i] instanceof Face) {
+//					if (tmp[i] instanceof Body) {
+//						drawFillBody(tmp[i]);
+//					} else 
+					if (tmp[i] instanceof Face) {
 						drawFillFace(tmp[i]);
 					}
 				}
 				break;
 			case "wire" :
 				for (var i=0;i<tmp.length;++i) {
-					if (tmp[i] instanceof Body) {
-						drawWireBody(tmp[i]);
-						drawEdgeBody(tmp[i]);
-					} else if (tmp[i] instanceof Face) {
+//					if (tmp[i] instanceof Body) {
+//						drawWireBody(tmp[i]);
+//						drawEdgeBody(tmp[i]);
+//					} else 
+					if (tmp[i] instanceof Face) {
 						drawWireFace(tmp[i]);
-						drawEdgeFace(tmp[i]);
-					} else if (tmp[i] instanceof Loop) {
-						drawEdgeLoop(tmp[i]);
-					} else if (tmp[i] instanceof Polyline) {
+//						drawEdgeFace(tmp[i]);
+					} else 
+//					if (tmp[i] instanceof Loop) {
+//						drawEdgeLoop(tmp[i]);
+//					} else 
+					if (tmp[i] instanceof Polyline) {
 						drawEdgePolyline(tmp[i]);
 					}
 				}
 				break;
 			case "edge" :
 				for (var i=0;i<tmp.length;++i) {
-					if (tmp[i] instanceof Body) {
-						drawEdgeBody(tmp[i]);
-					} else if (tmp[i] instanceof Face) {
-						drawEdgeFace(tmp[i]);
-					} else if (tmp[i] instanceof Loop) {
-						drawEdgeLoop(tmp[i]);
-					} else if (tmp[i] instanceof Polyline) {
+//					if (tmp[i] instanceof Body) {
+//						drawEdgeBody(tmp[i]);
+//					} else 
+//					if (tmp[i] instanceof Face) {
+//						drawEdgeFace(tmp[i]);
+//					} else 
+//					if (tmp[i] instanceof Loop) {
+//						drawEdgeLoop(tmp[i]);
+//					} else 
+					if (tmp[i] instanceof Polyline) {
 						drawEdgePolyline(tmp[i]);
 					}
 				}
 				break;
 		}
+		
+		GL.setScene();
 	}
 	
 	function drawFillBody(obj) {
@@ -609,6 +678,12 @@ function main() {
 		var ia = ab.indexArrayOfTri([obj]);
 //		cb.writeln(obj.name+": "+ ia.join(", "));
 		//
+		
+		var fillFace = new GLModel(rOfColor(color), gOfColor(color), bOfColor(color), alpha, true, "TRIANGLES");
+		fillFace.setVertexBuffer(pa);
+		fillFace.setIndexBuffer(ia);
+				
+		GL.addModel(fillFace);
 	}
 	
 	function drawWireBody(obj) {
@@ -625,6 +700,12 @@ function main() {
 		var ia = ab.indexArrayOfLine([obj]);
 //		cb.writeln(obj.name+": "+ ia.join(", "));
 		//
+		
+		var wireFace = new GLModel(rOfColor(color), gOfColor(color), bOfColor(color), alpha, true, "LINES");
+		wireFace.setVertexBuffer(pa);
+		wireFace.setIndexBuffer(ia);
+				
+		GL.addModel(wireFace);
 	}
 	
 	function drawEdgeBody(obj) {
@@ -659,6 +740,12 @@ function main() {
 		var ia = ab.indexArrayOfLine([obj]);
 //		cb.writeln(obj.name+": "+ ia.join(", "));
 		//
+		
+		var polyLine = new GLModel(rOfColor(color), gOfColor(color), bOfColor(color), 1.0, true, "LINES");
+		polyLine.setVertexBuffer(pa);
+		polyLine.setIndexBuffer(ia);
+			
+		GL.addModel(polyLine);
 	}
 	
 	function rOfColor(color) {
@@ -683,5 +770,27 @@ function main() {
 		if (!/#[0-9a-fA-F]{6}/.test(color)) return -1;
 		
 		return parseInt(color.slice(5,7),16)/255;
+	}
+	
+	function initGL() {
+		GL = new GLContext();
+		
+		GL.initialize("mycanvas");
+				
+		GL.setClearColor(0.1, 0.1, 0.1, 1.0);
+				
+		GL.setLookAt([20.0, 15.0, 7.0], [0.0, 0.0, 0.0], [0.0, 1.0, 0.0])
+				
+		GL.translate([0.0, 0.0, 0.0]);
+				
+		GL.scale([0.1, 0.1, 0.1]);
+				
+		GL.rotate(1.0, [0.0, 1.0, 0.0]);
+				
+		//GL.lightEnable([0.13, 0.05, 0.0]);
+				
+		//GL.pointLightEnable([0.0, 0.15, 0.0]);
+				
+		//GL.spotLightEnable([0.0, 0.2, 0.0], [0.0, -1.0, 0.0]);
 	}
 }

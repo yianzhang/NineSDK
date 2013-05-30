@@ -231,13 +231,7 @@ function Tree(name,props) {
 			
 			if (this.checked) {
 				$(_ulNode).find("input:checkbox").prop("checked",true);
-				$(_liNode).parents().children("input:checkbox").prop("checked",function () {
-					var tmp = $(this).parent().children("ul").children("li");
-					if (tmp.children("input:checkbox").length === tmp.children("input:checked").length)
-						return true;
-					else
-						return false;
-				});
+				$(_liNode).parents().children("input:checkbox").prop("checked",true);
 			} else {
 				$(_ulNode).find("input:checked").prop("checked",false);
 				$(_liNode).parents().children("input:checkbox").prop("checked",function () {
