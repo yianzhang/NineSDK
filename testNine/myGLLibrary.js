@@ -1263,8 +1263,6 @@
 				
 				this.initialize = function (canvasName) {
 					canvas = document.getElementById(canvasName);
-					console.log(canvas.width+", "+canvas.height);
-					console.log($(canvas).width()+", "+$(canvas).height());
 					gl = WebGLDebugUtils.makeDebugContext(createGLContext(canvas));
 					
 					pHandler = new propertyHandler();

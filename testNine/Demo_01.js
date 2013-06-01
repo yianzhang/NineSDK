@@ -5,6 +5,7 @@ function main() {
 	var menu;
 	var menuFile, menuView, menuGrid;
 	var menuOpen, menuSave, menuClose;
+	var menuSTL;
 	var menuDisp, menuRotate, menuTrans, menuZoom, menuGlobe;
 	var menuPara;
 	
@@ -75,7 +76,7 @@ function main() {
 	var pa;
 	
 	//add listener to menu
-	menuOpen.click(fileOpen.trigger);
+	menuSTL.click(fileOpen.trigger);
 	menuRotate.click(rotate);
 	menuTrans.click(trans);
 	menuZoom.click(zoom);
@@ -126,9 +127,11 @@ function main() {
 		});
 		
 		menuFile = menu.addItem("file","文件");
-		menuOpen = menuFile.addItem("open","打开...");
+		menuOpen = menuFile.addItem("open","打开文件");
 		menuSave = menuFile.addItem("save","另存为...");
 		menuClose = menuFile.addItem("close","关闭");
+		
+		menuSTL = menuOpen.addItem("stl","打开STL文件...");
 		
 		menuView = menu.addItem("view", "视图");
 		menuDisp = menuView.addItem("display", "显示属性设置...");
@@ -617,45 +620,59 @@ function main() {
 			case undefined :
 			case "fill" :
 				for (var i=0;i<tmp.length;++i) {
-//					if (tmp[i] instanceof Body) {
-//						drawFillBody(tmp[i]);
-//					} else 
+					if (tmp[i] instanceof Body) {
+						var bcolor = tmp[i]["color"] || "#ffffff";
+						var balpha = tmp[i]["alpha"] || 1;
+						var bdisplay = tmp[i]["display"] || "color";
+					} else 
 					if (tmp[i] instanceof Face) {
-						drawFillFace(tmp[i]);
+						drawFillFace(tmp[i], bcolor, balpha, bdisplay);
 					}
 				}
 				break;
 			case "wire" :
 				for (var i=0;i<tmp.length;++i) {
-//					if (tmp[i] instanceof Body) {
-//						drawWireBody(tmp[i]);
-//						drawEdgeBody(tmp[i]);
-//					} else 
+					if (tmp[i] instanceof Body) {
+						var bcolor = tmp[i]["color"] || "#ffffff";
+						var balpha = tmp[i]["alpha"] || 1;
+						var bdisplay = tmp[i]["display"] || "color";
+					} else 
 					if (tmp[i] instanceof Face) {
-						drawWireFace(tmp[i]);
+						var fcolor = tmp[i]["color"] || bcolor;
+						var falpha = tmp[i]["alpha"] || balpha;
+						var fdisplay = tmp[i]["display"] || bdisplay;
+						drawWireFace(tmp[i], fcolor, falpha, fdisplay);
 //						drawEdgeFace(tmp[i]);
 					} else 
-//					if (tmp[i] instanceof Loop) {
-//						drawEdgeLoop(tmp[i]);
-//					} else 
+					if (tmp[i] instanceof Loop) {
+						var lcolor = tmp[i]["color"] || fcolor;
+						var ldisplay = tmp[i]["display"] || "normal";
+						var lsize = tmp[i]["size"] || 0;
+					} else 
 					if (tmp[i] instanceof Polyline) {
-						drawEdgePolyline(tmp[i]);
+						drawEdgePolyline(tmp[i], lcolor, falpha, ldisplay, lsize);
 					}
 				}
 				break;
 			case "edge" :
 				for (var i=0;i<tmp.length;++i) {
-//					if (tmp[i] instanceof Body) {
-//						drawEdgeBody(tmp[i]);
-//					} else 
-//					if (tmp[i] instanceof Face) {
-//						drawEdgeFace(tmp[i]);
-//					} else 
-//					if (tmp[i] instanceof Loop) {
-//						drawEdgeLoop(tmp[i]);
-//					} else 
+					if (tmp[i] instanceof Body) {
+						var bcolor = tmp[i]["color"] || "#ffffff";
+						var balpha = tmp[i]["alpha"] || 1;
+						var bdisplay = tmp[i]["display"] || "color";
+					} else 
+					if (tmp[i] instanceof Face) {
+						var fcolor = tmp[i]["color"] || bcolor;
+						var falpha = tmp[i]["alpha"] || balpha;
+						var fdisplay = tmp[i]["display"] || bdisplay;
+					} else 
+					if (tmp[i] instanceof Loop) {
+						var lcolor = tmp[i]["color"] || fcolor;
+						var ldisplay = tmp[i]["display"] || "normal";
+						var lsize = tmp[i]["size"] || 0;
+					} else 
 					if (tmp[i] instanceof Polyline) {
-						drawEdgePolyline(tmp[i]);
+						drawEdgePolyline(tmp[i], lcolor, falpha, ldisplay, lsize);
 					}
 				}
 				break;
@@ -664,7 +681,7 @@ function main() {
 		GL.setScene();
 	}
 	
-	function drawFillBody(obj) {
+	function drawWireBody(obj) {
 		for (var i=0;i<obj.faceLength;++i) {
 			drawFillFace(obj.faceAt(i), obj["color"], obj["alpha"], obj["display"]);
 		}
@@ -676,7 +693,6 @@ function main() {
 		display = obj["display"] || display || "color";
 		
 		var ia = ab.indexArrayOfTri([obj]);
-//		cb.writeln(obj.name+": "+ ia.join(", "));
 		//
 		
 		var fillFace = new GLModel(rOfColor(color), gOfColor(color), bOfColor(color), alpha, true, "TRIANGLES");
@@ -698,7 +714,6 @@ function main() {
 		display = obj["display"] || display || "color";
 		
 		var ia = ab.indexArrayOfLine([obj]);
-//		cb.writeln(obj.name+": "+ ia.join(", "));
 		//
 		
 		var wireFace = new GLModel(rOfColor(color), gOfColor(color), bOfColor(color), alpha, true, "LINES");
@@ -738,7 +753,6 @@ function main() {
 		size = obj["size"] || size || 0;
 		
 		var ia = ab.indexArrayOfLine([obj]);
-//		cb.writeln(obj.name+": "+ ia.join(", "));
 		//
 		
 		var polyLine = new GLModel(rOfColor(color), gOfColor(color), bOfColor(color), 1.0, true, "LINES");
