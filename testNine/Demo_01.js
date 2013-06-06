@@ -72,16 +72,20 @@ function main() {
 	//add a textreader
 	var fileOpen = model.newTextReader();
 	
+	//add a textwriter
+	var fileSave = model.newTextWriter();
+	
 	var ab;
 	var pa;
 	
 	//add listener to menu
 	menuSTL.click(fileOpen.trigger);
+	menuSave.click(fileSave.trigger);
 	menuRotate.click(rotate);
 	menuTrans.click(trans);
 	menuZoom.click(zoom);
 	menuDisp.click(displaySetting);
-	
+
 	listenToMenuClose();
 	listenToMenuPara();
 	
@@ -108,6 +112,9 @@ function main() {
 	
 	//read textreader
 	readFileOpen();
+	
+	//write textwriter
+	writeFileSave();
 	
 	function initMenu() {
 		menu = ct.addMenu("menu",{
@@ -524,12 +531,23 @@ function main() {
 	}
 	
 	function readFileOpen() {
-		fileOpen.read(function() {
+		fileOpen.reading(function() {
 			ab = Grid.Reader.readSTL(fileOpen);
 			pa = ab.pointSetToFloatArray();
 			tree.genFromGrid(ab);
 
 			draw();
+		});
+	}
+	
+	function writeFileSave() {
+		fileSave.writing(function() {
+			if (tree.data) {
+				fileSave.write(tree.data);
+			} else {
+				alert("树形控件没有数据！");
+				return -1;
+			}
 		});
 	}
 	

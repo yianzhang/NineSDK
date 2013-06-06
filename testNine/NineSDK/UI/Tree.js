@@ -3,6 +3,7 @@ function Tree(name,props) {
 	
 	var items = {};
 //	var count = 0;
+	var data = undefined;
 	var sltItem = undefined;
 	var _divNode, _ulNode;
 	
@@ -35,7 +36,16 @@ function Tree(name,props) {
 		enumerable : true,
 		configurable : false,
 	});
-	
+
+	//this.data
+	Object.defineProperty(this, "data", {
+		get : function () {
+			return data;
+		},
+		enumerable : true,
+		configurable : false,
+	});
+		
 	this.addItem = function (name,title,data) {
 		var item = new TreeItem(name,title,this,1,props,data || {});
 		
@@ -116,6 +126,7 @@ function Tree(name,props) {
 		_ulNode.empty();
 		items = {};
 //		count = 0;
+		data = undefined;
 		sltItem = undefined;
 	};
 	
@@ -123,6 +134,7 @@ function Tree(name,props) {
 		if (!ab || !(ab instanceof AllBody)) return;
 		
 		this.empty();
+		data = ab;
 		for (var i=0;i<ab.bodyLength;++i) {
 			var body = ab.bodyAt(i);
 			var item0 = this.addItem("Body_"+i, "Body_"+i, body);

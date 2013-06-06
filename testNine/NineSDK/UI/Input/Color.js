@@ -57,7 +57,7 @@ Input.Color = function (name, args, props) {
 		_colorNode = $("<input type='color' />");
 		_colorNode.addClass("nineInputColor");
 		
-		_spanNode = $("<input type='text' size='7em' maxlength=7/>");
+		_spanNode = $("<input type='text' size='7em' maxlength=7 />");
 		_spanNode.addClass("nineInputSpan");
 		_spanNode.css({
 			"background-color":props["bgcolor"],

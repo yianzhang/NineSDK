@@ -1,11 +1,14 @@
 function TextWriter() {
-	text = "";
+	var text = "";
+	var handler = function(){};
+	var context = undefined;
 
 	//this.trigger
 	Object.defineProperty(this, "trigger", {
 		get : function () {
 			var self = this;
 			return function(){
+				if (($.proxy(handler,context || self))() == -1) return;
 				self.saveAs("download.txt");
 			};
 		},
@@ -20,6 +23,11 @@ function TextWriter() {
 	this.writeln = function (_text) {
 		this.write(_text);
 		text += '\n';
+	}
+	
+	this.writing = function (_handler,_context) {
+		handler = _handler;
+		context = _context;
 	}
 	
 	this.saveAs = function (name){

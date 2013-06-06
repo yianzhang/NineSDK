@@ -125,24 +125,15 @@ function TextReader () {
 		get : function () {
 			return _anchor;
 		},
+		set : seek,
 		enumerable : true,
 		configurable : false,
 	});
 	
-	this.seek = function (i) {
-		if (i==undefined || !$.isNumeric(i))
-			return;
-			
-		if (i<0) {
-			_anchor = 0;
-		} else if (i>_result.length) {
-			_anchor = _result.length;
-		} else {
-			_anchor = i;
-		}
-	};
+	this.seek = seek;
 	
-	this.read = function (handler,context) {
+	this.reading = function (handler,context) {
+		var self = this;
 		_reader.onload = function(){
 			_result = this.result;
 			_anchor = 0;
@@ -158,4 +149,17 @@ function TextReader () {
 		seek : {writable : false, enumerable : true, configurable : false,},
 		read : {writable : false, enumerable : true, configurable : false,},
 	});
+	
+	function seek(i) {
+		if (i==undefined || !$.isNumeric(i))
+			return;
+			
+		if (i<0) {
+			_anchor = 0;
+		} else if (i>_result.length) {
+			_anchor = _result.length;
+		} else {
+			_anchor = i;
+		}
+	}
 }
