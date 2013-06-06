@@ -765,7 +765,7 @@ function main() {
 	function rOfColor(color) {
 		if (!color) return -1;
 		if (color.length!=7) return -1;
-		if (!/#[0-9a-fA-F]{6}/.test(color)) return -1;
+		if (!/#[0-9a-f]{6}/.test(color)) return -1;
 		
 		return parseInt(color.slice(1,3),16)/255;
 	}
@@ -773,7 +773,7 @@ function main() {
 	function gOfColor(color) {
 		if (!color) return -1;
 		if (color.length!=7) return -1;
-		if (!/#[0-9a-fA-F]{6}/.test(color)) return -1;
+		if (!/#[0-9a-f]{6}/.test(color)) return -1;
 		
 		return parseInt(color.slice(3,5),16)/255;
 	}
@@ -781,7 +781,7 @@ function main() {
 	function bOfColor(color) {
 		if (!color) return -1;
 		if (color.length!=7) return -1;
-		if (!/#[0-9a-fA-F]{6}/.test(color)) return -1;
+		if (!/#[0-9a-f]{6}/.test(color)) return -1;
 		
 		return parseInt(color.slice(5,7),16)/255;
 	}

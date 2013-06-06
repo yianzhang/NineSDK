@@ -1,6 +1,6 @@
 function main() {
 	//initialize view
-	view.init();
+//	view.init();
 
 	//add a menu	
 	var menu = view.container.addMenu("menu",{
@@ -19,17 +19,17 @@ function main() {
 		"font1_weight":"",
 	});
 
-	menu.addItem("File");
-	menu.itemAt("File").addItem("Imp...");
-	menu.itemAt("File").addItem("Exp...");
+	menu.addItem("File","File");
+	menu.itemAt("File").addItem("Imp...","Imp...");
+	menu.itemAt("File").addItem("Exp...","Exp...");
 	
-	menu.addItem("Edit");
+	menu.addItem("Edit","Edit");
 	
-	menu.addItem("Other");
-	menu.itemAt("Other").addItem("1");
-	menu.itemAt("Other").itemAt("1").addItem("2");
-	menu.itemAt("Other").itemAt("1").itemAt("2").addItem("abcdefghijklmnopqrstuvwxyz");
-	menu.itemAt("Other").addItem("ShowDialog");
+	menu.addItem("Other","Other");
+	menu.itemAt("Other").addItem("1","1");
+	menu.itemAt("Other").itemAt("1").addItem("2","2");
+	menu.itemAt("Other").itemAt("1").itemAt("2").addItem("abcdefghijklmnopqrstuvwxyz","abcdefghijklmnopqrstuvwxyz");
+	menu.itemAt("Other").addItem("ShowDialog","ShowDialog");
 
 	//add a toobar
 	var toolBar = view.container.addToolBar("toolbar",{
@@ -39,7 +39,7 @@ function main() {
 		"margin":"0 0 5px 0",
 		"item_width":"20px",
 	});
-	
+/*	
 	toolBar.addItem("refresh0","NineSDK/img/refresh.png");
 	toolBar.addItem("refresh1","NineSDK/img/refresh.png");
 	toolBar.addItem("refresh2","NineSDK/img/refresh.png");
@@ -48,7 +48,7 @@ function main() {
 	toolBar.addItem("refresh5","NineSDK/img/refresh.png");
 	toolBar.addItem("refresh6","NineSDK/img/refresh.png");
 	toolBar.addItem("refresh7","NineSDK/img/refresh.png");
-	
+*/	
 	//add a sub-container
 	var ctn1 = view.container.addContainer("ctn1",{
 		"box_orient":"horizontal",
@@ -69,7 +69,7 @@ function main() {
 		"font_family":"",
 		"font_weight":"normal",
 	});
-
+/*
 	tree.addItem("amy");
 	tree.addItem("buddy");
 	tree.addItem("cherry");
@@ -89,7 +89,7 @@ function main() {
 	tree.itemAt("amy").itemAt("alpha").addItem("Android");
 	tree.itemAt("amy").itemAt("alpha").addItem("Apple");
 	tree.itemAt("amy").itemAt("alpha").addItem("Aeronautics");
-	
+*/	
 	//add a callboard
 	cb = view.container.addCallBoard("callboard",{
 		"bgcolor":"#00CCFF",
@@ -99,12 +99,12 @@ function main() {
 	});
 
 	//new a dialog
-	var dia = view.addDialog("92331319",{
+	var dia = view.addDialog("92331319","Dialog",{
 		"head_bgcolor":"#00CCFF",
 		"head_padding":"5px",
 		"head_font_color":"white",
-		"body_bgcolor":"#FF66FF",
-		"body_font_color":"white",
+		"body_bgcolor":"white",
+		"body_font_color":"black",
 	});
 	
 	dia.addHeadline("9233");
