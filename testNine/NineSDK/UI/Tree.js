@@ -66,14 +66,17 @@ function Tree(name,props) {
 		return false;
 	};
 	
-	this.filterCheckedItems = function (bool) {
+	this.filterCheckedItems = function () {
+		return [].map.call(_divNode.find("input:checked").parent(),function(x) {return x.object;});
+/*		
 		var result = [];
 		
 		for (var i in items) {
-			$.merge(result,items[i].filterCheckedItems(bool));
+			$.merge(result,items[i].filterCheckedItems());
 		}
 		
 		return result;
+*/
 	};
 	
 	this.deleteCheckedItems = function () {
@@ -198,10 +201,23 @@ function Tree(name,props) {
 */
 			var item = $(this).parent()[0].object;		
 			if (sltItem == item) {
-				item.unselected();
+				$(item.node).children("span.nineTreeItemText").css({
+					"background-color":"transparent",
+					"color":props["font_color"],
+				});
+				
 				sltItem = undefined;
 			} else {
-				item.selected();
+				_divNode.find("span.nineTreeItemText").css({
+					"background-color":"transparent",
+					"color":props["font_color"],
+				});
+				
+				$(item.node).children("span.nineTreeItemText").css({
+					"background-color":props["bgcolor:selected"],
+					"color":props["font_color:selected"],
+				});
+				
 				sltItem = item;
 			}
 		});

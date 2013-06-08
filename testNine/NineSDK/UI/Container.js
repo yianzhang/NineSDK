@@ -40,7 +40,7 @@ function Container (name,props) {
 		return container;
 	}
 	
-	this.addMenu = function (name,props) {
+	this.addMenuBar = function (name,props) {
 		var menuBar = new MenuBar(name,props);
 		items[name] = menuBar;
 		_divNode.append(menuBar.node);
@@ -89,6 +89,7 @@ function Container (name,props) {
 		addMenu : {writable : false, enumerable : true, configurable : false,},
 		addToolBar : {writable : false, enumerable : true, configurable : false,},
 		addTree : {writable : false, enumerable : true, configurable : false,},
+		addCanvas : {writable : false, enumerable : true, configurable : false,},
 		addCallBoard : {writable : false, enumerable : true, configurable : false,},
 		itemAt : {writable : false, enumerable : true, configurable : false,},
 	});

@@ -47,14 +47,7 @@ function Dialog (name,title,props) {
 		return items[i];
 	};
 	
-	this.setValue = function (val) {
-		for (var i in val) {
-			if (items[i]) {
-				items[i].value = val[i];
-				result[i] = items[i].value;
-			}
-		}
-	};
+	this.setValue = setValue;
 	
 	this.show = show;
 	
@@ -329,7 +322,9 @@ function Dialog (name,title,props) {
 		_divNode.append(_bodyNode);
 	}
 	
-	function show() {
+	function show(val) {
+		setValue(val || {});
+		
 		_shadowNode.css({
 			"width":document.documentElement.scrollWidth,
 			"height":document.documentElement.scrollHeight,
@@ -359,6 +354,15 @@ function Dialog (name,title,props) {
 		
 		$(document.body).children(".nineDialogShadow").eq(0).detach();
 		$(document.body).children('.nineDialog').eq(0).detach();
+	}
+	
+	function setValue(val) {
+		for (var i in val) {
+			if (items[i]) {
+				items[i].value = val[i];
+				result[i] = items[i].value;
+			}
+		}
 	}
 	
 	function earlywork (label) {

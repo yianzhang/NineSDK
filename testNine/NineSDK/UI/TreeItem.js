@@ -99,24 +99,30 @@ function TreeItem(name,title,parent,lev,props,_data) {
 		return false;
 	};
 	
-	this.isChecked = function () {
-		return _checkboxNode[0].checked;
-	}
+	//this.isChecked
+	Object.defineProperty(this, "isChecked", {
+		get : function () {
+			return _checkboxNode[0].checked;
+		},
+		enumerable : true,
+		configurable : false,
+	});
 	
-	this.filterCheckedItems = function (bool) {
+	this.filterCheckedItems = function () {
+		return [].map.call(_liNode.find("input:checked").parent(),function(x) {return x.object;});
+/*		
 		var result = [];
 		
-		if (this.isChecked()) {
+		if (this.isChecked) {
 			result.push(this);
-			
-			if (!bool) return result;
-		}
 		
-		for (var i in items) {
-			$.merge(result,items[i].filterCheckedItems(bool));
+			for (var i in items) {
+				$.merge(result,items[i].filterCheckedItems());
+			}
 		}
 		
 		return result;
+*/
 	}
 	
 	this.del = function() {
@@ -134,7 +140,7 @@ function TreeItem(name,title,parent,lev,props,_data) {
 	this.itemAt = function (i) {
 		return items[i];
 	}
-	
+/*	
 	this.selected = function () {
 		var _divNode = _liNode.parents("div").eq(0);
 		_divNode.find("span.nineTreeItemText").css({
@@ -155,14 +161,13 @@ function TreeItem(name,title,parent,lev,props,_data) {
 			"color":props["font_color"],
 		});
 	}
-	
+*/	
 	Object.defineProperties(this, {
 		addItem : {writable : false, enumerable : true, configurable : false,},
-		isChecked : {writable : false, enumerable : true, configurable : false,},
 		filterCheckedItems : {writable : false, enumerable : true, configurable : false,},
 		deleteItems : {writable : false, enumerable : true, configurable : false,},
-		selected : {writable : false, enumerable : true, configurable : false,},
-		unselected : {writable : false, enumerable : true, configurable : false,},
+//		selected : {writable : false, enumerable : true, configurable : false,},
+//		unselected : {writable : false, enumerable : true, configurable : false,},
 		itemAt : {writable : false, enumerable : true, configurable : false,},
 	});
 	

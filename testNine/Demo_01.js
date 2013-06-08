@@ -117,7 +117,7 @@ function main() {
 	writeFileSave();
 	
 	function initMenu() {
-		menu = ct.addMenu("menu",{
+		menu = ct.addMenuBar("menu",{
 			"bgcolor":"#00CCFF",
 			"bgcolor:hover":"#FF66FF",
 			"padding":"5px",
@@ -624,16 +624,15 @@ function main() {
 	}
 	
 	function test() {
-		var tmp = tree.filterCheckedItems(false);
-		tmp = tmp.map(function (x) {return x.data;});
-		tmp = ab.indexArrayOf(tmp);
+		var tmp = tree.filterCheckedItems();
+		tmp = tmp.map(function (x) {return x.name;});
 		cb.writeln(tmp.join(", ")); 
 	}
 	
 	function draw() {
 		GL.cleanModelsToDraw();
 		
-		var tmp = tree.filterCheckedItems(true).map(function (x) {return x.data;});
+		var tmp = tree.filterCheckedItems().map(function (x) {return x.data;});
 		switch (toolStyle.status) {
 			case undefined :
 			case "fill" :

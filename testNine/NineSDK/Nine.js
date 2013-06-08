@@ -1,5 +1,6 @@
 //jQuery
-document.writeln("<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>");
+//document.writeln("<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>");
+document.writeln("<script src='NineSDK/jquery-2.0.2.min.js'></script>");
 
 //Grid
 document.writeln("<script src='NineSDK/Grid/Grid.js'></script>");

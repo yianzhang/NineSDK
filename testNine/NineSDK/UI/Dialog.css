@@ -24,11 +24,13 @@ div.nineDialogHead{
 span.nineDialogTitle{
 	display:inline-block;
 	float: left;
+	padding:5px;
 }
 
 span.nineDialogConfirm,
 span.nineDialogClose{
 	display:inline-block;
+	padding:5px;
 	float: right;
 	cursor:pointer;
 }
