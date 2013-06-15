@@ -133,7 +133,7 @@ function Tree(name,props) {
 		sltItem = undefined;
 	};
 	
-	this.genFromGrid = function (ab) {
+	this.genFromAllBody = function (ab) {
 		if (!ab || !(ab instanceof AllBody)) return;
 		
 		this.empty();
@@ -156,6 +156,17 @@ function Tree(name,props) {
 		}
 	};
 	
+	this.genFromAllSolid = function (as) {
+		if (!as || !(as instanceof AllSolid)) return;
+		
+		this.empty();
+		data = as;
+		for (var i=0;i<as.solidLength;++i) {
+			var solid = as.solidAt(i);
+			var item0 = this.addItem("Solid_"+i, "Solid_"+i, solid);
+		}
+	};
+	
 	Object.defineProperties(this, {
 		addItem : {writable : false, enumerable : true, configurable : false,},
 		filterCheckedItems : {writable : false, enumerable : true, configurable : false,},
@@ -163,7 +174,8 @@ function Tree(name,props) {
 		change : {writable : false, enumerable : true, configurable : false,},
 		itemAt : {writable : false, enumerable : true, configurable : false,},
 		empty : {writable : false, enumerable : true, configurable : false,},
-		genFromGrid : {writable : false, enumerable : true, configurable : false,},
+		genFromAllBody : {writable : false, enumerable : true, configurable : false,},
+		genFromAllSolid : {writable : false, enumerable : true, configurable : false,},
 	});
 
 	function init() {

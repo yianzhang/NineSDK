@@ -10,6 +10,10 @@ var model = {
 	newTextWriter : function() {
 		return new TextWriter();
 	},
+	
+	newFileUploader : function (url, method, name) {
+		return new FileUploader(url, method, name);
+	},
 }
 
 Storage.prototype.getStringItem = function(key) {

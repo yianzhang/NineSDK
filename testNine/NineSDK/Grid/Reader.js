@@ -69,3 +69,27 @@ Grid.Reader.readSTL = function (reader) {
 	
 	return ab;
 };
+
+Grid.Reader.readSolid = function(pset,iset) {
+	var pfs = pset.trim().split(/\s+/).map(function (x) {return parseFloat(x);});
+	var is = iset.trim().split(/\s+/).map(function (x) {return parseInt(x);});
+	
+	var ps = new PointSet();
+	for (var i=0;i<pfs.length;) {
+		ps.push(new Point(pfs[i],pfs[i+1],pfs[i+2]));
+		i += 3;
+	}
+	
+	var ts = new TriangleSet();
+	for (var i=0;i<is.length;) {
+		ts.push(new Triangle(ps[is[i]], ps[is[i+1]], ps[is[i+2]]));
+		i += 3;
+	}
+	
+	var s = new Solid(ts);
+	var ss = new SolidSet();
+	ss.push(s);
+	var as = new AllSolid(ss,ps);
+	
+	return as;
+};

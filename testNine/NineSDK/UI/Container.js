@@ -1,4 +1,4 @@
-function Container (name,props) {
+function Container (name, style, props) {
 	var items = {};
 	var _divNode;
 
@@ -32,8 +32,8 @@ function Container (name,props) {
 		configurable : false,
 	});
 	
-	this.addContainer = function (name,props) {
-		var container = new Container(name,props);
+	this.addContainer = function (name,style,props) {
+		var container = new Container(name,style,props);
 		items[name] = container;
 		_divNode.append(container.node);
 		
@@ -106,8 +106,8 @@ function Container (name,props) {
 			"text-align":props["horizon_align"],
 			"overflow-x":props["overflow_x"],
 			"overflow-y":props["overflow_y"],
-			"-webkit-box-orient":props["box_orient"],
-			"-moz-box-orient":props["box_orient"],
+			"-webkit-box-orient":style || "vertical",
+			"-moz-box-orient":style || "vertical",
 			"-webkit-box-flex":props["box_flex"],
 			"-moz-box-flex":props["box_flex"],
 		});

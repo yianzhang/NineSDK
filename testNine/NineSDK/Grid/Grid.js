@@ -5,6 +5,15 @@ var LIMIT_IN_SAME_FACE = Math.PI/6;
 var LIMIT_IN_SAME_POLYLINE = Math.PI/6;
 var LIMIT_ERROR = 1e-6;
 
+//AllSolid
+document.writeln("<script src='NineSDK/Grid/AllSolid.js'></script>");
+
+//SolidSet
+document.writeln("<script src='NineSDK/Grid/SolidSet.js'></script>");
+
+//Solid
+document.writeln("<script src='NineSDK/Grid/Solid.js'></script>");
+
 //AllBody
 document.writeln("<script src='NineSDK/Grid/AllBody.js'></script>");
 

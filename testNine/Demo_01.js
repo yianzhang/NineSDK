@@ -5,7 +5,7 @@ function main() {
 	var menu;
 	var menuFile, menuView, menuGrid;
 	var menuOpen, menuSave, menuClose;
-	var menuSTL;
+	var menuSTL, menuWeb;
 	var menuDisp, menuRotate, menuTrans, menuZoom, menuGlobe;
 	var menuPara;
 	
@@ -71,15 +71,18 @@ function main() {
 		
 	//add a textreader
 	var fileOpen = model.newTextReader();
+	var fileWeb = model.newFileUploader("Demo_01.html", "post", "FileUp");
 	
 	//add a textwriter
 	var fileSave = model.newTextWriter();
 	
 	var ab;
+	var as;
 	var pa;
 	
 	//add listener to menu
 	menuSTL.click(fileOpen.trigger);
+	menuWeb.click(fileWeb.trigger);
 	menuSave.click(fileSave.trigger);
 	menuRotate.click(rotate);
 	menuTrans.click(trans);
@@ -116,6 +119,14 @@ function main() {
 	//write textwriter
 	writeFileSave();
 	
+	if (pset && iset) {
+		as = Grid.Reader.readSolid(pset,iset);//cb.writeln(as);
+		pa = as.pointSetToFloatArray();
+		tree.genFromAllSolid(as);
+
+		draw();
+	}
+	
 	function initMenu() {
 		menu = ct.addMenuBar("menu",{
 			"bgcolor":"#00CCFF",
@@ -139,6 +150,7 @@ function main() {
 		menuClose = menuFile.addItem("close","关闭");
 		
 		menuSTL = menuOpen.addItem("stl","打开STL文件...");
+		menuWeb = menuOpen.addItem("web","上传STL文件...");
 		
 		menuView = menu.addItem("view", "视图");
 		menuDisp = menuView.addItem("display", "显示属性设置...");
@@ -178,15 +190,14 @@ function main() {
 	}
 	
 	function initContainer() {
-		ctn1 = view.container.addContainer("ctn1",{
-			"box_orient":"horizontal",
+		ctn1 = ct.addContainer("ctn1", "horizontal", {
 			"margin":"0 0 5px 0",
 			"box_flex":"1",
 		});
 	}
 	
 	function initCall() {
-		cb = view.container.addCallBoard("callboard",{
+		cb = ct.addCallBoard("callboard",{
 			"bgcolor":"#00CCFF",
 			"padding":"5px",
 			"font_color":"white",
@@ -235,15 +246,15 @@ function main() {
 		
 		dlgParaBody.addHeadline("显示属性");
 		dlgParaBody.addColor(
-			"颜色:", "color", 
+			"color", "颜色:",  
 			{value:"#ffffff"}
 		);
 		dlgParaBody.addRange(
-			"透明度:", "alpha", 
+			"alpha", "透明度:", 
 			{min:0,max:1,step:0.01,value:1,width:"100px"}
 		);
 		dlgParaBody.addSelect(
-			"显示类型:", "display",
+			"display","显示类型:", 
 			{value:"color", title:"着色面", selected:true},
 			{value:"alpha", title:"半透明", selected:false},
 			{value:"wire", title:"线框", selected:false},
@@ -261,15 +272,15 @@ function main() {
 		
 		dlgParaFace.addHeadline("显示属性");
 		dlgParaFace.addColor(
-			"颜色:", "color", 
+			"color", "颜色:",  
 			{value:"#ffffff"}
 		);
 		dlgParaFace.addRange(
-			"透明度:", "alpha", 
+			"alpha", "透明度:",
 			{min:0,max:1,step:0.01,value:1,width:"100px"}
 		);
 		dlgParaFace.addSelect(
-			"显示类型:", "display",
+			"display", "显示类型:", 
 			{value:"color", title:"着色面", selected:true},
 			{value:"alpha", title:"半透明", selected:false},
 			{value:"wire", title:"线框", selected:false},
@@ -287,16 +298,16 @@ function main() {
 		
 		dlgParaLoop.addHeadline("显示属性");
 		dlgParaLoop.addColor(
-			"颜色:", "color", 
+			"color",  "颜色:", 
 			{value:"#ffffff"}
 		);
 		dlgParaLoop.addSelect(
-			"显示类型:", "display",
+			"display", "显示类型:", 
 			{value:"normal", title:"正常显示", selected:true},
 			{value:"stereo", title:"立体显示", selected:false}
 		);
 		dlgParaLoop.addRange(
-			"点元大小:","size",
+			"size", "点元大小:",
 			{min:0,max:10,step:0.01,value:0,width:"100px"}
 		);
 	}
@@ -311,16 +322,16 @@ function main() {
 		
 		dlgParaPolyline.addHeadline("显示属性");
 		dlgParaPolyline.addColor(
-			"颜色:", "color", 
+			"color", "颜色:", 
 			{value:"#ffffff"}
 		);
 		dlgParaPolyline.addSelect(
-			"显示类型:", "display",
+			"display", "显示类型:", 
 			{value:"normal", title:"正常显示", selected:true},
 			{value:"stereo", title:"立体显示", selected:false}
 		);
 		dlgParaPolyline.addRange(
-			"点元大小:", "size", 
+			"size", "点元大小:", 
 			{min:0,max:10,step:0.01,value:0,width:"100px"}
 		);
 	}
@@ -335,22 +346,22 @@ function main() {
 		
 		dlgGridPara.addHeadline("体网格生成参数");
 		dlgGridPara.addRadio(
-			"质量优化因子:","bodyfactor",
+			"bodyfactor", "质量优化因子:",
 			{value:"yes",title:"使用",checked:false},
 			{value:"no",title:"不使用",checked:true}
 		);
 		dlgGridPara.addText(
-			"质量优化因子参数:","bodypara",
+			"bodypara", "质量优化因子参数:",
 			{value:"1",placeholder:"输入质量优化因子",maxlength:3,width:"30px"}
 		);
 		dlgGridPara.addHeadline("面网格生成参数");
 		dlgGridPara.addRadio(
-			"质量优化因子:","facefactor",
+			"facefactor", "质量优化因子:",
 			{value:"yes",title:"使用",checked:false},
 			{value:"no",title:"不使用",checked:true}
 		);
 		dlgGridPara.addText(
-			"质量优化因子参数:","facepara",
+			"facepara", "质量优化因子参数:",
 			{value:"1",placeholder:"输入质量优化因子",maxlength:3,width:"30px"}
 		);
 	}
@@ -364,22 +375,22 @@ function main() {
 		});
 		
 		dlgRotate.addText(
-			"旋转法向量X值：", "rotateX",
+			"rotateX", "旋转法向量X值：", 
 			{value:0, width:"100px"}
 		);
 		
 		dlgRotate.addText(
-			"旋转法向量Y值：", "rotateY",
+			"rotateY", "旋转法向量Y值：", 
 			{value:0, width:"100px"}
 		);
 		
 		dlgRotate.addText(
-			"旋转法向量Z值：", "rotateZ",
+			"rotateZ", "旋转法向量Z值：", 
 			{value:0, width:"100px"}
 		);
 		
 		dlgRotate.addText(
-			"旋转角速度：", "rotateA",
+			"rotateA", "旋转角速度：", 
 			{value:0, width:"100px"}
 		);
 	}
@@ -393,17 +404,17 @@ function main() {
 		});
 		
 		dlgTrans.addText(
-			"X轴平移量：", "transX",
+			"transX", "X轴平移量：", 
 			{value:0, width:"100px"}
 		);
 		
 		dlgTrans.addText(
-			"Y轴平移量：", "transY",
+			"transY", "Y轴平移量：", 
 			{value:0, width:"100px"}
 		);
 		
 		dlgTrans.addText(
-			"Z轴平移量：", "transZ",
+			"transZ", "Z轴平移量：", 
 			{value:0, width:"100px"}
 		);
 	}
@@ -417,17 +428,17 @@ function main() {
 		});
 		
 		dlgZoom.addText(
-			"X轴缩放比例：", "zoomX",
+			"zoomX", "X轴缩放比例：", 
 			{value:1, width:"100px"}
 		);
 		
 		dlgZoom.addText(
-			"Y轴缩放比例：", "zoomY",
+			"zoomY", "Y轴缩放比例：", 
 			{value:1, width:"100px"}
 		);
 		
 		dlgZoom.addText(
-			"Z轴缩放比例：", "zoomZ",
+			"zoomZ", "Z轴缩放比例：", 
 			{value:1, width:"100px"}
 		);
 	}
@@ -534,7 +545,7 @@ function main() {
 		fileOpen.reading(function() {
 			ab = Grid.Reader.readSTL(fileOpen);
 			pa = ab.pointSetToFloatArray();
-			tree.genFromGrid(ab);
+			tree.genFromAllBody(ab);
 
 			draw();
 		});
@@ -589,6 +600,8 @@ function main() {
 				"size":slt.data["size"] || 0,
 			});
 			dlgParaPolyline.show();
+		} else {
+			alert("此类型不可配置！");
 		}
 	}
 	
@@ -632,6 +645,16 @@ function main() {
 	function draw() {
 		GL.cleanModelsToDraw();
 		
+		if (tree && tree.data instanceof AllBody)
+			drawAllBody();
+		else 
+		if (tree && tree.data instanceof AllSolid)
+			drawAllSolid();
+		
+		GL.setScene();
+	}
+
+	function drawAllBody() {
 		var tmp = tree.filterCheckedItems().map(function (x) {return x.data;});
 		switch (toolStyle.status) {
 			case undefined :
@@ -693,12 +716,55 @@ function main() {
 					}
 				}
 				break;
+		}		
+	}	
+	
+	function drawAllSolid() {
+		var tmp = tree.filterCheckedItems().map(function (x) {return x.data;});
+		switch (toolStyle.status) {
+			case undefined :
+			case "fill" :
+				for (var i=0;i<tmp.length;++i) {
+					if (tmp[i] instanceof Solid) {
+						var scolor = tmp[i]["color"] || "#ffffff";
+						var salpha = tmp[i]["alpha"] || 1;
+						var sdisplay = tmp[i]["display"] || "color";
+						
+						drawFillSolid(tmp[i], scolor, salpha, sdisplay);
+					}
+				}
+				break;
+			case "wire" :
+			case "edge" :
+				for (var i=0;i<tmp.length;++i) {
+					if (tmp[i] instanceof Solid) {
+						var scolor = tmp[i]["color"] || "#ffffff";
+						var salpha = tmp[i]["alpha"] || 1;
+						var sdisplay = tmp[i]["display"] || "color";
+						
+						drawWireSolid(tmp[i], scolor, salpha, sdisplay);
+					}
+				}
+				break;
 		}
-		
-		GL.setScene();
 	}
 	
-	function drawWireBody(obj) {
+	function drawFillSolid(obj, color, alpha, display) {
+		color = obj["color"] || color || "#ffffff";
+		alpha = obj["alpha"] || alpha || 1;
+		display = obj["display"] || display || "color";
+		
+		var ia = as.indexArrayOfTri([obj]);
+		//
+		
+		var fillFace = new GLModel(rOfColor(color), gOfColor(color), bOfColor(color), alpha, true, "TRIANGLES");
+		fillFace.setVertexBuffer(pa);
+		fillFace.setIndexBuffer(ia);
+				
+		GL.addModel(fillFace);
+	}
+	
+	function drawFillBody(obj) {
 		for (var i=0;i<obj.faceLength;++i) {
 			drawFillFace(obj.faceAt(i), obj["color"], obj["alpha"], obj["display"]);
 		}
@@ -717,6 +783,21 @@ function main() {
 		fillFace.setIndexBuffer(ia);
 				
 		GL.addModel(fillFace);
+	}
+	
+	function drawWireSolid(obj, color, alpha, display) {
+		color = obj["color"] || color || "#ffffff";
+		alpha = obj["alpha"] || alpha || 1;
+		display = obj["display"] || display || "color";
+		
+		var ia = as.indexArrayOfLine([obj]);
+		//
+		
+		var wireFace = new GLModel(rOfColor(color), gOfColor(color), bOfColor(color), alpha, true, "LINES");
+		wireFace.setVertexBuffer(pa);
+		wireFace.setIndexBuffer(ia);
+				
+		GL.addModel(wireFace);
 	}
 	
 	function drawWireBody(obj) {

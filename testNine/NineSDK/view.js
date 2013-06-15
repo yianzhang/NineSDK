@@ -8,8 +8,7 @@ var view = {};
 		get : function () {
 			if (vc) return vc;
 			
-			vc = new Container("rootContainer",{
-				"box_orient":"vertical",
+			vc = new Container("rootContainer", "vertical", {
 				"width":"100%",
 				"height":$(window).height(),
 			});

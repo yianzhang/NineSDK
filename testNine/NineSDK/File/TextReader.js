@@ -147,7 +147,7 @@ function TextReader () {
 		getString : {writable : false, enumerable : true, configurable : false,},
 		getLine : {writable : false, enumerable : true, configurable : false,},
 		seek : {writable : false, enumerable : true, configurable : false,},
-		read : {writable : false, enumerable : true, configurable : false,},
+		reading : {writable : false, enumerable : true, configurable : false,},
 	});
 	
 	function seek(i) {

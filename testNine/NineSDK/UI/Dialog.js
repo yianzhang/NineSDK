@@ -81,7 +81,7 @@ function Dialog (name,title,props) {
 		_tableNode.append(_trNode);
 	}
 	
-	this.addCheckbox = function (label,name) {		
+	this.addCheckbox = function (name, label) {		
 		var _items = [].slice.call(arguments,2);
 		var checkbox = new Input.Checkbox(name, _items, {});
 		items[name] = checkbox;
@@ -90,7 +90,7 @@ function Dialog (name,title,props) {
 		_tdNode1.append(checkbox.node);
 	}
 	
-	this.addRadio = function (label,name) {		
+	this.addRadio = function (name, label) {		
 		var _items = [].slice.call(arguments,2);
 		var _props = {};
 		var radio = new Input.Radio(name, _items, {});
@@ -100,7 +100,7 @@ function Dialog (name,title,props) {
 		_tdNode1.append(radio.node);
 	}
 	
-	this.addText = function (label,name) {
+	this.addText = function (name, label) {
 		var args = arguments[2];
 		var text = new Input.Text(name, args || {}, {
 			"bgcolor" : "inherit",
@@ -116,7 +116,7 @@ function Dialog (name,title,props) {
 		_tdNode1.append(text.node);
 	}
 	
-	this.addPassword = function (label,name) {
+	this.addPassword = function (name, label) {
 		var args = arguments[2];
 		var password = new Input.Password(name, args || {}, {
 			"bgcolor" : "inherit",
@@ -132,7 +132,7 @@ function Dialog (name,title,props) {
 		_tdNode1.append(password.node);
 	}
 
-	this.addRange = function (label,name) {
+	this.addRange = function (name, label) {
 		var args = arguments[2];
 		var range = new Input.Range(name, args || {}, {
 			"bgcolor" : "inherit",
@@ -148,7 +148,7 @@ function Dialog (name,title,props) {
 		_tdNode1.append(range.node);
 	}
 	
-	this.addColor = function (label,name) {
+	this.addColor = function (name, label) {
 		var args = arguments[2];
 		var color = new Input.Color(name, args, {
 			"bgcolor" : "inherit",
@@ -164,7 +164,7 @@ function Dialog (name,title,props) {
 		_tdNode1.append(color.node);
 	}
 	
-	this.addSelect = function (label,name) {
+	this.addSelect = function (name, label) {
 		var args = [].slice.call(arguments,2);
 		var select = new Input.Select(name, args, {
 			"bgcolor" : props["body_bgcolor"],
@@ -180,7 +180,7 @@ function Dialog (name,title,props) {
 		_tdNode1.append(select.node);
 	}
 	
-	this.addTextarea = function (label,name) {
+	this.addTextarea = function (name, label) {
 		var args = arguments[2];
 		var textarea = new Input.Textarea(name, args, {
 			"bgcolor" : "inherit",

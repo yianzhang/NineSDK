@@ -61,6 +61,7 @@ function TextWriter() {
 	Object.defineProperties(this, {
 		write : {writable : false, enumerable : true, configurable : false,},
 		writeln : {writable : false, enumerable : true, configurable : false,},
+		writing : {writable : false, enumerable : true, configurable : false,},
 		saveAs : {writable : false, enumerable : true, configurable : false,},
 	});
 }
